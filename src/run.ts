@@ -26,7 +26,7 @@ export async function run(opts: RunOptions): Promise<Stats> {
   const tree = await fetchToc(provider, url);
   const startHref = provider.startHref(url);
   const fallbackTitle = url.pathname.replace(/\/$/, "").split("/").pop() ?? "guide";
-  const subtree = resolveSubtree(tree, startHref, fallbackTitle);
+  const { subtree, prefix } = resolveSubtree(tree, startHref, fallbackTitle);
 
   const pageBaseUrl = new URL(url.href);
   // Drop the filename so we can resolve relative hrefs from the TOC.
@@ -36,7 +36,7 @@ export async function run(opts: RunOptions): Promise<Stats> {
   const guideDir = path.join(opts.outDir, provider.guideDir(url));
   await ensureDir(guideDir);
 
-  const fileTree = buildFileTree(subtree, startHref ? guideDir : path.dirname(guideDir));
+  const fileTree = buildFileTree(subtree, startHref ? guideDir : path.dirname(guideDir), prefix);
   await walk(fileTree, pageBaseUrl, provider, opts.delayMs ?? 500, stats);
   return stats;
 }

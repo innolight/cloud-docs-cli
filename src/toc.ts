@@ -27,13 +27,29 @@ export function findSubtree(
   return null;
 }
 
+function findSubtreeWithPosition(
+  tree: TocNode[],
+  startHref: string,
+): { node: TocNode; prefix: string } | null {
+  const pad = Math.max(2, String(tree.length).length);
+  for (let i = 0; i < tree.length; i++) {
+    const node = tree[i]!;
+    if (node.href === startHref) {
+      return { node, prefix: String(i + 1).padStart(pad, "0") + "-" };
+    }
+    const hit = findSubtreeWithPosition(node.children, startHref);
+    if (hit) return hit;
+  }
+  return null;
+}
+
 export function resolveSubtree(
   tree: TocNode[],
   startHref: string,
   fallbackTitle: string,
-): TocNode {
-  if (!startHref) return { title: fallbackTitle, href: null, children: tree };
-  const found = findSubtree(tree, startHref);
-  if (!found) throw new Error(`Could not find TOC node for href "${startHref}"`);
-  return found;
+): { subtree: TocNode; prefix: string } {
+  if (!startHref) return { subtree: { title: fallbackTitle, href: null, children: tree }, prefix: "" };
+  const result = findSubtreeWithPosition(tree, startHref);
+  if (!result) throw new Error(`Could not find TOC node for href "${startHref}"`);
+  return { subtree: result.node, prefix: result.prefix };
 }

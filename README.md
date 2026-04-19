@@ -129,9 +129,10 @@ bun run typecheck          # tsc --noEmit
 
 ## Roadmap
 
-1. [x] Phase 1: Zero-dependency npm distribution (npx/bunx)
-2. [ ] Phase 2: Compiled single binary via `bun build --compile`
+1. [x] Distribution: Zero-dependency npm distribution (npx/bunx)
+2. [x] Distribution: Compiled single binary (`bun build --compile`)
 3. [ ] Relative internal-link rewriting
 4. [ ] Image download to `assets/`
 5. [ ] Parallel fetching with a configurable concurrency cap
-6. [ ] GCP and Azure providers
+6. [ ] Azure
+7. [ ] GCP
