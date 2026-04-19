@@ -75,10 +75,13 @@ cloud-docs pull <url> [options]
 
 ```sh
 # Pull the complete S3 doc folder
-cloud-docs pull --out cloud-docs https://docs.aws.amazon.com/AmazonS3/latest/userguide/
+npx cloud-docs-cli pull --out cloud-docs https://docs.aws.amazon.com/AmazonS3/latest/userguide/
 
-# Pull just S3 Cost Optimisation doc
-cloud-docs pull --out cloud-docs https://docs.aws.amazon.com/AmazonS3/latest/userguide/cost-optimization.html
+# Pull just Cost Optimisation section
+npx cloud-docs-cli pull --out cloud-docs https://docs.aws.amazon.com/AmazonS3/latest/userguide/cost-optimization.html
+
+# Pull CloudFormation Reference for S3
+npx cloud-docs-cli https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-s3-bucket.html
 ```
 
 On completion the CLI prints a summary:
