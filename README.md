@@ -84,19 +84,41 @@ cloud-docs pull --out cloud-docs https://docs.aws.amazon.com/AmazonS3/latest/use
 On completion the CLI prints a summary:
 
 ```
-toc   .out/Zero-ETL integrations/content.yaml
-write .out/Zero-ETL integrations/00-Zero-ETL integrations.md
-write .out/Zero-ETL integrations/01-Getting started with zero-ETL integrations.md
+toc   .out/AmazonS3/userguide/13-Cost-optimization/content.yaml
+write .out/AmazonS3/userguide/13-Cost-optimization/00-Cost-optimization.md
+toc   .out/AmazonS3/userguide/13-Cost-optimization/01-Billing-and-usage-reporting/content.yaml
+write .out/AmazonS3/userguide/13-Cost-optimization/01-Billing-and-usage-reporting/00-Billing-and-usage-reporting.md
+write .out/AmazonS3/userguide/13-Cost-optimization/01-Billing-and-usage-reporting/01-Using-cost-allocation-tags.md
 ...
-Done: 10 written, 0 skipped, 0 failed
+Done: 31 written, 0 skipped, 0 failed
 ```
+
+(`skip` appears instead of `write` when a file already exists — re-runs do zero network work for completed pages.)
 
 ## Output structure
 
-The CLI creates a mirrored directory tree based on the documentation's Table of Contents. 
-- Directories and files are prefixed with numbers (e.g., `01-`, `02-`) to maintain the vendor's intended order.
-- A `content.yaml` is generated at the root of the crawl containing the full subtree metadata.
-- Parent nodes with their own content are written as `00-Title.md` inside their respective directory.
+The CLI mirrors the documentation hierarchy into a directory tree rooted at the output folder:
+
+```
+.out/
+└── AmazonS3/userguide/              ← derived from the URL path
+    └── 13-Cost-optimization/
+        ├── content.yaml             ← subtree metadata for this directory
+        ├── 00-Cost-optimization.md  ← parent page written as 00-<Title>.md
+        ├── 01-Billing-and-usage-reporting/
+        │   ├── content.yaml
+        │   ├── 00-Billing-and-usage-reporting.md
+        │   ├── 01-Using-cost-allocation-tags.md
+        │   └── ...
+        └── 02-Understanding-and-managing-storage-classes/
+            ├── content.yaml
+            └── ...
+```
+
+- **URL-derived prefix** — the output path begins with segments taken from the URL (e.g. `AmazonS3/userguide/`), so pulling from multiple guides never collides under the same `--out` root.
+- **Numbered prefixes** — directories and files are prefixed with two-digit numbers (e.g. `01-`, `02-`) to preserve the vendor's intended reading order in any file explorer.
+- **`content.yaml` per directory** — each directory gets its own `content.yaml` with the subtree metadata for that section.
+- **Parent pages as `00-Title.md`** — a node that has both children and its own content is written as `00-<Title>.md` inside its directory, alongside its children.
 
 ## Features
 
