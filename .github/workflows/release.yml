@@ -1,11 +1,14 @@
 name: Release Binaries
 
 on:
+  # Triggers the workflow on push for any tag starting with 'v' (e.g., v0.1.0)
   push:
     tags:
       - 'v*'
+  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+# Essential permission for 'softprops/action-gh-release' to create releases and upload assets
 permissions:
   contents: write
 
@@ -14,6 +17,7 @@ jobs:
     name: Build Binaries
     runs-on: ${{ matrix.os }}
     strategy:
+      # The matrix builds 5 different combinations of OS and Architecture in parallel
       matrix:
         include:
           - os: ubuntu-latest
@@ -35,6 +39,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       
+      # Bun is required for the 'bun build --compile' command
       - uses: oven-sh/setup-bun@v2
         with:
           bun-version: latest
@@ -42,21 +47,26 @@ jobs:
       - name: Install dependencies
         run: bun install
 
+      # Uses Bun's native compiler to create a standalone executable.
+      # The --target flag ensures we cross-compile for the specific matrix platform.
       - name: Build Binary
         run: |
           mkdir -p release
           bun build ./src/cli.ts --compile --minify --target=bun-${{ matrix.target }} --outfile release/${{ matrix.binary }}
 
+      # Linux and macOS binaries are wrapped in .tar.gz to preserve executable permissions
       - name: Compress Binary (Linux/macOS)
         if: matrix.os != 'windows-latest'
         run: |
           tar -czvf release/${{ matrix.binary }}.tar.gz -C release ${{ matrix.binary }}
 
+      # Windows executables are wrapped in .zip for better native compatibility
       - name: Compress Binary (Windows)
         if: matrix.os == 'windows-latest'
         run: |
           powershell -Command "Compress-Archive -Path release/${{ matrix.binary }} -DestinationPath release/${{ matrix.binary }}.zip"
 
+      # Uploads the compressed asset so the next job (create-release) can access it
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
@@ -65,21 +75,26 @@ jobs:
 
   create-release:
     name: Create GitHub Release
+    # This job only runs after all 5 build-binaries matrix jobs complete successfully
     needs: build-binaries
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      # Collects all artifacts uploaded by the previous job
       - name: Download Artifacts
         uses: actions/download-artifact@v4
         with:
           path: artifacts/
 
+      # Moves all .tar.gz and .zip files from nested artifact folders into a single flat directory
       - name: Flatten Artifacts
         run: |
           mkdir dist
           find artifacts/ -type f \( -name "*.tar.gz" -o -name "*.zip" \) -exec mv {} dist/ \;
 
+      # Creates the final GitHub Release and attaches the flattened assets.
+      # 'generate_release_notes' automatically extracts commit history since the last tag.
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
