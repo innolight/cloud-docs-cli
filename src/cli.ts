@@ -1,4 +1,5 @@
 import { Command } from "commander";
+import pkg from "../package.json" assert { type: "json" };
 import { run } from "./run.ts";
 
 const program = new Command();
@@ -6,7 +7,7 @@ const program = new Command();
 program
   .name("cloud-docs")
   .description("Download cloud provider docs into a local Markdown mirror")
-  .version("0.1.0");
+  .version(pkg.version);
 
 program
   .command("pull")

@@ -37,12 +37,6 @@ export async function run(opts: RunOptions): Promise<Stats> {
   await ensureDir(guideDir);
 
   const fileTree = buildFileTree(subtree, startHref ? guideDir : path.dirname(guideDir));
-  const subtreeDir = fileTree.dirPath ?? guideDir;
-  await ensureDir(subtreeDir);
-  const tocPath = path.join(subtreeDir, "content.yaml");
-  await writeFile(tocPath, yamlStringify(fileNodeToSerial(fileTree, subtreeDir)), "utf8");
-  console.log(`toc   ${rel(tocPath)}`);
-
   await walk(fileTree, pageBaseUrl, provider, opts.delayMs ?? 500, stats);
   return stats;
 }
@@ -54,7 +48,12 @@ async function walk(
   delayMs: number,
   stats: Stats,
 ): Promise<void> {
-  if (node.dirPath) await ensureDir(node.dirPath);
+  if (node.dirPath) {
+    await ensureDir(node.dirPath);
+    const tocPath = path.join(node.dirPath, "content.yaml");
+    await writeFile(tocPath, yamlStringify(fileNodeToSerial(node, node.dirPath)), "utf8");
+    console.log(`toc   ${rel(tocPath)}`);
+  }
   if (node.filePath && node.href) {
     await writePage(node, node.filePath, baseUrl, provider, delayMs, stats);
   }
@@ -113,7 +112,7 @@ interface TocSerial {
 function fileNodeToSerial(node: TocNodeFile, base: string): TocSerial {
   const obj: TocSerial = { title: node.title };
   if (node.href !== null) obj.href = node.href;
-  if (node.filePath !== null) obj.filePath = path.relative(base, node.filePath);
+  if (node.filePath !== null) obj.filePath = "./" + path.relative(base, node.filePath);
   if (node.children.length > 0) obj.contents = node.children.map((c) => fileNodeToSerial(c, base));
   return obj;
 }

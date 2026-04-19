@@ -10,11 +10,13 @@
     "dist"
   ],
   "scripts": {
-    "build": "esbuild src/cli.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/index.cjs --banner:js='#!/usr/bin/env node'",
+    "build": "npm run build:node",
+    "build:node": "esbuild src/cli.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/index.cjs --banner:js='#!/usr/bin/env node'",
+    "build:bin": "bun build src/cli.ts --compile --minify --outfile release/cloud-docs",
     "cli": "tsx src/cli.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build:node"
   },
   "dependencies": {
     "cheerio": "^1.0.0",
