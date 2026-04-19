@@ -16,6 +16,7 @@
     "cli": "tsx src/cli.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "release": "bun run typecheck && bun run build:bin && npm version",
     "prepublishOnly": "npm run build:node"
   },
   "dependencies": {

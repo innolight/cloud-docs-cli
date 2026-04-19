@@ -28,66 +28,67 @@ Before your first release, ensure you have an npm account and are authenticated:
 
 ---
 
+## Binary Distribution (GitHub Releases)
+
+In addition to NPM, we distribute standalone, single-file executables for users without Node.js or Bun installed. This process is fully automated.
+
+### How it works
+The `.github/workflows/release.yml` workflow is triggered whenever a new version tag (e.g., `v0.1.0`) is pushed to GitHub.
+
+1.  **Matrix Build:** It uses `bun build --compile` to generate binaries for 5 platforms (Linux x64/ARM, macOS x64/ARM, Windows x64).
+2.  **GitHub Release:** It creates a new release entry, generates automatic release notes, and attaches the compressed binaries (`.tar.gz` or `.zip`).
+
+---
+
 ## Step-by-Step Release Process
 
-### 1. Prepare the Release
-Ensure your local environment is clean and all changes are committed.
+We use a high-confidence release flow. The `release` script in `package.json` ensures your code is type-safe and builds locally **before** it creates a git tag.
+
+### 1. Execute the Release Command
+Run the helper script with the type of version bump you need (`patch`, `minor`, or `major`).
 
 ```bash
-# Verify type safety
-bun run typecheck
+# For bug fixes (0.1.0 -> 0.1.1)
+bun run release patch
 
-# (Optional) Run tests if available
-# bun test
+# For new features (0.1.0 -> 0.2.0)
+bun run release minor
+
+# For breaking changes (0.1.0 -> 1.0.0)
+bun run release major
 ```
 
-### 2. Version Bump
-Follow [Semantic Versioning](https://semver.org/).
+**What this script does:**
+1.  **Runs Typecheck:** Ensures no TypeScript errors.
+2.  **Runs Build:** Verifies that the native binary compiles correctly.
+3.  **Bumps Version:** Updates `package.json`.
+4.  **Commits & Tags:** Creates a "Version bump" commit and a git tag (e.g., `v0.1.1`) locally.
+
+### 2. Push to GitHub
+Push your local commit and the new tag to trigger the automated binary build.
 
 ```bash
-# For bug fixes
-npm version patch
-
-# For new features
-npm version minor
-
-# For breaking changes
-npm version major
-```
-*This command automatically updates `package.json` and creates a git tag.*
-
-### 3. Build & Verify
-The `prepublishOnly` script in `package.json` will run the build automatically, but it's good practice to verify manually:
-
-```bash
-# Build the bundle
-bun run build
-
-# Verify the bundle size (should be ~3MB)
-ls -lh dist/index.cjs
-
-# Test the bundle locally
-node dist/index.cjs --help
+# Pushes the branch and all new tags simultaneously
+git push origin main --follow-tags
 ```
 
-### 4. Publish to NPM
-Publish the package to the public registry.
+### 3. Publish to NPM
+While the binaries are building in GitHub Actions, publish the JavaScript package to the registry.
 
 ```bash
-# Dry run first to see what files are included
-npm publish --dry-run
-
-# Live publish
+# Live publish (requires npm login)
 npm publish --access public
 ```
 
-### 5. Post-Publish Verification
-Verify that the package is live and installable:
+### 4. Post-Publish Verification
+Verify that the package is live and the binaries are available:
 
-```bash
-# Test via npx (might take a minute to propagate)
-npx cloud-docs-cli@latest --help
-```
+1.  **Check GitHub Actions:** Ensure the "Release Binaries" workflow finishes successfully.
+2.  **Verify NPM:**
+    ```bash
+    npx cloud-docs-cli@latest --version
+    ```
+3.  **Check GitHub Releases:** Verify that the `.tar.gz` and `.zip` assets are attached to the new release.
 
 ---
 
