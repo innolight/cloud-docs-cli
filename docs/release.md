@@ -1,101 +1,95 @@
 # Release & Distribution Guide
 
-This guide explains how `cloud-docs-cli` is packaged and the step-by-step process for publishing new versions to the npm registry.
+This guide outlines how to release new versions of `cloud-docs-cli` and explains the underlying distribution strategy.
 
-## Distribution Architecture
+## Distribution Strategy
 
-To ensure maximum compatibility and speed, we use a **"Dual-Runtime" Zero-Dependency** strategy:
+To ensure maximum reach and performance, we distribute via two primary channels:
 
-1.  **Bundler:** [esbuild](https://esbuild.github.io/) bundles all source code and dependencies (`commander`, `cheerio`, `turndown`, etc.) into a single file.
-2.  **Format:** We output to **CommonJS (`.cjs`)**. This is the most reliable format for bundling CJS dependencies into a single file that remains compatible with both modern Node.js (20+) and Bun.
-3.  **Shebang:** A `#!/usr/bin/env node` shebang is injected at the top of the bundle.
-4.  **Runtime:** 
-    *   **Node.js:** Executes the `.cjs` bundle using the standard Node engine.
-    *   **Bun:** Detects the bundle and executes it significantly faster using its internal transpiler.
+1.  **Phase 1: NPM Registry (Dual-Runtime)**
+    - Target: Developers with Node.js or Bun installed.
+    - Mechanism: A zero-dependency CommonJS bundle (`dist/index.cjs`).
+    - Benefit: Fast installs and universal compatibility.
 
----
-
-## One-Time Setup
-
-Before your first release, ensure you have an npm account and are authenticated:
-
-1.  **Create Account:** Register at [npmjs.com](https://www.npmjs.com/).
-2.  **Login:**
-    ```bash
-    npm login
-    ```
-3.  **Verify Name:** The package name `cloud-docs-cli` was verified as available on 2026-04-19.
+2.  **Phase 2: GitHub Releases (Standalone Binaries)**
+    - Target: Users without a JS runtime or for use in CI/CD.
+    - Mechanism: Single-file executables for Linux, macOS, and Windows.
+    - Benefit: Zero-dependency execution and maximum speed.
 
 ---
 
-## Binary Distribution (GitHub Releases)
+## Prerequisites (One-Time Setup)
 
-In addition to NPM, we distribute standalone, single-file executables for users without Node.js or Bun installed. This process is fully automated.
+Before your first release, ensure you have the necessary permissions:
 
-### How it works
-The `.github/workflows/release.yml` workflow is triggered whenever a new version tag (e.g., `v0.1.0`) is pushed to GitHub.
-
-1.  **Matrix Build:** It uses `bun build --compile` to generate binaries for 5 platforms (Linux x64/ARM, macOS x64/ARM, Windows x64).
-2.  **GitHub Release:** It creates a new release entry, generates automatic release notes, and attaches the compressed binaries (`.tar.gz` or `.zip`).
+1.  **NPM Account:** Register at [npmjs.com](https://www.npmjs.com/).
+2.  **Authentication:** Run `npm login` in your terminal.
+3.  **GitHub Access:** Ensure you have write access to the repository to push tags and trigger actions.
 
 ---
 
-## Step-by-Step Release Process
+## Release Workflow
 
-We use a high-confidence release flow. The `release` script in `package.json` ensures your code is type-safe and builds locally **before** it creates a git tag.
+Follow these steps to publish a new version. The `release` script ensures the code is type-safe and compilable before tagging.
 
-### 1. Execute the Release Command
-Run the helper script with the type of version bump you need (`patch`, `minor`, or `major`).
+### 1. Prepare & Tag
+Run the release command with the version bump type (`patch`, `minor`, or `major`).
 
 ```bash
-# For bug fixes (0.1.0 -> 0.1.1)
+# Example: Bug fix (0.1.0 -> 0.1.1)
 bun run release patch
-
-# For new features (0.1.0 -> 0.2.0)
-bun run release minor
-
-# For breaking changes (0.1.0 -> 1.0.0)
-bun run release major
 ```
-
-**What this script does:**
-1.  **Runs Typecheck:** Ensures no TypeScript errors.
-2.  **Runs Build:** Verifies that the native binary compiles correctly.
-3.  **Bumps Version:** Updates `package.json`.
-4.  **Commits & Tags:** Creates a "Version bump" commit and a git tag (e.g., `v0.1.1`) locally.
+*This command runs typechecks, verifies both the NPM bundle and the binary build, and creates a local git tag.*
 
 ### 2. Push to GitHub
-Push your local commit and the new tag to trigger the automated binary build.
+Push the branch and the new tag to trigger the automated binary builds.
 
 ```bash
-# Pushes the branch and all new tags simultaneously
 git push origin main --follow-tags
 ```
+*This triggers the `.github/workflows/release.yml` workflow to build and upload binaries.*
 
 ### 3. Publish to NPM
-While the binaries are building in GitHub Actions, publish the JavaScript package to the registry.
+Publish the JavaScript package while the binaries are building.
 
 ```bash
-# Live publish (requires npm login)
+# Requires npm login
 npm publish --access public
 ```
 
-### 4. Post-Publish Verification
-Verify that the package is live and the binaries are available:
+> **Note:** The `npm publish` command automatically triggers a fresh build of the `dist/` bundle via the `prepublishOnly` hook defined in `package.json`, ensuring the registry always receives the latest compiled code.
 
-1.  **Check GitHub Actions:** Ensure the "Release Binaries" workflow finishes successfully.
-2.  **Verify NPM:**
-    ```bash
-    npx cloud-docs-cli@latest --version
-    ```
-3.  **Check GitHub Releases:** Verify that the `.tar.gz` and `.zip` assets are attached to the new release.
+---
+
+## Verification
+
+After releasing, verify that all channels are updated:
+
+1.  **NPM:** Run `npx cloud-docs-cli@latest --version` to check the new version.
+2.  **GitHub:** Visit the [Releases](https://github.com/...) page and ensure assets (`.tar.gz`, `.zip`) are attached to the new tag.
+3.  **Actions:** Check the "Release Binaries" workflow for any build failures.
+
+---
+
+## Technical Architecture
+
+### NPM Bundling (Phase 1)
+We use `esbuild` to produce a "Zero-Dependency" bundle. 
+- **Format:** CommonJS (`cjs`) is used to ensure compatibility with both Node.js and Bun's transpilers.
+- **Shebang:** `#!/usr/bin/env node` is injected to allow direct execution.
+- **Entry:** Defined in `package.json` under the `bin` field.
+
+### Binary Compilation (Phase 2)
+We use `bun build --compile` for standalone executables.
+- **Speed:** Bun's compiler is significantly faster than `pkg` or `nexe`.
+- **Matrix:** The GitHub Action builds for `linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, and `windows-x64`.
 
 ---
 
 ## Troubleshooting
 
 ### "Dynamic require of node:events is not supported"
-If you see this error, ensure the build format is set to `cjs` in the `esbuild` command within `package.json`. ESM bundling with CJS dependencies often triggers this in Node.js.
+Ensure the build format in `package.json` is set to `cjs`. Bundling ESM with certain Node.js built-ins can cause runtime errors in older Node versions.
 
-### Bundle Size
-If the bundle grows significantly beyond 5MB, check `package.json` for large new dependencies. `esbuild` includes everything in the `dist/index.cjs` file to ensure zero-dependency installs for users.
+### Incompatible Binaries
+If a compiled binary fails on a specific OS, check the GitHub Action logs. Often, missing library headers on the build runner are the cause.
