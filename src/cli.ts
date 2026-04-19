@@ -1,4 +1,3 @@
-#!/usr/bin/env -S node --experimental-strip-types
 import { Command } from "commander";
 import { run } from "./run.ts";
 

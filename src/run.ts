@@ -1,7 +1,7 @@
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
 import { stringify as yamlStringify } from "yaml";
-import type { DocProvider, TocNode, TocNodeFile } from "./providers/types.ts";
+import type { DocProvider, TocNodeFile } from "./providers/types.ts";
 import { pickProvider } from "./providers/aws.ts";
 import { fetchToc, resolveSubtree } from "./toc.ts";
 import { fetchHtml, htmlToMarkdown } from "./scrape.ts";
@@ -39,8 +39,8 @@ export async function run(opts: RunOptions): Promise<Stats> {
   const fileTree = buildFileTree(subtree, startHref ? guideDir : path.dirname(guideDir));
   const subtreeDir = fileTree.dirPath ?? guideDir;
   await ensureDir(subtreeDir);
-  const tocPath = path.join(subtreeDir, "toc.yaml");
-  await writeFile(tocPath, yamlStringify(tocNodeToSerial(subtree)), "utf8");
+  const tocPath = path.join(subtreeDir, "content.yaml");
+  await writeFile(tocPath, yamlStringify(fileNodeToSerial(fileTree, subtreeDir)), "utf8");
   console.log(`toc   ${rel(tocPath)}`);
 
   await walk(fileTree, pageBaseUrl, provider, opts.delayMs ?? 500, stats);
@@ -106,13 +106,15 @@ async function fetchWithRetry(url: string): Promise<string> {
 interface TocSerial {
   title: string;
   href?: string;
+  filePath?: string;
   contents?: TocSerial[];
 }
 
-function tocNodeToSerial(node: TocNode): TocSerial {
+function fileNodeToSerial(node: TocNodeFile, base: string): TocSerial {
   const obj: TocSerial = { title: node.title };
   if (node.href !== null) obj.href = node.href;
-  if (node.children.length > 0) obj.contents = node.children.map(tocNodeToSerial);
+  if (node.filePath !== null) obj.filePath = path.relative(base, node.filePath);
+  if (node.children.length > 0) obj.contents = node.children.map((c) => fileNodeToSerial(c, base));
   return obj;
 }
 
