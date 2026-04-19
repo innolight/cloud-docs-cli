@@ -37,7 +37,7 @@ bun add -g cloud-docs-cli
 <details>
 <summary><b>Standalone Binaries (No Dependencies)</b></summary>
 
-Download the latest single-file executable for your platform from [GitHub Releases](https://github.com/your-repo/cloud-docs-cli/releases):
+Download the latest single-file executable for your platform from [GitHub Releases](https://github.com/innolight/cloud-docs-cli/releases):
 - `cloud-docs-linux-x64.tar.gz`
 - `cloud-docs-linux-arm64.tar.gz`
 - `cloud-docs-darwin-x64.tar.gz` (Intel Mac)
