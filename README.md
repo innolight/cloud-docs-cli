@@ -2,11 +2,14 @@
 
 Download cloud provider documentation into local Markdown files — so you can read, search, and embed docs offline without depending on a browser or internet connection.
 
-## Vision
+## 🚀 Why Cloud Docs CLI?
 
-Cloud docs are vast, scattered, and web-only. The goal of this project is a lightweight CLI that walks a documentation subtree (starting from any page in the sidebar) and writes it out as clean Markdown. The output is portable: it can feed a RAG pipeline, a local knowledge base, or just be read in your editor.
+Cloud documentation is vast, scattered, and browser-only. This CLI downloads any AWS doc subtree as clean, portable Markdown — so you can:
 
-The architecture is provider-aware but not provider-coupled — a small `DocProvider` interface captures the URL patterns and CSS selectors that differ between vendors, while the TOC traversal, HTML-to-Markdown conversion, and file writing are shared. AWS is the first provider; GCP and Azure are planned.
+- **Feed an AI / RAG pipeline** — point your embeddings at local `.md` files instead of scraping URLs at query time
+- **Read and search offline** — grep, ripgrep, or open in your editor, no internet required
+- **Build a local knowledge base** — version-control your docs snapshot alongside your code
+- **Stay fast** — one `pull` caches an entire doc section; re-runs skip already-downloaded pages
 
 ## Requirements
 
