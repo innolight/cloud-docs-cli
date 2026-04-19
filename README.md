@@ -14,20 +14,7 @@ The architecture is provider-aware but not provider-coupled — a small `DocProv
 
 ## Installation
 
-### Binaries (No Dependencies)
-
-Download the latest single-file executable for your platform from [GitHub Releases](https://github.com/your-repo/cloud-docs-cli/releases):
-- `cloud-docs-linux-x64.tar.gz`
-- `cloud-docs-linux-arm64.tar.gz`
-- `cloud-docs-darwin-x64.tar.gz` (Intel Mac)
-- `cloud-docs-darwin-arm64.tar.gz` (Apple Silicon)
-- `cloud-docs-windows-x64.zip`
-
-After downloading, extract the binary and move it to your path (e.g., `/usr/local/bin`). 
-
-*Note: On macOS, you may need to run `xattr -d com.apple.quarantine cloud-docs` before the first execution.*
-
-### NPX / BunX
+### npx / bunx
 
 You can run it directly without installing via `npx` or `bunx`:
 
@@ -46,6 +33,21 @@ npm install -g cloud-docs-cli
 # or
 bun add -g cloud-docs-cli
 ```
+
+<details>
+<summary><b>Standalone Binaries (No Dependencies)</b></summary>
+
+Download the latest single-file executable for your platform from [GitHub Releases](https://github.com/your-repo/cloud-docs-cli/releases):
+- `cloud-docs-linux-x64.tar.gz`
+- `cloud-docs-linux-arm64.tar.gz`
+- `cloud-docs-darwin-x64.tar.gz` (Intel Mac)
+- `cloud-docs-darwin-arm64.tar.gz` (Apple Silicon)
+- `cloud-docs-windows-x64.zip`
+
+After downloading, extract the binary and move it to your path (e.g., `/usr/local/bin`). 
+
+*Note: On macOS, you may need to run `xattr -d com.apple.quarantine cloud-docs` before the first execution.*
+</details>
 
 ## Usage
 
