@@ -13,15 +13,14 @@ export function buildFileTree(node: TocNode, dir: string, prefix = ""): TocNodeF
     const children = node.children.map((child, i) =>
       buildFileTree(child, dirPath, String(i + 1).padStart(pad, "0") + "-"),
     );
-    return { title: node.title, href: node.href, dirPath, filePath, children };
+    return { kind: "branch", title: node.title, href: node.href, dirPath, filePath, children };
   }
 
   return {
+    kind: "leaf",
     title: node.title,
     href: node.href,
-    dirPath: null,
     filePath: node.href ? path.join(dir, `${safeTitle}.md`) : null,
-    children: [],
   };
 }
 

@@ -2,9 +2,10 @@ import { writeFile } from "node:fs/promises";
 import path from "node:path";
 import { stringify as yamlStringify } from "yaml";
 import type { DocProvider, TocNodeFile } from "./providers/types.ts";
-import { pickProvider } from "./providers/aws.ts";
+import { pickProvider } from "./providers/registry.ts";
 import { fetchToc, resolveSubtree } from "./toc.ts";
-import { fetchHtml, htmlToMarkdown } from "./scrape.ts";
+import { fetchWithRetry } from "./net.ts";
+import { htmlToMarkdown } from "./scrape.ts";
 import { ensureDir, exists } from "./fs-util.ts";
 import { buildFileTree } from "./naming.ts";
 
@@ -48,7 +49,7 @@ async function walk(
   delayMs: number,
   stats: Stats,
 ): Promise<void> {
-  if (node.dirPath) {
+  if (node.kind === "branch") {
     await ensureDir(node.dirPath);
     const tocPath = path.join(node.dirPath, "content.yaml");
     await writeFile(tocPath, yamlStringify(fileNodeToSerial(node, node.dirPath)), "utf8");
@@ -57,8 +58,10 @@ async function walk(
   if (node.filePath && node.href) {
     await writePage(node, node.filePath, baseUrl, provider, delayMs, stats);
   }
-  for (const child of node.children) {
-    await walk(child, baseUrl, provider, delayMs, stats);
+  if (node.kind === "branch") {
+    for (const child of node.children) {
+      await walk(child, baseUrl, provider, delayMs, stats);
+    }
   }
 }
 
@@ -93,15 +96,6 @@ async function writePage(
   await sleep(delayMs);
 }
 
-async function fetchWithRetry(url: string): Promise<string> {
-  try {
-    return await fetchHtml(url);
-  } catch (err) {
-    await sleep(2000);
-    return await fetchHtml(url);
-  }
-}
-
 interface TocSerial {
   title: string;
   href?: string;
@@ -113,7 +107,9 @@ function fileNodeToSerial(node: TocNodeFile, base: string): TocSerial {
   const obj: TocSerial = { title: node.title };
   if (node.href !== null) obj.href = node.href;
   if (node.filePath !== null) obj.filePath = "./" + path.relative(base, node.filePath);
-  if (node.children.length > 0) obj.contents = node.children.map((c) => fileNodeToSerial(c, base));
+  if (node.kind === "branch" && node.children.length > 0) {
+    obj.contents = node.children.map((c) => fileNodeToSerial(c, base));
+  }
   return obj;
 }
 

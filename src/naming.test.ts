@@ -11,9 +11,9 @@ const branch = (title: string, href: string | null, children: TocNode[]): TocNod
 });
 
 describe("buildFileTree — leaf node", () => {
-  it("sets filePath and no dirPath", () => {
+  it("sets filePath and kind=leaf (no dirPath)", () => {
     const node = buildFileTree(leaf("What is RDS?", "Welcome.html"), "/out");
-    expect(node.dirPath).toBeNull();
+    expect(node.kind).toBe("leaf");
     expect(node.filePath).toBe(path.join("/out", "What-is-RDS.md"));
   });
 
@@ -31,8 +31,11 @@ describe("buildFileTree — leaf node", () => {
 describe("buildFileTree — branch node", () => {
   it("sets dirPath and null filePath when no href", () => {
     const node = buildFileTree(branch("DB Instances", null, [leaf("Overview", "a.html")]), "/out");
-    expect(node.dirPath).toBe(path.join("/out", "DB-Instances"));
-    expect(node.filePath).toBeNull();
+    expect(node.kind).toBe("branch");
+    if (node.kind === "branch") {
+      expect(node.dirPath).toBe(path.join("/out", "DB-Instances"));
+      expect(node.filePath).toBeNull();
+    }
   });
 
   it("sets both dirPath and filePath (00- prefix) when href present", () => {
@@ -40,8 +43,11 @@ describe("buildFileTree — branch node", () => {
       branch("DB Instances", "db.html", [leaf("Overview", "a.html")]),
       "/out",
     );
-    expect(node.dirPath).toBe(path.join("/out", "DB-Instances"));
-    expect(node.filePath).toBe(path.join("/out", "DB-Instances", "00-DB-Instances.md"));
+    expect(node.kind).toBe("branch");
+    if (node.kind === "branch") {
+      expect(node.dirPath).toBe(path.join("/out", "DB-Instances"));
+      expect(node.filePath).toBe(path.join("/out", "DB-Instances", "00-DB-Instances.md"));
+    }
   });
 
   it("uses sibling prefix for folder name but 00- for self-page", () => {
@@ -50,8 +56,11 @@ describe("buildFileTree — branch node", () => {
       "/out",
       "02-",
     );
-    expect(node.dirPath).toBe(path.join("/out", "02-DB-Instances"));
-    expect(node.filePath).toBe(path.join("/out", "02-DB-Instances", "00-DB-Instances.md"));
+    expect(node.kind).toBe("branch");
+    if (node.kind === "branch") {
+      expect(node.dirPath).toBe(path.join("/out", "02-DB-Instances"));
+      expect(node.filePath).toBe(path.join("/out", "02-DB-Instances", "00-DB-Instances.md"));
+    }
   });
 });
 
@@ -65,9 +74,12 @@ describe("buildFileTree — children prefixes", () => {
       ]),
       "/out",
     );
-    expect(node.children[0]!.filePath).toBe(path.join("/out", "Guide", "01-First.md"));
-    expect(node.children[1]!.filePath).toBe(path.join("/out", "Guide", "02-Second.md"));
-    expect(node.children[2]!.filePath).toBe(path.join("/out", "Guide", "03-Third.md"));
+    expect(node.kind).toBe("branch");
+    if (node.kind === "branch") {
+      expect(node.children[0]!.filePath).toBe(path.join("/out", "Guide", "01-First.md"));
+      expect(node.children[1]!.filePath).toBe(path.join("/out", "Guide", "02-Second.md"));
+      expect(node.children[2]!.filePath).toBe(path.join("/out", "Guide", "03-Third.md"));
+    }
   });
 
   it("uses 3-digit prefix when sibling count >= 100", () => {
@@ -75,8 +87,11 @@ describe("buildFileTree — children prefixes", () => {
       leaf(`Page ${i + 1}`, `page${i + 1}.html`),
     );
     const node = buildFileTree(branch("Guide", null, children), "/out");
-    expect(node.children[0]!.filePath).toBe(path.join("/out", "Guide", "001-Page-1.md"));
-    expect(node.children[99]!.filePath).toBe(path.join("/out", "Guide", "100-Page-100.md"));
+    expect(node.kind).toBe("branch");
+    if (node.kind === "branch") {
+      expect(node.children[0]!.filePath).toBe(path.join("/out", "Guide", "001-Page-1.md"));
+      expect(node.children[99]!.filePath).toBe(path.join("/out", "Guide", "100-Page-100.md"));
+    }
   });
 });
 

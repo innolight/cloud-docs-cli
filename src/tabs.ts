@@ -20,11 +20,11 @@ function flattenAwsdocsTabs($: CheerioAPI): void {
     const $el = $(el);
     const labels: string[] = [];
     const panelsHtml: string[] = [];
-    $el.find("> dl > dt, > dl dt").each((__, dt) => {
+    $el.find("> dl > dt").each((__, dt) => {
       labels.push($(dt).text().trim() || "Tab");
     });
-    $el.find("> dl > dd, > dl dd[tab-id]").each((__, dd) => {
-      panelsHtml.push($.html(dd) ? $(dd).html() ?? "" : "");
+    $el.find("> dl > dd[tab-id]").each((__, dd) => {
+      panelsHtml.push($(dd).html() ?? "");
     });
     const parts = panelsHtml.map(
       (inner, i) => `<h4>${escapeHtml(labels[i] ?? `Tab ${i + 1}`)}</h4>${inner}`,
