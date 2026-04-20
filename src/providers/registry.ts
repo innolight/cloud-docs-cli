@@ -1,5 +1,5 @@
-import type { DocProvider } from "./types.ts";
-import { awsProvider } from "./aws.ts";
+import type { DocProvider } from './types.ts';
+import { awsProvider } from './aws/aws.ts';
 
 export const providers: DocProvider[] = [awsProvider];
 

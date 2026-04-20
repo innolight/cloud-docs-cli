@@ -1,0 +1,1846 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>Examples of CloudFormation stack operation commands for the AWS CLI and PowerShell - AWS CloudFormation</title><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="assets_root" content="/assets" /><meta name="target_state" content="service_code_examples" /><meta name="default_state" content="service_code_examples" /><link rel="icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="canonical" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/service_code_examples.html" /><meta name="description" content="Examples of the command syntax to use when creating, updating, and deleting stacks with the AWS CLI and PowerShell." /><meta name="deployment_region" content="IAD" /><meta name="product" content="AWS CloudFormation" /><meta name="guide" content="User Guide" /><meta name="abstract" content="Create and manage AWS infrastructure deployments predictably and repeatedly using AWS CloudFormation with this User Guide." /><meta name="guide-locale" content="en_us" /><meta name="tocs" content="toc-contents.json" /><link rel="canonical" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/service_code_examples.html" /><link rel="alternate" href="https://docs.aws.amazon.com/id_id/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="id-id" /><link rel="alternate" href="https://docs.aws.amazon.com/id_id/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="id" /><link rel="alternate" href="https://docs.aws.amazon.com/de_de/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="de-de" /><link rel="alternate" href="https://docs.aws.amazon.com/de_de/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="de" /><link rel="alternate" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="en-us" /><link rel="alternate" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="en" /><link rel="alternate" href="https://docs.aws.amazon.com/es_es/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="es-es" /><link rel="alternate" href="https://docs.aws.amazon.com/es_es/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="es" /><link rel="alternate" href="https://docs.aws.amazon.com/fr_fr/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="fr-fr" /><link rel="alternate" href="https://docs.aws.amazon.com/fr_fr/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="fr" /><link rel="alternate" href="https://docs.aws.amazon.com/it_it/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="it-it" /><link rel="alternate" href="https://docs.aws.amazon.com/it_it/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="it" /><link rel="alternate" href="https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="ja-jp" /><link rel="alternate" href="https://docs.aws.amazon.com/ja_jp/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="ja" /><link rel="alternate" href="https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="ko-kr" /><link rel="alternate" href="https://docs.aws.amazon.com/ko_kr/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="ko" /><link rel="alternate" href="https://docs.aws.amazon.com/pt_br/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="pt-br" /><link rel="alternate" href="https://docs.aws.amazon.com/pt_br/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="pt" /><link rel="alternate" href="https://docs.aws.amazon.com/zh_cn/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="zh-cn" /><link rel="alternate" href="https://docs.aws.amazon.com/zh_tw/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="zh-tw" /><link rel="alternate" href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/service_code_examples.html" hreflang="x-default" /><meta name="feedback-item" content="CloudFormation" /><meta name="this_doc_product" content="AWS CloudFormation" /><meta name="this_doc_guide" content="User Guide" /><head xmlns="http://www.w3.org/1999/xhtml"> <script defer="" src="/assets/r/awsdocs-doc-page.2.0.0.js"></script><link href="/assets/r/awsdocs-doc-page.2.0.0.css" rel="stylesheet"/></head>
+<script defer="" id="awsc-panorama-bundle" type="text/javascript" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{'appEntity':'aws-documentation','region':'us-east-1','service':'cloudformation'}"></script><meta id="panorama-serviceSubSection" value="User Guide" /><meta id="panorama-serviceConsolePage" value="Examples of CloudFormation stack operation commands for the AWS CLI and PowerShell" /></head><body class="awsdocs awsui"><div class="awsdocs-container"><p><a href="service_code_examples.md">View a markdown version of this page</a></p><awsdocs-header></awsdocs-header><awsui-app-layout id="app-layout" class="awsui-util-no-gutters" ng-controller="ContentController as $ctrl" header-selector="awsdocs-header" navigation-hide="false" navigation-width="$ctrl.navWidth" navigation-open="$ctrl.navOpen" navigation-change="$ctrl.onNavChange($event)" tools-hide="$ctrl.hideTools" tools-width="$ctrl.toolsWidth" tools-open="$ctrl.toolsOpen" tools-change="$ctrl.onToolsChange($event)"><div id="guide-toc" dom-region="navigation"><awsdocs-toc></awsdocs-toc></div><div id="main-column" dom-region="content" tabindex="-1"><awsdocs-view class="awsdocs-view"><div id="awsdocs-content"><head><title>Examples of CloudFormation stack operation commands for the AWS CLI and PowerShell - AWS CloudFormation</title><meta name="pdf" content="/pdfs/AWSCloudFormation/latest/UserGuide/cfn-ug.pdf#service_code_examples" /><meta name="rss" content="aws-cloudformation-user-guide-updates.rss" /><meta name="forums" content="https://repost.aws/tags/TAm3R3LNU3RfSX9L23YIpo3w" /><meta name="feedback" content="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=CloudFormation&amp;topic_url=https://docs.aws.amazon.com/en_us/AWSCloudFormation/latest/UserGuide/service_code_examples.html" /><meta name="feedback-yes" content="feedbackyes.html?topic_url=https://docs.aws.amazon.com/en_us/AWSCloudFormation/latest/UserGuide/service_code_examples.html" /><meta name="feedback-no" content="feedbackno.html?topic_url=https://docs.aws.amazon.com/en_us/AWSCloudFormation/latest/UserGuide/service_code_examples.html" /><meta name="keywords" content="CloudFormation,AWSCloudFormation,resource provisioning,resource configuration,infrastructure management,CloudFormer,CloudFormation stack,CloudFormation stackset,CloudFormation template,change set,CloudFormation stacks,create a collection of resources as a CloudFormation stack" /><link rel="alternate" type="text/markdown" href="service_code_examples.md" title="Markdown version" /><script type="application/ld+json">
+{
+    "@context" : "https://schema.org",
+    "@type" : "BreadcrumbList",
+    "itemListElement" : [
+      {
+        "@type" : "ListItem",
+        "position" : 1,
+        "name" : "AWS",
+        "item" : "https://aws.amazon.com"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 2,
+        "name" : "AWS CloudFormation",
+        "item" : "https://docs.aws.amazon.com/cloudformation/index.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 3,
+        "name" : "User Guide",
+        "item" : "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 4,
+        "name" : "Managing AWS resources as a single unit with CloudFormation stacks",
+        "item" : "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 5,
+        "name" : "Examples of CloudFormation stack operation commands for the AWS CLI and PowerShell",
+        "item" : "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html"
+      }
+    ]
+}
+</script></head><body><div id="main"><div style="display: none"><a href="/pdfs/AWSCloudFormation/latest/UserGuide/cfn-ug.pdf#service_code_examples" target="_blank" rel="noopener noreferrer" title="Open PDF"></a></div><div id="breadcrumbs" class="breadcrumb"><a href="/index.html">Documentation</a><a href="/cloudformation/index.html">AWS CloudFormation</a><a href="Welcome.html">User Guide</a></div><div id="page-toc-src"><a href="#cancel-update-stack-sdk">CancelUpdateStack</a><a href="#continue-update-rollback-sdk">ContinueUpdateRollback</a><a href="#create-stack-sdk">CreateStack</a><a href="#deploy-sdk">Deploy</a><a href="#delete-stack-sdk">DeleteStack</a><a href="#describe-stack-events-sdk">DescribeStackEvents</a><a href="#describe-stack-resource-sdk">DescribeStackResource</a><a href="#describe-stack-resources-sdk">DescribeStackResources</a><a href="#describe-stacks-sdk">DescribeStacks</a><a href="#get-template-sdk">GetTemplate</a><a href="#list-stack-resources-sdk">ListStackResources</a><a href="#list-stacks-sdk">ListStacks</a><a href="#update-stack-sdk">UpdateStack</a><a href="#validate-template-sdk">ValidateTemplate</a></div><div id="main-content" class="awsui-util-container"><div id="main-col-body"><awsdocs-language-banner data-service="$ctrl.pageService"></awsdocs-language-banner><h1 class="topictitle" id="service_code_examples">Examples of CloudFormation stack operation commands for the AWS CLI and PowerShell</h1><div class="awsdocs-page-header-container"><awsdocs-page-header></awsdocs-page-header><awsdocs-filter-selector id="awsdocs-filter-selector"></awsdocs-filter-selector></div><p>The following command line examples demonstrate how to perform individual CloudFormation
+        actions with the AWS CLI and PowerShell. These examples include only the most commonly used
+        actions. For a complete list, see <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/">cloudformation</a> in the
+            <em>AWS CLI Command Reference</em>.</p><p>The examples in this guide use the convention of a backslash (\) to indicate that a long
+        command line continues on the next line. </p><div class="highlights"><h6>Topics</h6><ul><li><p><a href="#cancel-update-stack-sdk">Cancel a stack update</a></p></li><li><p><a href="#continue-update-rollback-sdk">Continue rolling back an update</a></p></li><li><p><a href="#create-stack-sdk">Create a stack</a></p></li><li><p><a href="#deploy-sdk">Create a stack that includes transforms</a></p></li><li><p><a href="#delete-stack-sdk">Delete a stack</a></p></li><li><p><a href="#describe-stack-events-sdk">Describe stack events</a></p></li><li><p><a href="#describe-stack-resource-sdk">Describe a stack resource</a></p></li><li><p><a href="#describe-stack-resources-sdk">Describe stack resources</a></p></li><li><p><a href="#describe-stacks-sdk">Describe stacks</a></p></li><li><p><a href="#get-template-sdk">Get a template</a></p></li><li><p><a href="#list-stack-resources-sdk">List stack resources</a></p></li><li><p><a href="#list-stacks-sdk">List stacks</a></p></li><li><p><a href="#update-stack-sdk">Update a stack</a></p></li><li><p><a href="#validate-template-sdk">Validate your template</a></p></li><li><p><a href="./using-cfn-cli-package.html">Upload local artifacts to an S3 bucket with the AWS CLI</a></p></li></ul></div>
+        <h2 id="cancel-update-stack-sdk">Cancel a stack update</h2>
+
+        <p>Use the <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/cancel-update-stack.html">cancel-update-stack</a> command command to cancel a stack
+            update. For more information, see <a href="./using-cfn-stack-update-cancel.html">Cancel a stack update</a>.</p>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To cancel a stack update that is in progress</b></p>
+            
+            
+                    <p>The following <code class="code">cancel-update-stack</code> command cancels a stack update on the <code class="code">myteststack</code> stack:</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="2a53046a104fca3159d589b96e2e9cb8ebfceb52ee339be34bc72211161e3f33"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation cancel-update-stack --stack-name <code class="replaceable">myteststack</code></code>
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/cancel-update-stack.html" rel="noopener noreferrer" target="_blank"><span>CancelUpdateStack</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Cancels an update on the specified stack.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="43dde7f86bed41d35136ed3d376b2c3ed14c1275152975e11a5cb11d54cea3f9"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Stop-CFNUpdateStack -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">CancelUpdateStack</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Cancels an update on the specified stack.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="ddeb7e19cf601e628a087fcbf7e51d89a2e7602e5fdbb677c714c1a4c00be795"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Stop-CFNUpdateStack -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">CancelUpdateStack</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+     
+        <h2 id="continue-update-rollback-sdk">Continue rolling back an update</h2>
+        <p>Use the <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/continue-update-rollback.html">continue-update-rollback</a> command to continue rolling
+            back an update. For more information, see <a href="./using-cfn-updating-stacks-continueupdaterollback.html">Continue rolling back an update</a>.</p>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To retry an update rollback</b></p>
+            
+            
+                    <p>The following <code class="code">continue-update-rollback</code> example resumes a rollback operation from a previously failed stack update.</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="866482bfd57c7ce32ab4790da0c4fe984b50872fa7773ca4477e5e2044c2b87f"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation continue-update-rollback \
+    --stack-name <code class="replaceable">my-stack</code></code>
+</code></pre>
+            
+            
+                    <p>This command produces no output.</p>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/continue-update-rollback.html" rel="noopener noreferrer" target="_blank"><span>ContinueUpdateRollback</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Continues rollback of the named stack, which should be in the state 'UPDATE_ROLLBACK_FAILED'. If the continued rollback is successful, the stack will enter state 'UPDATE_ROLLBACK_COMPLETE'.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="af0f486f37d45db5abf8a63fec803a48e7de91236a4639799365ad19ec25a5e5"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Resume-CFNUpdateRollback -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">ContinueUpdateRollback</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Continues rollback of the named stack, which should be in the state 'UPDATE_ROLLBACK_FAILED'. If the continued rollback is successful, the stack will enter state 'UPDATE_ROLLBACK_COMPLETE'.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="cef8b2c404ad1362983f3683356efddf59b48b57a70644ad478028bb97f69bdf"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Resume-CFNUpdateRollback -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">ContinueUpdateRollback</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+     
+        <h2 id="create-stack-sdk">Create a stack</h2>
+        <p>Use the <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/create-stack.html">create-stack</a> command to create a stack. You must provide
+            the stack name, the location of a valid template, and any input parameters. The
+            parameter key names are case sensitive. If you mistype a parameter key name, CloudFormation
+            doesn't create the stack and reports that the template doesn't contain that
+            parameter.</p>
+        <p>The following examples show how to create a new stack with the specified name,
+            template, and input parameters. </p>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To create an AWS CloudFormation stack</b></p>
+            
+            
+                    <p>The following <code class="code">create-stacks</code> command creates a stack with the name <code class="code">myteststack</code> using the <code class="code">sampletemplate.json</code> template:</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="5ec9cab5d3d02391f1629bf20d2a24b06151a04e633270c61e6c9c85b039851c"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation create-stack --stack-name <code class="replaceable">myteststack</code> --template-body <code class="replaceable">file://sampletemplate.json</code> --parameters <code class="replaceable">ParameterKey=KeyPairName,ParameterValue=TestKey</code> ParameterKey=SubnetIDs,ParameterValue=SubnetID1\\,SubnetID2</code>
+</code></pre>
+            
+            
+                    <p>Output:</p>
+            
+            
+                    <pre class="programlisting"><div class="code-btn-container"></div><!--DEBUG: cli (none)--><code class="nohighlight"><span>{</span>
+    "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/myteststack/466df9e0-0dff-08e3-8e2f-5088487c4896"
+}</code></pre>
+            
+            
+                    <p>For more information, see Stacks in the <em>AWS CloudFormation User Guide</em>.</p>
+            
+            
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/create-stack.html" rel="noopener noreferrer" target="_blank"><span>CreateStack</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Creates a new stack with the specified name. The template is parsed from the supplied content with customization parameters ('PK1' and 'PK2' represent the names of parameters declared in the template content, 'PV1' and 'PV2' represent the values for those parameters. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'. If creation of the stack fails, it will not be rolled back.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="214daffccfb49b28614137de395bcd9ae964b20fea19e0edab73193f06895b44"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">New-CFNStack -StackName "myStack" `
+             -TemplateBody "<span>{</span>TEMPLATE CONTENT HERE}" `
+             -Parameter @( @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }, @<span>{</span> ParameterKey="PK2"; ParameterValue="PV2" }) `
+             -DisableRollback $true
+</code></pre>
+            
+            
+                    <p><b>Example 2: Creates a new stack with the specified name. The template is parsed from the supplied content with customization parameters ('PK1' and 'PK2' represent the names of parameters declared in the template content, 'PV1' and 'PV2' represent the values for those parameters. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'. If creation of the stack fails, it will be rolled back.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="214daffccfb49b28614137de395bcd9ae964b20fea19e0edab73193f06895b44"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">$p1 = New-Object -Type Amazon.CloudFormation.Model.Parameter
+$p1.ParameterKey = "PK1"
+$p1.ParameterValue = "PV1"
+
+$p2 = New-Object -Type Amazon.CloudFormation.Model.Parameter
+$p2.ParameterKey = "PK2"
+$p2.ParameterValue = "PV2"
+
+New-CFNStack -StackName "myStack" `
+             -TemplateBody "<span>{</span>TEMPLATE CONTENT HERE}" `
+             -Parameter @( $p1, $p2 ) `
+             -OnFailure "ROLLBACK"
+</code></pre>
+            
+            
+                    <p><b>Example 3: Creates a new stack with the specified name. The template is obtained from the Amazon S3 URL with customization parameters ('PK1' represents the name of a parameter declared in the template content, 'PV1' represents the value for the parameter. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'. If creation of the stack fails, it will be rolled back (same as specifying -DisableRollback $false).</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="214daffccfb49b28614137de395bcd9ae964b20fea19e0edab73193f06895b44"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">New-CFNStack -StackName "myStack" `
+             -TemplateURL https://s3.amazonaws.com/amzn-s3-demo-bucket/templatefile.template `
+             -Parameter @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }
+</code></pre>
+            
+            
+                    <p><b>Example 4: Creates a new stack with the specified name. The template is obtained from the Amazon S3 URL with customization parameters ('PK1' represents the name of a parameter declared in the template content, 'PV1' represents the value for the parameter. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'. If creation of the stack fails, it will be rolled back (same as specifying -DisableRollback $false). The specified notification AENs will receive published stack-related events.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="214daffccfb49b28614137de395bcd9ae964b20fea19e0edab73193f06895b44"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">New-CFNStack -StackName "myStack" `
+             -TemplateURL https://s3.amazonaws.com/amzn-s3-demo-bucket/templatefile.template `
+             -Parameter @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" } `
+             -NotificationARN @( "arn1", "arn2" )
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">CreateStack</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Creates a new stack with the specified name. The template is parsed from the supplied content with customization parameters ('PK1' and 'PK2' represent the names of parameters declared in the template content, 'PV1' and 'PV2' represent the values for those parameters. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'. If creation of the stack fails, it will not be rolled back.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="05c2d0770572baeecc428f4aa5648737b9f68e35bed46e6c25cc5d3cd68015a5"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">New-CFNStack -StackName "myStack" `
+             -TemplateBody "<span>{</span>TEMPLATE CONTENT HERE}" `
+             -Parameter @( @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }, @<span>{</span> ParameterKey="PK2"; ParameterValue="PV2" }) `
+             -DisableRollback $true
+</code></pre>
+            
+            
+                    <p><b>Example 2: Creates a new stack with the specified name. The template is parsed from the supplied content with customization parameters ('PK1' and 'PK2' represent the names of parameters declared in the template content, 'PV1' and 'PV2' represent the values for those parameters. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'. If creation of the stack fails, it will be rolled back.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="05c2d0770572baeecc428f4aa5648737b9f68e35bed46e6c25cc5d3cd68015a5"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">$p1 = New-Object -Type Amazon.CloudFormation.Model.Parameter
+$p1.ParameterKey = "PK1"
+$p1.ParameterValue = "PV1"
+
+$p2 = New-Object -Type Amazon.CloudFormation.Model.Parameter
+$p2.ParameterKey = "PK2"
+$p2.ParameterValue = "PV2"
+
+New-CFNStack -StackName "myStack" `
+             -TemplateBody "<span>{</span>TEMPLATE CONTENT HERE}" `
+             -Parameter @( $p1, $p2 ) `
+             -OnFailure "ROLLBACK"
+</code></pre>
+            
+            
+                    <p><b>Example 3: Creates a new stack with the specified name. The template is obtained from the Amazon S3 URL with customization parameters ('PK1' represents the name of a parameter declared in the template content, 'PV1' represents the value for the parameter. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'. If creation of the stack fails, it will be rolled back (same as specifying -DisableRollback $false).</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="05c2d0770572baeecc428f4aa5648737b9f68e35bed46e6c25cc5d3cd68015a5"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">New-CFNStack -StackName "myStack" `
+             -TemplateURL https://s3.amazonaws.com/amzn-s3-demo-bucket/templatefile.template `
+             -Parameter @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }
+</code></pre>
+            
+            
+                    <p><b>Example 4: Creates a new stack with the specified name. The template is obtained from the Amazon S3 URL with customization parameters ('PK1' represents the name of a parameter declared in the template content, 'PV1' represents the value for the parameter. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'. If creation of the stack fails, it will be rolled back (same as specifying -DisableRollback $false). The specified notification AENs will receive published stack-related events.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="05c2d0770572baeecc428f4aa5648737b9f68e35bed46e6c25cc5d3cd68015a5"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">New-CFNStack -StackName "myStack" `
+             -TemplateURL https://s3.amazonaws.com/amzn-s3-demo-bucket/templatefile.template `
+             -Parameter @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" } `
+             -NotificationARN @( "arn1", "arn2" )
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">CreateStack</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+        <div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>You can use the AWS CLI <code class="code">--template-url</code> option to specify a template
+                file location in Amazon S3 or AWS Systems Manager.</p><p>For Amazon S3, the URL must begin with <code class="code">https://</code>. S3 static website URLs are not supported.</p><pre class="programlisting"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">--template-url <code class="replaceable">https://s3.region-code.amazonaws.com/bucket-name/template-name</code></code></code></pre><p>For AWS Systems Manager, use the following format:</p><pre class="programlisting"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">--template-url <code class="replaceable">"ssm-doc://arn:aws:ssm:region-code:account-id:document/document-name"</code></code></code></pre></div></div>
+     
+        <h2 id="deploy-sdk">Create a stack that includes transforms</h2>
+
+        <p>Use the <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/deploy/">deploy</a>
+            command to create a stack that includes transforms. When you create a stack from a
+            template that includes transforms, you must use a change set. The <code class="code">deploy</code>
+            command combines two steps (creating a change set and executing it) into a single
+            command.</p>
+        <awsdocs-tabs><dl style="display: none">
+            <dt>AWS CLI</dt><dd tab-id="aws-cli">
+                    <p>The following <code class="code">deploy</code> command creates a stack with the
+                        specified name, template, and input parameters.</p>
+                    <pre class="programlisting"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation deploy --stack-name <code class="replaceable">myteststack</code> \
+  --template <code class="replaceable">/path_to_template/my-template.json</code> \
+  --parameter-overrides <code class="replaceable">Key1=Value1 Key2=Value2</code></code></code></pre>
+                </dd>
+        </dl></awsdocs-tabs>
+     
+        <h2 id="delete-stack-sdk">Delete a stack</h2>
+        <p>Use the <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/delete-stack.html">delete-stack</a> command to delete a stack. For more
+            information, see <a href="./cfn-console-delete-stack.html">Delete a stack</a>.</p>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To delete a stack</b></p>
+            
+            
+                    <p>The following <code class="code">delete-stack</code> example deletes the specified stack.</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="0fb0aeb3d5bad9ef4fb5b65f4bac12dd7f1730cd0c3a0b3f2e9074388d29f7b1"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation delete-stack \
+    --stack-name <code class="replaceable">my-stack</code></code>
+</code></pre>
+            
+            
+                    <p>This command produces no output.</p>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/delete-stack.html" rel="noopener noreferrer" target="_blank"><span>DeleteStack</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Deletes the specified stack.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="80c463db3e1d3e5241ca20fdf90c92097076dc7bf8a7f12efadfc2bfab554d3c"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Remove-CFNStack -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">DeleteStack</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Deletes the specified stack.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="c0222257da40ab3138e5a9a29837dd53681deca16b3cacc510e97b23101e8d2d"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Remove-CFNStack -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">DeleteStack</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+        <p>If the deletion fails and returns a <code class="code">DELETE_FAILED</code> state, you can choose
+            to delete the stack by force using the <code class="code">--deletion-mode</code> option. These are
+            the following values that can be used with <code class="code">deletion-mode</code>:</p>
+        <div class="itemizedlist">
+             
+             
+        <ul class="itemizedlist"><li class="listitem">
+                <p><code class="code">STANDARD</code>: Deletes the stack normally. This is the default
+                    deletion mode.</p>
+            </li><li class="listitem">
+                <p><code class="code">FORCE_DELETE_STACK</code>: Deletes the stack and skips all resources
+                    that are failing to delete.</p>
+            </li></ul></div>
+
+        <awsdocs-tabs><dl style="display: none">
+            <dt>AWS CLI</dt><dd tab-id="aws-cli">
+                    <p>The following <code class="code">delete-stack</code> command force deletes the
+                                <code class="code"><code class="replaceable">myteststack</code></code> stack using the
+                            <code class="code">FORCE_DELETE_STACK</code> value with the
+                            <code class="code">deletion-mode</code> parameter:</p>
+                    <pre class="programlisting"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation delete-stack --stack-name <code class="replaceable">myteststack</code> \
+    --deletion-mode FORCE_DELETE_STACK</code></code></pre>
+                    <p>This command produces no output.</p>
+                </dd>
+        </dl></awsdocs-tabs>
+        <p>After using <code class="code">FORCE_DELETE_STACK</code>, you can use the
+                <code class="code">list-stack-resources</code> command to list the resources that were skipped
+            during the stack deletion process. The retained resources will show a DELETE_SKIPPED
+            status. For more information, see <a href="#list-stack-resources-sdk">List stack resources</a>.</p>
+     
+        <h2 id="describe-stack-events-sdk">Describe stack events</h2>
+
+        <p>Use the <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/describe-stack-events.html">describe-stack-events</a> command to describe stack events.
+            For more information, see <a href="./monitor-stack-progress.html">Monitor stack progress</a>.</p>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To describe stack events</b></p>
+            
+            
+                    <p>The following <code class="code">describe-stack-events</code> example displays the 2 most recent events for the specified stack.</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="b9a3d5dcf2c162b6767d39ccced7f540aa5af4dece61a2b1d513d6c7fc3fcec2"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation describe-stack-events \
+    --stack-name <code class="replaceable">my-stack</code> \
+    --max-items <code class="replaceable">2</code>
+
+<code class="replaceable"><span>{</span></code>
+    "StackEvents": <code class="replaceable">[</code>
+        <code class="replaceable"><span>{</span></code>
+            "StackId": "arn:aws:cloudformation:us-west-2:123456789012:stack/my-stack/d0a825a0-e4cd-xmpl-b9fb-061c69e99204",
+            "EventId": "4e1516d0-e4d6-xmpl-b94f-0a51958a168c",
+            "StackName": "my-stack",
+            "LogicalResourceId": "my-stack",
+            "PhysicalResourceId": "arn:aws:cloudformation:us-west-2:123456789012:stack/my-stack/d0a825a0-e4cd-xmpl-b9fb-061c69e99204",
+            "ResourceType": "AWS::CloudFormation::Stack",
+            "Timestamp": "2019-10-02T05:34:29.556Z",
+            "ResourceStatus": <code class="replaceable">"UPDATE_COMPLETE"</code>
+        <code class="replaceable">},</code>
+        <code class="replaceable"><span>{</span></code>
+            "StackId": "arn:aws:cloudformation:us-west-2:123456789012:stack/my-stack/d0a825a0-e4cd-xmpl-b9fb-061c69e99204",
+            "EventId": "4dd3c810-e4d6-xmpl-bade-0aaf8b31ab7a",
+            "StackName": "my-stack",
+            "LogicalResourceId": "my-stack",
+            "PhysicalResourceId": "arn:aws:cloudformation:us-west-2:123456789012:stack/my-stack/d0a825a0-e4cd-xmpl-b9fb-061c69e99204",
+            "ResourceType": "AWS::CloudFormation::Stack",
+            "Timestamp": "2019-10-02T05:34:29.127Z",
+            "ResourceStatus": <code class="replaceable">"UPDATE_COMPLETE_CLEANUP_IN_PROGRESS"</code>
+        <code class="replaceable">}</code>
+    <code class="replaceable">],</code>
+    "NextToken": <code class="replaceable">"eyJOZXh0VG9XMPLiOiBudWxsLCAiYm90b190cnVuY2F0ZV9hbW91bnQiOiAyfQ=="</code>
+<code class="replaceable">}</code></code>
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/describe-stack-events.html" rel="noopener noreferrer" target="_blank"><span>DescribeStackEvents</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns all stack related events for the specified stack.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="c2fd60073ec62484b854fbc80611bdd8d3bd54b619e405c64e00ea4d1dde7fdf"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackEvent -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">DescribeStackEvents</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns all stack related events for the specified stack.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="ceab1a3ec17b5d64bbb56caa934793670d640ffa4e32735e18b79089e016e207"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackEvent -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">DescribeStackEvents</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+     
+        <h2 id="describe-stack-resource-sdk">Describe a stack resource</h2>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To get information about a stack resource</b></p>
+            
+            
+                    <p>The following <code class="code">describe-stack-resource</code> example displays details for the resource named <code class="code">MyFunction</code> in the specified stack.</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="5e37058c267ee72a526517191ab956853830ecd78e5f1f60a5d56cf9132f8e24"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation describe-stack-resource \
+    --stack-name <code class="replaceable">MyStack</code> \
+    --logical-resource-id <code class="replaceable">MyFunction</code></code>
+</code></pre>
+            
+            
+                    <p>Output:</p>
+            
+            
+                    <pre class="programlisting"><div class="code-btn-container"></div><!--DEBUG: cli (none)--><code class="nohighlight"><span>{</span>
+    "StackResourceDetail": <span>{</span>
+        "StackName": "MyStack",
+        "StackId": "arn:aws:cloudformation:us-east-2:123456789012:stack/MyStack/d0a825a0-e4cd-xmpl-b9fb-061c69e99204",
+        "LogicalResourceId": "MyFunction",
+        "PhysicalResourceId": "my-function-SEZV4XMPL4S5",
+        "ResourceType": "AWS::Lambda::Function",
+        "LastUpdatedTimestamp": "2019-10-02T05:34:27.989Z",
+        "ResourceStatus": "UPDATE_COMPLETE",
+        "Metadata": "<span>{</span>}",
+        "DriftInformation": <span>{</span>
+            "StackResourceDriftStatus": "IN_SYNC"
+        }
+    }
+}</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/describe-stack-resource.html" rel="noopener noreferrer" target="_blank"><span>DescribeStackResource</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns the description of a resource identified in the template associated with the specified stack by the logical ID "MyDBInstance".</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="d8345ec8ba31418b5fc53ea3f4abbee6d1a6aa3aa0543400e8d367f4885a6820"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResource -StackName "myStack" -LogicalResourceId "MyDBInstance"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">DescribeStackResource</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns the description of a resource identified in the template associated with the specified stack by the logical ID "MyDBInstance".</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="25b1c0b98163be5fff6720b50b52423267319d821447e5a714829e1a1313dbc5"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResource -StackName "myStack" -LogicalResourceId "MyDBInstance"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">DescribeStackResource</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+     
+        <h2 id="describe-stack-resources-sdk">Describe stack resources</h2>
+
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To get information about a stack resource</b></p>
+            
+            
+                    <p>The following <code class="code">describe-stack-resources</code> example displays details for the resources in the specified stack.</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="bb12a915c294d6594edc733bf6f55cfa9176964b7fe194f8522947261dad1733"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation describe-stack-resources \
+    --stack-name <code class="replaceable">my-stack</code></code>
+</code></pre>
+            
+            
+                    <p>Output:</p>
+            
+            
+                    <pre class="programlisting"><div class="code-btn-container"></div><!--DEBUG: cli (none)--><code class="nohighlight"><span>{</span>
+    "StackResources": [
+        <span>{</span>
+            "StackName": "my-stack",
+            "StackId": "arn:aws:cloudformation:us-west-2:123456789012:stack/my-stack/d0a825a0-e4cd-xmpl-b9fb-061c69e99204",
+            "LogicalResourceId": "bucket",
+            "PhysicalResourceId": "my-stack-bucket-1vc62xmplgguf",
+            "ResourceType": "AWS::S3::Bucket",
+            "Timestamp": "2019-10-02T04:34:11.345Z",
+            "ResourceStatus": "CREATE_COMPLETE",
+            "DriftInformation": <span>{</span>
+                "StackResourceDriftStatus": "IN_SYNC"
+            }
+        },
+        <span>{</span>
+            "StackName": "my-stack",
+            "StackId": "arn:aws:cloudformation:us-west-2:123456789012:stack/my-stack/d0a825a0-e4cd-xmpl-b9fb-061c69e99204",
+            "LogicalResourceId": "function",
+            "PhysicalResourceId": "my-function-SEZV4XMPL4S5",
+            "ResourceType": "AWS::Lambda::Function",
+            "Timestamp": "2019-10-02T05:34:27.989Z",
+            "ResourceStatus": "UPDATE_COMPLETE",
+            "DriftInformation": <span>{</span>
+                "StackResourceDriftStatus": "IN_SYNC"
+            }
+        },
+        <span>{</span>
+            "StackName": "my-stack",
+            "StackId": "arn:aws:cloudformation:us-west-2:123456789012:stack/my-stack/d0a825a0-e4cd-xmpl-b9fb-061c69e99204",
+            "LogicalResourceId": "functionRole",
+            "PhysicalResourceId": "my-functionRole-HIZXMPLEOM9E",
+            "ResourceType": "AWS::IAM::Role",
+            "Timestamp": "2019-10-02T04:34:06.350Z",
+            "ResourceStatus": "CREATE_COMPLETE",
+            "DriftInformation": <span>{</span>
+                "StackResourceDriftStatus": "IN_SYNC"
+            }
+        }
+    ]
+}</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/describe-stack-resources.html" rel="noopener noreferrer" target="_blank"><span>DescribeStackResources</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns the AWS resource descriptions for up to 100 resources associated with the specified stack. To obtain details of all resources associated with a stack use the Get-CFNStackResourceSummary, which also supports manual paging of the results.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="1c511235ac1ca1e5661b0fb466af2ba9354a71e9a5c0c768b464fd0e50803014"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResourceList -StackName "myStack"
+</code></pre>
+            
+            
+                    <p><b>Example 2: Returns the description of the Amazon EC2 instance identified in the template associated with the specified stack by the logical ID "Ec2Instance".</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="1c511235ac1ca1e5661b0fb466af2ba9354a71e9a5c0c768b464fd0e50803014"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResourceList -StackName "myStack" -LogicalResourceId "Ec2Instance"
+</code></pre>
+            
+            
+                    <p><b>Example 3: Returns the description of up to 100 resources associated with the stack containing an Amazon EC2 instance identified by instance ID "i-123456". To obtain details of all resources associated with a stack use the Get-CFNStackResourceSummary, which also supports manual paging of the results.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="1c511235ac1ca1e5661b0fb466af2ba9354a71e9a5c0c768b464fd0e50803014"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResourceList -PhysicalResourceId "i-123456"
+</code></pre>
+            
+            
+                    <p><b>Example 4: Returns the description of the Amazon EC2 instance identified by the logical ID "Ec2Instance" in the template for a stack. The stack is identified using the physical resource ID of a resource it contains, in this case also an Amazon EC2 instance with instance ID "i-123456". A different physical resource could also be used to identify the stack depending on the template content, for example an Amazon S3 bucket.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="1c511235ac1ca1e5661b0fb466af2ba9354a71e9a5c0c768b464fd0e50803014"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResourceList -PhysicalResourceId "i-123456" -LogicalResourceId "Ec2Instance"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">DescribeStackResources</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns the AWS resource descriptions for up to 100 resources associated with the specified stack. To obtain details of all resources associated with a stack use the Get-CFNStackResourceSummary, which also supports manual paging of the results.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="b7e8419760577467206aa040c2ecab6af414b26dfb68215cd90a2c98036e3246"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResourceList -StackName "myStack"
+</code></pre>
+            
+            
+                    <p><b>Example 2: Returns the description of the Amazon EC2 instance identified in the template associated with the specified stack by the logical ID "Ec2Instance".</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="b7e8419760577467206aa040c2ecab6af414b26dfb68215cd90a2c98036e3246"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResourceList -StackName "myStack" -LogicalResourceId "Ec2Instance"
+</code></pre>
+            
+            
+                    <p><b>Example 3: Returns the description of up to 100 resources associated with the stack containing an Amazon EC2 instance identified by instance ID "i-123456". To obtain details of all resources associated with a stack use the Get-CFNStackResourceSummary, which also supports manual paging of the results.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="b7e8419760577467206aa040c2ecab6af414b26dfb68215cd90a2c98036e3246"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResourceList -PhysicalResourceId "i-123456"
+</code></pre>
+            
+            
+                    <p><b>Example 4: Returns the description of the Amazon EC2 instance identified by the logical ID "Ec2Instance" in the template for a stack. The stack is identified using the physical resource ID of a resource it contains, in this case also an Amazon EC2 instance with instance ID "i-123456". A different physical resource could also be used to identify the stack depending on the template content, for example an Amazon S3 bucket.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="b7e8419760577467206aa040c2ecab6af414b26dfb68215cd90a2c98036e3246"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResourceList -PhysicalResourceId "i-123456" -LogicalResourceId "Ec2Instance"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">DescribeStackResources</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+
+     
+        <h2 id="describe-stacks-sdk">Describe stacks</h2>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To describe AWS CloudFormation stacks</b></p>
+            
+            
+                    <p>The following <code class="code">describe-stacks</code> command shows summary information for the <code class="code">myteststack</code> stack:</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="e652d73d710a632f8541b3a32307c5b8b22eee11e3b78a5ff181484139c356d7"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation describe-stacks --stack-name <code class="replaceable">myteststack</code></code>
+</code></pre>
+            
+            
+                    <p>Output:</p>
+            
+            
+                    <pre class="programlisting"><div class="code-btn-container"></div><!--DEBUG: cli (none)--><code class="nohighlight"><span>{</span>
+    "Stacks":  [
+        <span>{</span>
+            "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/myteststack/466df9e0-0dff-08e3-8e2f-5088487c4896",
+            "Description": "AWS CloudFormation Sample Template S3_Bucket: Sample template showing how to create a publicly accessible S3 bucket. **WARNING** This template creates an S3 bucket. You will be billed for the AWS resources used if you create a stack from this template.",
+            "Tags": [],
+            "Outputs": [
+                <span>{</span>
+                    "Description": "Name of S3 bucket to hold website content",
+                    "OutputKey": "BucketName",
+                    "OutputValue": "myteststack-s3bucket-jssofi1zie2w"
+                }
+            ],
+            "StackStatusReason": null,
+            "CreationTime": "2013-08-23T01:02:15.422Z",
+            "Capabilities": [],
+            "StackName": "myteststack",
+            "StackStatus": "CREATE_COMPLETE",
+            "DisableRollback": false
+        }
+    ]
+}</code></pre>
+            
+            
+                    <p>For more information, see Stacks in the <em>AWS CloudFormation User Guide</em>.</p>
+            
+            
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/describe-stacks.html" rel="noopener noreferrer" target="_blank"><span>DescribeStacks</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>Go</dt><dd tab-id="go">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">SDK for Go V2</span></b></dt>
+        <dd>
+<div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>
+        There's more on GitHub. Find the complete example and learn how to set up and run in the
+        <a href="https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/gov2/workflows/user_pools_and_lambda_triggers#code-examples" rel="noopener noreferrer" target="_blank"><span>AWS Code
+            Examples Repository</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>.
+    </p></div></div>
+            
+                
+                <pre class="programlisting" data-example-id="5b6a6d5cb1c36d5357c9fdd04b860206f3da8a1603bd9078373100172eeb80f9"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (go)--><code class="go ">
+import (
+	"context"
+	"log"
+
+	"github.com/aws/aws-sdk-go-v2/aws"
+	"github.com/aws/aws-sdk-go-v2/service/cloudformation"
+)
+
+// StackOutputs defines a map of outputs from a specific stack.
+type StackOutputs map[string]string
+
+type CloudFormationActions struct <span>{</span>
+	CfnClient *cloudformation.Client
+}
+
+// GetOutputs gets the outputs from a CloudFormation stack and puts them into a structured format.
+func (actor CloudFormationActions) GetOutputs(ctx context.Context, stackName string) StackOutputs <span>{</span>
+	output, err := actor.CfnClient.DescribeStacks(ctx, &amp;cloudformation.DescribeStacksInput<span>{</span>
+		StackName: aws.String(stackName),
+	})
+	if err != nil || len(output.Stacks) == 0 <span>{</span>
+		log.Panicf("Couldn't find a CloudFormation stack named %v. Here's why: %v\n", stackName, err)
+	}
+	stackOutputs := StackOutputs<span>{</span>}
+	for _, out := range output.Stacks[0].Outputs <span>{</span>
+		stackOutputs[*out.OutputKey] = *out.OutputValue
+	}
+	return stackOutputs
+}
+
+
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://pkg.go.dev/github.com/aws/aws-sdk-go-v2/service/cloudformation#Client.DescribeStacks" rel="noopener noreferrer" target="_blank"><span>DescribeStacks</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS SDK for Go API Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns a collection of Stack instances describing all of the user's stacks.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="cbb47e6290e15de58baeb7857e97e95aa1b130c38d7be50f97a110a2ee0821f9"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStack
+</code></pre>
+            
+            
+                    <p><b>Example 2: Returns a Stack instance describing the specified stack</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="cbb47e6290e15de58baeb7857e97e95aa1b130c38d7be50f97a110a2ee0821f9"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStack -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">DescribeStacks</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns a collection of Stack instances describing all of the user's stacks.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="794cb27275d6d3c770981a8779102d303b7d641bc6ca11a50ee1072e2e8dc411"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStack
+</code></pre>
+            
+            
+                    <p><b>Example 2: Returns a Stack instance describing the specified stack</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="794cb27275d6d3c770981a8779102d303b7d641bc6ca11a50ee1072e2e8dc411"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStack -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">DescribeStacks</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+        <p>By default, the <code class="code">describe-stacks</code> command returns parameter values. To
+            prevent sensitive parameter values such as passwords from being returned, include a
+                <code class="code">NoEcho</code> property set to <code class="code">TRUE</code> in your CloudFormation
+            templates.</p>
+        <div class="awsdocs-note awsdocs-important"><div class="awsdocs-note-title"><awsui-icon name="status-warning" variant="error"></awsui-icon><h6>Important</h6></div><div class="awsdocs-note-text"><p>Using the <code class="code">NoEcho</code> attribute does not mask any information stored in the following:</p><div class="itemizedlist">
+           
+           
+           
+         <ul class="itemizedlist"><li class="listitem">
+           <p>The <code class="code">Metadata</code> template section. CloudFormation does not transform, modify, or redact any
+            information you include in the <code class="code">Metadata</code> section. For more information, see 
+            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/metadata-section-structure.html">Metadata</a>.</p>
+          </li><li class="listitem">
+           <p>The <code class="code">Outputs</code> template section. For more information, see
+            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/outputs-section-structure.html">Outputs</a>.</p>
+          </li><li class="listitem">
+           <p>The <code class="code">Metadata</code> attribute of a resource definition. For more information, see
+            <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-attribute-metadata.html"><code class="code">Metadata</code> attribute</a>.</p>
+          </li></ul></div><p>We strongly recommend you do not use these mechanisms to include sensitive information, such as
+          passwords or secrets.</p></div></div>
+        <div class="awsdocs-note awsdocs-important"><div class="awsdocs-note-title"><awsui-icon name="status-warning" variant="error"></awsui-icon><h6>Important</h6></div><div class="awsdocs-note-text"><p>Rather than embedding sensitive information directly in your CloudFormation templates, we recommend you use dynamic parameters in the stack template to
+reference sensitive information that is stored and managed outside of CloudFormation, such as in the AWS Systems Manager Parameter Store or AWS Secrets Manager.</p><p>For more information, see the <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/security-best-practices.html#creds">Do not embed credentials in your templates</a> best practice.</p></div></div>
+     
+        <h2 id="get-template-sdk">Get a template</h2>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To view the template body for an AWS CloudFormation stack</b></p>
+            
+            
+                    <p>The following <code class="code">get-template</code> command shows the template for the <code class="code">myteststack</code> stack:</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="54400b976848ce935f12b4201a786e33c949702a35521c9f7d82a8e4a0dbbd36"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation get-template --stack-name <code class="replaceable">myteststack</code></code>
+</code></pre>
+            
+            
+                    <p>Output:</p>
+            
+            
+                    <pre class="programlisting"><div class="code-btn-container"></div><!--DEBUG: cli (none)--><code class="nohighlight"><span>{</span>
+    "TemplateBody": <span>{</span>
+        "AWSTemplateFormatVersion": "2010-09-09",
+        "Outputs": <span>{</span>
+            "BucketName": <span>{</span>
+                "Description": "Name of S3 bucket to hold website content",
+                "Value": <span>{</span>
+                    "Ref": "S3Bucket"
+                }
+            }
+        },
+        "Description": "AWS CloudFormation Sample Template S3_Bucket: Sample template showing how to create a publicly accessible S3 bucket. **WARNING** This template creates an S3 bucket. You will be billed for the AWS resources used if you create a stack from this template.",
+        "Resources": <span>{</span>
+            "S3Bucket": <span>{</span>
+                "Type": "AWS::S3::Bucket",
+                "Properties": <span>{</span>
+                    "AccessControl": "PublicRead"
+                }
+            }
+        }
+    }
+}</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/get-template.html" rel="noopener noreferrer" target="_blank"><span>GetTemplate</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns the template associated with the specified stack.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="bd430000d2cd95c47331df6307c744608cae96feeec356d7e4d9eea69e9bd28b"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNTemplate -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">GetTemplate</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns the template associated with the specified stack.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="55c731ac5fc76a0c3a9d98b37347a6ddd63fd486f6b963c825a655620253aee0"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNTemplate -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">GetTemplate</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+     
+        <h2 id="list-stack-resources-sdk">List stack resources</h2>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To list resources in a stack</b></p>
+            
+            
+                    <p>The following command displays the list of resources in the specified stack.</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="9cd7f9daff41572afc56f1eca0a7d92297cdf9e9164f7500b8d8d8c03c37c9a4"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation list-stack-resources \
+    --stack-name <code class="replaceable">my-stack</code></code>
+</code></pre>
+            
+            
+                    <p>Output:</p>
+            
+            
+                    <pre class="programlisting"><div class="code-btn-container"></div><!--DEBUG: cli (none)--><code class="nohighlight"><span>{</span>
+    "StackResourceSummaries": [
+        <span>{</span>
+            "LogicalResourceId": "bucket",
+            "PhysicalResourceId": "my-stack-bucket-1vc62xmplgguf",
+            "ResourceType": "AWS::S3::Bucket",
+            "LastUpdatedTimestamp": "2019-10-02T04:34:11.345Z",
+            "ResourceStatus": "CREATE_COMPLETE",
+            "DriftInformation": <span>{</span>
+                "StackResourceDriftStatus": "IN_SYNC"
+            }
+        },
+        <span>{</span>
+            "LogicalResourceId": "function",
+            "PhysicalResourceId": "my-function-SEZV4XMPL4S5",
+            "ResourceType": "AWS::Lambda::Function",
+            "LastUpdatedTimestamp": "2019-10-02T05:34:27.989Z",
+            "ResourceStatus": "UPDATE_COMPLETE",
+            "DriftInformation": <span>{</span>
+                "StackResourceDriftStatus": "IN_SYNC"
+            }
+        },
+        <span>{</span>
+            "LogicalResourceId": "functionRole",
+            "PhysicalResourceId": "my-functionRole-HIZXMPLEOM9E",
+            "ResourceType": "AWS::IAM::Role",
+            "LastUpdatedTimestamp": "2019-10-02T04:34:06.350Z",
+            "ResourceStatus": "CREATE_COMPLETE",
+            "DriftInformation": <span>{</span>
+                "StackResourceDriftStatus": "IN_SYNC"
+            }
+        }
+    ]
+}</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/list-stack-resources.html" rel="noopener noreferrer" target="_blank"><span>ListStackResources</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns descriptions of all the resources associated with the specified stack.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="f929462cc712d89032ef57be23d3df9f090e88fe1fd01a7d32d1129a1e46bc48"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResourceSummary -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">ListStackResources</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns descriptions of all the resources associated with the specified stack.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="53765a1237c85da145d8d4787fe3ae20b9e2b972ebcc92a39ed26cf06ad77a7a"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackResourceSummary -StackName "myStack"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">ListStackResources</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+     
+        <h2 id="list-stacks-sdk">List stacks</h2>
+        <p>Use the <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/list-stacks.html">list-stacks</a> command to list stacks. To list only stacks
+            with the specified status codes, include the <code class="code">--stack-status-filter</code> option.
+            You can specify one or more stack status codes for the
+                <code class="code">--stack-status-filter</code> option. For more information, see <a href="./view-stack-events.html#cfn-console-view-stack-data-resources-status-codes">Stack status codes</a>.</p>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To list AWS CloudFormation stacks</b></p>
+            
+            
+                    <p>The following <code class="code">list-stacks</code> command shows a summary of all stacks that have a status of <code class="code">CREATE_COMPLETE</code>:</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="c973500d963917321807530dcbb30adf388b17bb9bfffbd736f553e32e06a5fa"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation list-stacks --stack-status-filter <code class="replaceable">CREATE_COMPLETE</code></code>
+</code></pre>
+            
+            
+                    <p>Output:</p>
+            
+            
+                    <pre class="programlisting"><div class="code-btn-container"></div><!--DEBUG: cli (none)--><code class="nohighlight">[
+    <span>{</span>
+        "StackId": "arn:aws:cloudformation:us-east-1:123456789012:stack/myteststack/466df9e0-0dff-08e3-8e2f-5088487c4896",
+        "TemplateDescription": "AWS CloudFormation Sample Template S3_Bucket: Sample template showing how to create a publicly accessible S3 bucket. **WARNING** This template creates an S3 bucket. You will be billed for the AWS resources used if you create a stack from this template.",
+        "StackStatusReason": null,
+        "CreationTime": "2013-08-26T03:27:10.190Z",
+        "StackName": "myteststack",
+        "StackStatus": "CREATE_COMPLETE"
+    }
+]</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/list-stacks.html" rel="noopener noreferrer" target="_blank"><span>ListStacks</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns summary information for all stacks.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="c045593d96f4aea3e58925337495f0829bbd11fd7848a4b1d62bfacf03ff3f68"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackSummary
+</code></pre>
+            
+            
+                    <p><b>Example 2: Returns summary information for all stacks that are currently being created.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="c045593d96f4aea3e58925337495f0829bbd11fd7848a4b1d62bfacf03ff3f68"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackSummary -StackStatusFilter "CREATE_IN_PROGRESS"
+</code></pre>
+            
+            
+                    <p><b>Example 3: Returns summary information for all stacks that are currently being created or updated.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="c045593d96f4aea3e58925337495f0829bbd11fd7848a4b1d62bfacf03ff3f68"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackSummary -StackStatusFilter @("CREATE_IN_PROGRESS", "UPDATE_IN_PROGRESS")
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">ListStacks</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Returns summary information for all stacks.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="c023b3cd3aebc57a13bcdce7e44b2ab04143af1ed0503a443d0d8d099329f6b7"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackSummary
+</code></pre>
+            
+            
+                    <p><b>Example 2: Returns summary information for all stacks that are currently being created.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="c023b3cd3aebc57a13bcdce7e44b2ab04143af1ed0503a443d0d8d099329f6b7"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackSummary -StackStatusFilter "CREATE_IN_PROGRESS"
+</code></pre>
+            
+            
+                    <p><b>Example 3: Returns summary information for all stacks that are currently being created or updated.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="c023b3cd3aebc57a13bcdce7e44b2ab04143af1ed0503a443d0d8d099329f6b7"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Get-CFNStackSummary -StackStatusFilter @("CREATE_IN_PROGRESS", "UPDATE_IN_PROGRESS")
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">ListStacks</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+
+     
+        <h2 id="update-stack-sdk">Update a stack</h2>
+
+        <p>Use the <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/update-stack.html">update-stack</a> command to directly update a stack. You
+            specify the stack, and parameter values and capabilities that you want to update, and,
+            if you want use an updated template, the name of the template. For more information, see
+                <a href="./using-cfn-updating-stacks-direct.html">Update stacks directly</a>.</p>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To update AWS CloudFormation stacks</b></p>
+            
+            
+                    <p>The following <code class="code">update-stack</code> command updates the template and input parameters for the <code class="code">mystack</code> stack:</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="7c01f70492c64e3c2cbbc4138c5f6c1f65ee828cf649dfc24d1b11190ae2efa4"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation update-stack --stack-name <code class="replaceable">mystack</code> --template-url <code class="replaceable">https://s3.amazonaws.com/sample/updated.template</code> --parameters <code class="replaceable">ParameterKey=KeyPairName,ParameterValue=SampleKeyPair</code> ParameterKey=SubnetIDs,ParameterValue=SampleSubnetID1\\,SampleSubnetID2</code>
+</code></pre>
+            
+            
+                    <p>The following <code class="code">update-stack</code> command updates just the <code class="code">SubnetIDs</code> parameter value for the <code class="code">mystack</code> stack. If you
+don't specify a parameter value, the default value that is specified in the template is used:</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="7c01f70492c64e3c2cbbc4138c5f6c1f65ee828cf649dfc24d1b11190ae2efa4"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation update-stack --stack-name <code class="replaceable">mystack</code> --template-url <code class="replaceable">https://s3.amazonaws.com/sample/updated.template</code> --parameters <code class="replaceable">ParameterKey=KeyPairName,UsePreviousValue=true</code> ParameterKey=SubnetIDs,ParameterValue=SampleSubnetID1\\,UpdatedSampleSubnetID2</code>
+</code></pre>
+            
+            
+                    <p>The following <code class="code">update-stack</code> command adds two stack notification topics to the <code class="code">mystack</code> stack:</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="7c01f70492c64e3c2cbbc4138c5f6c1f65ee828cf649dfc24d1b11190ae2efa4"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation update-stack --stack-name <code class="replaceable">mystack</code> --use-previous-template --notification-arns <code class="replaceable">"arn:aws:sns:use-east-1:123456789012:mytopic1"</code> <code class="replaceable">"arn:aws:sns:us-east-1:123456789012:mytopic2"</code></code>
+</code></pre>
+            
+            
+                    <p>For more information, see <a href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks.html">AWS CloudFormation stack updates</a> in the <em>AWS CloudFormation User Guide</em>.</p>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/update-stack.html" rel="noopener noreferrer" target="_blank"><span>UpdateStack</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Updates the stack 'myStack' with the specified template and customization parameters. 'PK1' represents the name of a parameter declared in the template and 'PV1' represents its value. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="2f63c471f4d00929c6b446e05a09d64e9ce9aaf41bab2b5ac693d9600989bc4f"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Update-CFNStack -StackName "myStack" `
+                -TemplateBody "<span>{</span>Template Content Here}" `
+                -Parameter @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }
+</code></pre>
+            
+            
+                    <p><b>Example 2: Updates the stack 'myStack' with the specified template and customization parameters. 'PK1' and 'PK2' represent the names of parameters declared in the template, 'PV1' and 'PV2' represents their requested values. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="2f63c471f4d00929c6b446e05a09d64e9ce9aaf41bab2b5ac693d9600989bc4f"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Update-CFNStack -StackName "myStack" `
+                -TemplateBody "<span>{</span>Template Content Here}" `
+                -Parameter @( @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }, @<span>{</span> ParameterKey="PK2"; ParameterValue="PV2" } )
+</code></pre>
+            
+            
+                    <p><b>Example 3: Updates the stack 'myStack' with the specified template and customization parameters. 'PK1' represents the name of a parameter declared in the template and 'PV2' represents its value. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="2f63c471f4d00929c6b446e05a09d64e9ce9aaf41bab2b5ac693d9600989bc4f"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Update-CFNStack -StackName "myStack" -TemplateBody "<span>{</span>Template Content Here}" -Parameters @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }
+</code></pre>
+            
+            
+                    <p><b>Example 4: Updates the stack 'myStack' with the specified template, obtained from Amazon S3, and customization parameters. 'PK1' and 'PK2' represent the names of parameters declared in the template, 'PV1' and 'PV2' represents their requested values. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="2f63c471f4d00929c6b446e05a09d64e9ce9aaf41bab2b5ac693d9600989bc4f"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Update-CFNStack -StackName "myStack" `
+                -TemplateURL https://s3.amazonaws.com/amzn-s3-demo-bucket/templatefile.template `
+                -Parameter @( @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }, @<span>{</span> ParameterKey="PK2"; ParameterValue="PV2" } )
+</code></pre>
+            
+            
+                    <p><b>Example 5: Updates the stack 'myStack', which is assumed in this example to contain IAM resources, with the specified template, obtained from Amazon S3, and customization parameters. 'PK1' and 'PK2' represent the names of parameters declared in the template, 'PV1' and 'PV2' represents their requested values. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'. Stacks containing IAM resources require you to specify the -Capabilities "CAPABILITY_IAM" parameter otherwise the update will fail with an 'InsufficientCapabilities' error.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="2f63c471f4d00929c6b446e05a09d64e9ce9aaf41bab2b5ac693d9600989bc4f"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Update-CFNStack -StackName "myStack" `
+                -TemplateURL https://s3.amazonaws.com/amzn-s3-demo-bucket/templatefile.template `
+                -Parameter @( @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }, @<span>{</span> ParameterKey="PK2"; ParameterValue="PV2" } ) `
+                -Capabilities "CAPABILITY_IAM"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">UpdateStack</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Updates the stack 'myStack' with the specified template and customization parameters. 'PK1' represents the name of a parameter declared in the template and 'PV1' represents its value. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="f8bbdeb47351a40d2f24fff74cc41c00fefe9ebb4129b70c23336c128e56cfbe"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Update-CFNStack -StackName "myStack" `
+                -TemplateBody "<span>{</span>Template Content Here}" `
+                -Parameter @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }
+</code></pre>
+            
+            
+                    <p><b>Example 2: Updates the stack 'myStack' with the specified template and customization parameters. 'PK1' and 'PK2' represent the names of parameters declared in the template, 'PV1' and 'PV2' represents their requested values. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="f8bbdeb47351a40d2f24fff74cc41c00fefe9ebb4129b70c23336c128e56cfbe"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Update-CFNStack -StackName "myStack" `
+                -TemplateBody "<span>{</span>Template Content Here}" `
+                -Parameter @( @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }, @<span>{</span> ParameterKey="PK2"; ParameterValue="PV2" } )
+</code></pre>
+            
+            
+                    <p><b>Example 3: Updates the stack 'myStack' with the specified template and customization parameters. 'PK1' represents the name of a parameter declared in the template and 'PV2' represents its value. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="f8bbdeb47351a40d2f24fff74cc41c00fefe9ebb4129b70c23336c128e56cfbe"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Update-CFNStack -StackName "myStack" -TemplateBody "<span>{</span>Template Content Here}" -Parameters @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }
+</code></pre>
+            
+            
+                    <p><b>Example 4: Updates the stack 'myStack' with the specified template, obtained from Amazon S3, and customization parameters. 'PK1' and 'PK2' represent the names of parameters declared in the template, 'PV1' and 'PV2' represents their requested values. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="f8bbdeb47351a40d2f24fff74cc41c00fefe9ebb4129b70c23336c128e56cfbe"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Update-CFNStack -StackName "myStack" `
+                -TemplateURL https://s3.amazonaws.com/amzn-s3-demo-bucket/templatefile.template `
+                -Parameter @( @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }, @<span>{</span> ParameterKey="PK2"; ParameterValue="PV2" } )
+</code></pre>
+            
+            
+                    <p><b>Example 5: Updates the stack 'myStack', which is assumed in this example to contain IAM resources, with the specified template, obtained from Amazon S3, and customization parameters. 'PK1' and 'PK2' represent the names of parameters declared in the template, 'PV1' and 'PV2' represents their requested values. The customization parameters can also be specified using 'Key' and 'Value' instead of 'ParameterKey' and 'ParameterValue'. Stacks containing IAM resources require you to specify the -Capabilities "CAPABILITY_IAM" parameter otherwise the update will fail with an 'InsufficientCapabilities' error.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="f8bbdeb47351a40d2f24fff74cc41c00fefe9ebb4129b70c23336c128e56cfbe"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Update-CFNStack -StackName "myStack" `
+                -TemplateURL https://s3.amazonaws.com/amzn-s3-demo-bucket/templatefile.template `
+                -Parameter @( @<span>{</span> ParameterKey="PK1"; ParameterValue="PV1" }, @<span>{</span> ParameterKey="PK2"; ParameterValue="PV2" } ) `
+                -Capabilities "CAPABILITY_IAM"
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">UpdateStack</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+        <div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>To remove all notifications, specify for <code class="code">[]</code> for the
+                    <code class="code">--notification-arns</code> option.</p></div></div>
+     
+        <h2 id="validate-template-sdk">Validate your template</h2>
+
+        <p>Use the <a href="https://docs.aws.amazon.com/cli/latest/reference/cloudformation/validate-template.html">validate-template</a> command to check your template file
+            for syntax errors.</p>
+        <p>During validation, CloudFormation first checks if the template is valid JSON. If it isn't,
+            CloudFormation checks if the template is valid YAML. If both checks fail, CloudFormation returns
+            a template validation error.</p>
+        
+        <awsdocs-tabs><dl style="display: none">
+    <dt>CLI</dt><dd tab-id="cli">
+            <div class="variablelist">
+     
+<dl>
+        <dt><b><span class="term">AWS CLI</span></b></dt>
+        <dd>
+            
+                    <p><b>To validate an AWS CloudFormation template</b></p>
+            
+            
+                    <p>The following <code class="code">validate-template</code> command validates the <code class="code">sampletemplate.json</code> template:</p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="08e0e856ca26033bc3da8d37ff522d508085c9c5ca2e8fce4be4deac6c9758de"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (cli)--><code class="nohighlight " data-source="content"><code class="userinput">aws cloudformation validate-template --template-body <code class="replaceable">file://sampletemplate.json</code></code>
+</code></pre>
+            
+            
+                    <p>Output:</p>
+            
+            
+                    <pre class="programlisting"><div class="code-btn-container"></div><!--DEBUG: cli (none)--><code class="nohighlight"><span>{</span>
+    "Description": "AWS CloudFormation Sample Template S3_Bucket: Sample template showing how to create a publicly accessible S3 bucket. **WARNING** This template creates an S3 bucket. You will be billed for the AWS resources used if you create a stack from this template.",
+    "Parameters": [],
+    "Capabilities": []
+}</code></pre>
+            
+            
+                    <p>For more information, see Working with AWS CloudFormation Templates in the <em>AWS CloudFormation User Guide</em>.</p>
+            
+            
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://awscli.amazonaws.com/v2/documentation/api/latest/reference/cloudformation/validate-template.html" rel="noopener noreferrer" target="_blank"><span>ValidateTemplate</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+                        in <em>AWS CLI Command Reference</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+    <dt>PowerShell</dt><dd tab-id="powershell">
+            <div class="variablelist">
+     
+     
+<dl>
+        <dt><b><span class="term">Tools for PowerShell V4</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Validates the specified template content. The output details the capabilities, description and parameters of the template.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="77cf5913bcf0e9a794c6fbff10f81e2471d1a4cdfc81cdeb1bb0775675f448a9"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Test-CFNTemplate -TemplateBody "<span>{</span>TEMPLATE CONTENT HERE}"
+</code></pre>
+            
+            
+                    <p><b>Example 2: Validates the specified template accessed via an Amazon S3 URL. The output details the capabilities, description and parameters of the template.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="77cf5913bcf0e9a794c6fbff10f81e2471d1a4cdfc81cdeb1bb0775675f448a9"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Test-CFNTemplate -TemplateURL https://s3.amazonaws.com/amzn-s3-demo-bucket/templatefile.template
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v4/reference">ValidateTemplate</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V4)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    
+        <dt><b><span class="term">Tools for PowerShell V5</span></b></dt>
+        <dd>
+            
+                    <p><b>Example 1: Validates the specified template content. The output details the capabilities, description and parameters of the template.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="10ad3d303300ae186a24a8c7aad36848bde89d5d341f9aff623d9635262de8cd"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Test-CFNTemplate -TemplateBody "<span>{</span>TEMPLATE CONTENT HERE}"
+</code></pre>
+            
+            
+                    <p><b>Example 2: Validates the specified template accessed via an Amazon S3 URL. The output details the capabilities, description and parameters of the template.</b></p>
+            
+            
+                
+                <pre class="programlisting" data-example-id="10ad3d303300ae186a24a8c7aad36848bde89d5d341f9aff623d9635262de8cd"><div class="code-btn-container"><div class="btn-copy-code" title="Copy"><awsui-icon name="copy"></awsui-icon></div></div><!--DEBUG: cli (powershell)--><code class="powershell ">Test-CFNTemplate -TemplateURL https://s3.amazonaws.com/amzn-s3-demo-bucket/templatefile.template
+</code></pre>
+            
+            <div class="itemizedlist">
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p>
+                        For API details, see
+                        <a href="https://docs.aws.amazon.com/powershell/v5/reference">ValidateTemplate</a>
+                        in <em>AWS Tools for PowerShell Cmdlet Reference (V5)</em>.
+                    </p>
+                </li></ul></div>
+        </dd>
+    </dl></div>
+        </dd>
+</dl></awsdocs-tabs>
+        <p>The following is an example response that produces a validation error.</p>
+        <pre class="programlisting"><div class="code-btn-container"></div><!--DEBUG: cli ()--><code class=""><span>{</span>
+    "ResponseMetadata": <span>{</span>
+        "RequestId": "4ae33ec0-1988-11e3-818b-e15a6df955cd"
+    },
+    "Errors": [
+        <span>{</span>
+            "Message": "Template format error: JSON not well-formed. (line 11, column 8)",
+            "Code": "ValidationError",
+            "Type": "Sender"
+        }
+    ],
+    "Capabilities": [],
+    "Parameters": []
+}
+A client error (ValidationError) occurred: Template format error: JSON not well-formed. (line 11, column 8)</code></pre>
+        <div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>The <code class="code">validate-template</code> command is designed to check only the syntax of
+                your template. It does not ensure that the property values that you have specified
+                for a resource are valid for that resource. Nor does it determine the number of
+                resources that will exist when the stack is created.</p><p>To check the operational validity, you need to attempt to create the stack. There
+                is no sandbox or test area for CloudFormation stacks, so you are charged for the resources
+                you create during testing.</p></div></div>
+    <div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Example availability</h6></div><div class="awsdocs-note-text"><p>Can't find what you need? Request a new example by using the <b>Provide
+                feedback</b> link at the bottom of this page.</p></div></div><awsdocs-copyright class="copyright-print"></awsdocs-copyright><awsdocs-thumb-feedback right-edge="{{$ctrl.thumbFeedbackRightEdge}}"></awsdocs-thumb-feedback></div><noscript><div><div><div><div id="js_error_message"><p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="Warning" /> <strong>Javascript is disabled or is unavailable in your browser.</strong></p><p>To use the Amazon Web Services Documentation, Javascript must be enabled. Please refer to your browser's Help pages for instructions.</p></div></div></div></div></noscript><div id="main-col-footer" class="awsui-util-font-size-0"><div id="doc-conventions"><a target="_top" href="/general/latest/gr/docconventions.html">Document Conventions</a></div><div class="prev-next"><div id="previous" class="prev-link" accesskey="p" href="./cfn-console-create-stacks-quick-create-links.html">Use quick-create links to create CloudFormation stacks</div><div id="next" class="next-link" accesskey="n" href="./using-cfn-cli-package.html">Upload local artifacts to an S3
+      bucket</div></div></div><awsdocs-page-utilities></awsdocs-page-utilities></div><div id="quick-feedback-yes" style="display: none;"><div class="title">Did this page help you? - Yes</div><div class="content"><p>Thanks for letting us know we're doing a good job!</p><p>If you've got a moment, please tell us what we did right so we can do more of it.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=CloudFormation&amp;topic_url=https://docs.aws.amazon.com/en_us/AWSCloudFormation/latest/UserGuide/service_code_examples.html"></awsui-button></p></div></div><div id="quick-feedback-no" style="display: none;"><div class="title">Did this page help you? - No</div><div class="content"><p>Thanks for letting us know this page needs work. We're sorry we let you down.</p><p>If you've got a moment, please tell us how we can make the documentation better.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=CloudFormation&amp;topic_url=https://docs.aws.amazon.com/en_us/AWSCloudFormation/latest/UserGuide/service_code_examples.html"></awsui-button></p></div></div></div></body></div></awsdocs-view><div class="page-loading-indicator" id="page-loading-indicator"><awsui-spinner size="large"></awsui-spinner></div></div><div id="tools-panel" dom-region="tools"><awsdocs-tools-panel id="awsdocs-tools-panel"></awsdocs-tools-panel></div></awsui-app-layout><awsdocs-cookie-banner class="doc-cookie-banner"></awsdocs-cookie-banner></div></body></html>

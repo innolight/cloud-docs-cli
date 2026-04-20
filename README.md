@@ -41,15 +41,17 @@ bun add -g cloud-docs-cli
 <summary><b>Standalone Binaries (No Dependencies)</b></summary>
 
 Download the latest single-file executable for your platform from [GitHub Releases](https://github.com/innolight/cloud-docs-cli/releases):
+
 - `cloud-docs-linux-x64.tar.gz`
 - `cloud-docs-linux-arm64.tar.gz`
 - `cloud-docs-darwin-x64.tar.gz` (Intel Mac)
 - `cloud-docs-darwin-arm64.tar.gz` (Apple Silicon)
 - `cloud-docs-windows-x64.zip`
 
-After downloading, extract the binary and move it to your path (e.g., `/usr/local/bin`). 
+After downloading, extract the binary and move it to your path (e.g., `/usr/local/bin`).
 
-*Note: On macOS, you may need to run `xattr -d com.apple.quarantine cloud-docs` before the first execution.*
+_Note: On macOS, you may need to run `xattr -d com.apple.quarantine cloud-docs` before the first execution._
+
 </details>
 
 ## Usage
@@ -60,16 +62,16 @@ cloud-docs pull <url> [options]
 
 **Arguments**
 
-| Argument | Description |
-|----------|-------------|
+| Argument | Description                                      |
+| -------- | ------------------------------------------------ |
 | `<url>`  | URL of any page in the AWS documentation sidebar |
 
 **Options**
 
-| Flag | Default | Description |
-|------|---------|-------------|
-| `-o, --out <dir>` | `./.out` | Directory to write Markdown files into |
-| `--delay <ms>` | `500` | Milliseconds to wait between page fetches |
+| Flag              | Default  | Description                               |
+| ----------------- | -------- | ----------------------------------------- |
+| `-o, --out <dir>` | `./.out` | Directory to write Markdown files into    |
+| `--delay <ms>`    | `500`    | Milliseconds to wait between page fetches |
 
 **Examples**
 
@@ -151,6 +153,23 @@ node dist/index.cjs --help # run bundled CLI
 bun test                   # run tests (vitest)
 bun run typecheck          # tsc --noEmit
 ```
+
+### Verifying output after changes
+
+Pull the same URL into two separate directories — one from a known-good state, one after your changes — then diff them:
+
+```sh
+# 1. Baseline (run once, keep around)
+bun run cli pull -o .outv2 https://docs.aws.amazon.com/AmazonS3/latest/userguide/cost-optimization.html
+
+# 2. After your changes
+bun run cli pull -o .outv3 https://docs.aws.amazon.com/AmazonS3/latest/userguide/cost-optimization.html
+
+# 3. Compare
+bun scripts/compare-outputs.ts .outv2 .outv3
+```
+
+The script exits `0` if the outputs are identical, or `1` with a diff summary showing missing, extra, or changed files. Use any two directory names; the `.out*` pattern is git-ignored.
 
 ## Roadmap
 

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+    <html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>What is Amazon Relational Database Service (Amazon RDS)? - Amazon Relational Database Service</title><meta name="viewport" content="width=device-width,initial-scale=1" /><meta name="assets_root" content="/assets" /><meta name="target_state" content="Welcome" /><meta name="default_state" content="Welcome" /><link rel="icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="shortcut icon" type="image/ico" href="/assets/images/favicon.ico" /><link rel="canonical" href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html" /><meta name="description" content="Set up, operate, and scale a relational database in the AWS Cloud easily using the Amazon RDS web service." /><meta name="deployment_region" content="IAD" /><meta name="product" content="Amazon Relational Database Service" /><meta name="guide" content="User Guide" /><meta name="abstract" content="Amazon Web Services (AWS) documentation to help you set up, operate, and scale a relational database in the AWS Cloud using Amazon Relational Database Service (Amazon RDS). You can create DB instances that run Amazon Aurora, MariaDB, Microsoft SQL Server, MySQL, Oracle, and PostgreSQL." /><meta name="guide-locale" content="en_us" /><meta name="tocs" content="toc-contents.json" /><link rel="canonical" href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html" /><link rel="alternate" href="https://docs.aws.amazon.com/id_id/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="id-id" /><link rel="alternate" href="https://docs.aws.amazon.com/id_id/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="id" /><link rel="alternate" href="https://docs.aws.amazon.com/de_de/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="de-de" /><link rel="alternate" href="https://docs.aws.amazon.com/de_de/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="de" /><link rel="alternate" href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="en-us" /><link rel="alternate" href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="en" /><link rel="alternate" href="https://docs.aws.amazon.com/es_es/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="es-es" /><link rel="alternate" href="https://docs.aws.amazon.com/es_es/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="es" /><link rel="alternate" href="https://docs.aws.amazon.com/fr_fr/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="fr-fr" /><link rel="alternate" href="https://docs.aws.amazon.com/fr_fr/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="fr" /><link rel="alternate" href="https://docs.aws.amazon.com/it_it/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="it-it" /><link rel="alternate" href="https://docs.aws.amazon.com/it_it/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="it" /><link rel="alternate" href="https://docs.aws.amazon.com/ja_jp/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="ja-jp" /><link rel="alternate" href="https://docs.aws.amazon.com/ja_jp/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="ja" /><link rel="alternate" href="https://docs.aws.amazon.com/ko_kr/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="ko-kr" /><link rel="alternate" href="https://docs.aws.amazon.com/ko_kr/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="ko" /><link rel="alternate" href="https://docs.aws.amazon.com/pt_br/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="pt-br" /><link rel="alternate" href="https://docs.aws.amazon.com/pt_br/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="pt" /><link rel="alternate" href="https://docs.aws.amazon.com/zh_cn/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="zh-cn" /><link rel="alternate" href="https://docs.aws.amazon.com/zh_tw/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="zh-tw" /><link rel="alternate" href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html" hreflang="x-default" /><meta name="feedback-item" content="RDS" /><meta name="this_doc_product" content="Amazon Relational Database Service" /><meta name="this_doc_guide" content="User Guide" /><head xmlns="http://www.w3.org/1999/xhtml"> <script defer="" src="/assets/r/awsdocs-doc-page.2.0.0.js"></script><link href="/assets/r/awsdocs-doc-page.2.0.0.css" rel="stylesheet"/></head>
+<script defer="" id="awsc-panorama-bundle" type="text/javascript" src="https://prod.pa.cdn.uis.awsstatic.com/panorama-nav-init.js" data-config="{'appEntity':'aws-documentation','region':'us-east-1','service':'rds'}"></script><meta id="panorama-serviceSubSection" value="User Guide" /><meta id="panorama-serviceConsolePage" value="What is Amazon Relational Database Service (Amazon RDS)?" /></head><body class="awsdocs awsui"><div class="awsdocs-container"><p><a href="Welcome.md">View a markdown version of this page</a></p><awsdocs-header></awsdocs-header><awsui-app-layout id="app-layout" class="awsui-util-no-gutters" ng-controller="ContentController as $ctrl" header-selector="awsdocs-header" navigation-hide="false" navigation-width="$ctrl.navWidth" navigation-open="$ctrl.navOpen" navigation-change="$ctrl.onNavChange($event)" tools-hide="$ctrl.hideTools" tools-width="$ctrl.toolsWidth" tools-open="$ctrl.toolsOpen" tools-change="$ctrl.onToolsChange($event)"><div id="guide-toc" dom-region="navigation"><awsdocs-toc></awsdocs-toc></div><div id="main-column" dom-region="content" tabindex="-1"><awsdocs-view class="awsdocs-view"><div id="awsdocs-content"><head><title>What is Amazon Relational Database Service (Amazon RDS)? - Amazon Relational Database Service</title><meta name="pdf" content="/pdfs/AmazonRDS/latest/UserGuide/rds-ug.pdf#Welcome" /><meta name="rss" content="rdsupdates.rss" /><meta name="forums" content="https://repost.aws/tags/TAsibBK6ZeQYihN9as4S_psg" /><meta name="feedback" content="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=RDS&amp;topic_url=https://docs.aws.amazon.com/en_us/AmazonRDS/latest/UserGuide/Welcome.html" /><meta name="feedback-yes" content="feedbackyes.html?topic_url=https://docs.aws.amazon.com/en_us/AmazonRDS/latest/UserGuide/Welcome.html" /><meta name="feedback-no" content="feedbackno.html?topic_url=https://docs.aws.amazon.com/en_us/AmazonRDS/latest/UserGuide/Welcome.html" /><meta name="keywords" content="Amazon Relational Database Service,RDS,DB Instance" /><link rel="alternate" type="text/markdown" href="Welcome.md" title="Markdown version" /><script type="application/ld+json">
+{
+    "@context" : "https://schema.org",
+    "@type" : "BreadcrumbList",
+    "itemListElement" : [
+      {
+        "@type" : "ListItem",
+        "position" : 1,
+        "name" : "AWS",
+        "item" : "https://aws.amazon.com"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 2,
+        "name" : "Amazon RDS",
+        "item" : "https://docs.aws.amazon.com/rds/index.html"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 3,
+        "name" : "User Guide",
+        "item" : "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide"
+      },
+      {
+        "@type" : "ListItem",
+        "position" : 4,
+        "name" : "What is Amazon Relational Database Service (Amazon RDS)?",
+        "item" : "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Welcome.html"
+      }
+    ]
+}
+</script></head><body><div id="main"><div style="display: none"><a href="/pdfs/AmazonRDS/latest/UserGuide/rds-ug.pdf#Welcome" target="_blank" rel="noopener noreferrer" title="Open PDF"></a></div><div id="breadcrumbs" class="breadcrumb"><a href="/index.html">Documentation</a><a href="/rds/index.html">Amazon RDS</a><a href="Welcome.html">User Guide</a></div><div id="page-toc-src"><a href="#Welcome.Concepts.on-prem">Advantages of Amazon RDS</a><a href="#Welcome.Concepts.comparison">Comparison of responsibilities</a><a href="#Welcome.Concepts.SharedResponsibility">Amazon RDS shared responsibility model</a><a href="#Welcome.Concepts.DBInstance">DB instances</a><a href="#Welcome.Concepts.Regions">AWS Regions and Availability Zones</a><a href="#Welcome.Concepts.SecurityGroups">Access control with security groups</a><a href="#Welcome.Monitoring">Amazon RDS monitoring</a><a href="#Welcome.Interfaces">User interfaces to Amazon RDS</a><a href="#Welcome.Costs">How you are charged for Amazon RDS</a><a href="#free-tier-limitations">AWS Free Tier on Amazon RDS</a><a href="#Welcome.WhatsNext">What's next?</a></div><awsdocs-doc-page-banner></awsdocs-doc-page-banner><div id="main-content" class="awsui-util-container"><div id="main-col-body"><awsdocs-language-banner data-service="$ctrl.pageService"></awsdocs-language-banner><h1 class="topictitle" id="Welcome">What is Amazon Relational Database Service (Amazon RDS)?</h1><div class="awsdocs-page-header-container"><awsdocs-page-header></awsdocs-page-header><awsdocs-filter-selector id="awsdocs-filter-selector"></awsdocs-filter-selector></div><p>Amazon Relational Database Service (Amazon RDS) is a web service that makes it easier to set up, operate, and scale a
+		relational database in the AWS Cloud. It provides cost-efficient, resizable capacity for an
+		industry-standard relational database and manages common database administration tasks.</p><div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>This guide covers Amazon RDS database engines other than Amazon Aurora. For information about using Amazon Aurora, see the
+				<a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/CHAP_AuroraOverview.html"><em>Amazon Aurora User Guide</em></a>.</p></div></div><p>If you are new to AWS products and services, begin learning more with the following resources:</p><div class="itemizedlist">
+		 
+		 
+	<ul class="itemizedlist"><li class="listitem">
+			<p>For an overview of all AWS products, see <a href="http://aws.amazon.com/what-is-aws/" rel="noopener noreferrer" target="_blank"><span>What is cloud
+					computing?</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a></p>
+		</li><li class="listitem">
+			<p>Amazon Web Services provides a number of database services. To learn more about the variety of database options available on 
+				AWS, see <a href="https://aws.amazon.com/getting-started/decision-guides/databases-on-aws-how-to-choose" rel="noopener noreferrer" target="_blank"><span>Choosing an
+					AWS database service</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a> and <a href="http://aws.amazon.com/running_databases/" rel="noopener noreferrer" target="_blank"><span>Running databases on AWS</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>. </p>
+		</li></ul></div>
+		<h2 id="Welcome.Concepts.on-prem">Advantages of Amazon RDS</h2>
+		<p>Amazon RDS is a managed database service. It's responsible for most management tasks. By
+			eliminating tedious manual processes, Amazon RDS frees you to focus on your application and
+			your users. </p>
+		<p>Amazon RDS provides the following principal advantages over database deployments that aren't
+			fully managed:</p>
+		<div class="itemizedlist">
+			 
+			 
+			 
+			 
+			 
+		<ul class="itemizedlist"><li class="listitem">
+				<p>You can use database engines that you are already familiar with: IBM Db2, MariaDB,
+					Microsoft SQL Server, MySQL, Oracle Database, and PostgreSQL.</p>
+			</li><li class="listitem">
+				<p>Amazon RDS manages backups, software patching, automatic failure detection, and
+					recovery.</p>
+			</li><li class="listitem">
+				<p>You can turn on automated backups, or manually create your own backup
+					snapshots. You can use these backups to restore a database. The Amazon RDS restore
+					process works reliably and efficiently.</p>
+			</li><li class="listitem">
+				<p>You can get high availability with a primary DB instance and a synchronous secondary
+					DB instance that you can fail over to when problems occur. You can also use read
+					replicas to increase read scaling.</p>
+			</li><li class="listitem">
+				<p>In addition to the security in your database package, you can control access by using
+					AWS Identity and Access Management (IAM) to define users and permissions. You can also help protect
+					your databases by putting them in a virtual private cloud (VPC).</p>
+			</li></ul></div>
+	 
+		<h2 id="Welcome.Concepts.comparison">Comparison of responsibilities with Amazon EC2 and on-premises deployments</h2>
+		<p>We recommend Amazon RDS as your default choice for most relational database deployments.
+			The following alternatives have the disadvantage of making you spend more time managing
+			software and hardware:</p>
+		<div class="variablelist">
+			 
+			 
+		<dl>
+				<dt><span class="term"><b>On-premises deployment</b></span></dt>
+				<dd>
+					<p>When you buy an on-premises server, you get CPU, memory, storage, and
+						IOPS, all bundled together. You assume full responsibility for the server,
+						operating system, and database software.</p>
+				</dd>
+			 
+				<dt><span class="term"><b>Amazon EC2</b></span></dt>
+				<dd>
+					<p>Amazon Elastic Compute Cloud (Amazon EC2) provides scalable computing capacity in the AWS Cloud.
+						Unlike in an on-premises server, CPU, memory, storage, and IOPS are
+						separated so that you can scale them independently. AWS manages the
+						hardware layers, which eliminates some of the burden of managing an
+						on-premises database server.</p>
+					<p>The disadvantage to running a database on Amazon EC2 is that you're more prone to user errors.
+						For example, when you update the operating system or database software
+						manually, you might accidentally cause application downtime. You might spend
+						hours checking every change to identify and fix an issue.</p>
+				</dd>
+			</dl></div>
+		<p>The following table compares the management models for on-premises databases, Amazon EC2,
+			and Amazon RDS.</p>
+		<div class="table-container"><div class="table-contents"><table id="w1574aab5c13b9"><thead>
+					<tr>
+						<th>
+							<p>Feature</p>
+						</th>
+						<th>
+							<p>On-premises management</p>
+						</th>
+						<th>
+							<p>Amazon EC2 management</p>
+						</th>
+						<th>
+							<p>Amazon RDS management</p>
+						</th>
+					</tr>
+				</thead>
+					<tr>
+						<td tabindex="-1">
+							<p>Application optimization</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">Customer</td>
+					</tr>
+					<tr>
+						<td tabindex="-1">
+							<p>Scaling</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+					</tr>
+					<tr>
+						<td tabindex="-1">
+							<p>High availability</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+					</tr>
+					<tr>
+						<td tabindex="-1">
+							<p>Database backups</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+					</tr>
+					<tr>
+						<td tabindex="-1">
+							<p>Database software patching</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+					</tr>
+					<tr>
+						<td tabindex="-1">
+							<p>Database software install</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+					</tr>
+					<tr>
+						<td tabindex="-1">
+							<p>Operating system (OS) patching</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+					</tr>
+					<tr>
+						<td tabindex="-1">
+							<p>OS installation</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+					</tr>
+					<tr>
+						<td tabindex="-1">
+							<p>Server maintenance</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+					</tr>
+					<tr>
+						<td tabindex="-1">
+							<p>Hardware lifecycle</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+					</tr>
+					<tr>
+						<td tabindex="-1">
+							<p>Power, network, and cooling</p>
+						</td>
+						<td tabindex="-1">
+							<p>Customer</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+						<td tabindex="-1">
+							<p>AWS</p>
+						</td>
+					</tr>
+				</table></div></div>
+	 
+	<h2 id="Welcome.Concepts.SharedResponsibility">Amazon RDS shared responsibility model</h2>
+	<p>Amazon RDS is responsible for hosting the software components and infrastructure of DB instances and
+		DB clusters. You are responsible for query tuning, which is the process of adjusting SQL queries
+		to improve performance. Query performance is highly dependent on database design, data size,
+		data distribution, application workload, and query patterns, which can vary greatly.
+		Monitoring and tuning are highly individualized processes that you own for your RDS
+		databases. You can use Amazon RDS Performance Insights and other tools to identify problematic
+		queries.</p>
+ 
+	<h2 id="Welcome.Concepts.DBInstance">Amazon RDS DB instances</h2>	
+	<p>A <em>DB instance</em> is an isolated database environment in the
+		AWS Cloud. The basic building block of Amazon RDS is the DB instance. Your DB instance can contain one or
+		more user-created databases. The following diagram shows a virtual private cloud (VPC) that
+		contains two Availability Zones, with each AZ containing two DB instances.</p>
+	<div class="mediaobject">
+		 
+			<img src="/images/AmazonRDS/latest/UserGuide/images/db-instances.png" class="aws-docs-img-whiteBg aws-docs-img-padding" alt="Shows a VPC that spans two Availability Zones. Each AZ hosts two DB instances." style="max-width:75%" />
+		 
+		 
+	</div>
+	<p>You can access your DB instances by using the same tools and applications that you use with a
+		standalone database instance. You can create and modify a DB instance by using the AWS Command Line Interface
+		(AWS CLI), the Amazon RDS API, or the AWS Management Console.</p>
+	<div class="highlights" id="inline-topiclist"><h6>Topics</h6><ul><li><p><a href="#Welcome.Concepts.DBInstance.architecture">Amazon RDS application architecture: example</a></p></li><li><p><a href="#Welcome.Concepts.DBInstance.engine">DB engines</a></p></li><li><p><a href="#Welcome.Concepts.DBInstance.instance-class">DB instance classes</a></p></li><li><p><a href="#Welcome.Concepts.DBInstance.storage">DB instance storage</a></p></li><li><p><a href="#Welcome.Concepts.DBInstance.VPC">DB instances in an Amazon Virtual Private Cloud (Amazon VPC)</a></p></li></ul></div>
+	 
+		<h3 id="Welcome.Concepts.DBInstance.architecture">Amazon RDS application architecture: example</h3>
+		<p>The following image shows a typical use case of a dynamic website that uses Amazon RDS
+			DB instances for database storage:</p>
+		<div class="mediaobject">
+			 
+				<img src="/images/AmazonRDS/latest/UserGuide/images/aws-cloud-deployment-architecture.png" class="aws-docs-img-whiteBg aws-docs-img-padding" alt="Shows a Region that contains a VPC containing two Availability Zones. Each AZ contains an application server and DB instance. An Elastic Load Balancer forwards user requests to the application servers." style="max-width:100%" />
+			 
+			 
+		</div>
+		<p>The primary components of the preceding architecture are as follows:</p>
+		<div class="variablelist">
+			 
+			 
+			 
+		<dl>
+				<dt><span class="term"><b>Elastic Load Balancing</b></span></dt>
+				<dd>
+					<p>AWS routes user traffic through Elastic Load Balancing. A load balancer
+						distributes workloads across multiple compute resources, such as virtual
+						servers. In this sample use case, the Elastic Load Balancer forwards client
+						requests to application servers.</p>
+				</dd>
+			 
+				<dt><span class="term"><b>Application servers</b></span></dt>
+				<dd>
+					<p>Application servers interact with RDS DB instances. An application server in
+						AWS is typically hosted on EC2 instances, which provide scalable computing
+						capacity. The application servers reside in public subnets with different
+						Availability Zones (AZs) within the same Virtual Private Cloud (VPC).
+						</p>
+				</dd>
+			 
+				<dt><span class="term"><b>RDS DB instances</b></span></dt>
+				<dd>
+					<p>The EC2 application servers interact with RDS DB instances. The DB instances reside in
+						private subnets within different Availability Zones (AZs) within the same
+						Virtual Private Cloud (VPC). Because the subnets are private, no requests
+						from the internet are permitted. </p>
+					<p>The primary DB instance replicates to another DB instance, called a <em class="glossterm">read
+							replica</em>. Both DB instances are in private subnets within the VPC,
+						which means that Internet users can't access them directly.</p>
+				</dd>
+			</dl></div>
+	 
+	 
+		<h3 id="Welcome.Concepts.DBInstance.engine">DB engines</h3>
+		<p>A <em>DB engine</em> is the specific relational database software
+			that runs on your DB instance. Amazon RDS supports the following database engines:</p>
+		<div class="itemizedlist">
+             
+			 
+			 
+			 
+			 
+			 
+		<ul class="itemizedlist"><li class="listitem">
+            	<p>IBM Db2</p>
+				<p>For more information, see <a href="./CHAP_Db2.html">Amazon RDS for Db2</a>.</p>
+            </li><li class="listitem">
+				<p>MariaDB</p>
+				<p>For more information, see <a href="./CHAP_MariaDB.html">Amazon RDS for MariaDB</a>.</p>
+			</li><li class="listitem">
+				<p>Microsoft SQL Server</p>
+				<p>For more information, see <a href="./CHAP_SQLServer.html">Amazon RDS for Microsoft SQL Server</a>.</p>
+			</li><li class="listitem">
+				<p>MySQL</p>
+				<p>For more information, see <a href="./CHAP_MySQL.html">Amazon RDS for MySQL</a>.</p>
+			</li><li class="listitem">
+				<p>Oracle Database</p>
+				<p>For more information, see <a href="./CHAP_Oracle.html">Amazon RDS for Oracle</a>.</p>
+			</li><li class="listitem">
+				<p>PostgreSQL</p>
+				<p>For more information, see <a href="./CHAP_PostgreSQL.html">Amazon RDS for PostgreSQL</a>.</p>
+			</li></ul></div>
+		<p>Each DB engine has its own supported features, and each version of a DB engine can include
+			specific features. Support for Amazon RDS features varies across AWS Regions and specific
+			versions of each DB engine. To check feature support in different engine versions and
+			Regions, see <a href="./Concepts.RDSFeaturesRegionsDBEngines.grids.html">Supported features in Amazon RDS by AWS Region and DB engine</a>.</p>
+		<p>Additionally, each DB engine has a set of parameters in a DB parameter group that control the behavior of the
+			databases that it manages. For more information about parameter groups, see <a href="./USER_WorkingWithParamGroups.html">Parameter groups for Amazon RDS</a>.</p>		
+	 	
+	 
+		<h3 id="Welcome.Concepts.DBInstance.instance-class">DB instance classes</h3>
+		<p>A <em>DB instance class</em> determines the computation and memory
+			capacity of a DB instance. A DB instance class consists of both the DB instance class type and the size.
+			Amazon RDS supports the following instance class types, where the asterisk (*) represents the
+			generation, optional attribute, and size:</p>
+		<div class="itemizedlist">
+			 
+			 
+			 
+			 
+		<ul class="itemizedlist"><li class="listitem">
+				<p>General purpose – db.m*</p>
+			</li><li class="listitem">
+				<p>Memory optimized – db.z*, db.x*, db.r*</p>
+			</li><li class="listitem">
+				<p>Compute optimized – db.c*</p>
+			</li><li class="listitem">
+				<p>Burstable performance – db.t*</p>
+			</li></ul></div>
+		<p>Each instance class offers different compute, memory, and storage capabilities. For example,
+			db.m7g is a 7th-generation, general-purpose DB instance class type powered by AWS Graviton3
+			processors. When you create a DB instance, you specify a DB instance class such as
+			db.m7g.2xlarge, where 2xlarge is the size. For more information about the hardware
+			specifications for the different instance classes, see <a href="./Concepts.DBInstanceClass.Summary.html">Hardware specifications for DB instance classes</a>.</p>
+		<p>You can select the DB instance class that best meets your requirements. If your requirements
+			change over time, you can change your DB instance class. For example, you might scale up your
+			db.m7g.2xlarge instance to db.m7g.4xlarge. For more information, see <a href="./Concepts.DBInstanceClass.html">DB instance classes</a>.</p>
+		<div class="awsdocs-note"><div class="awsdocs-note-title"><awsui-icon name="status-info" variant="link"></awsui-icon><h6>Note</h6></div><div class="awsdocs-note-text"><p>For pricing information on DB instance classes, see the Pricing section of the <a href="http://aws.amazon.com/rds/" rel="noopener noreferrer" target="_blank"><span>Amazon RDS</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>
+				product page.</p></div></div>
+	 
+	 
+		<h3 id="Welcome.Concepts.DBInstance.storage">DB instance storage</h3>
+		<p>Amazon EBS provides durable, block-level storage volumes that you can attach to a running
+			instance. DB instance storage comes in the following types:</p>
+		<div class="itemizedlist">
+			 
+			 
+			 
+		<ul class="itemizedlist"><li class="listitem">
+				<p>General Purpose (SSD)</p>
+				<p>This cost-effective storage type is ideal for a broad range of workloads
+					running on medium-sized DB instances. General Purpose storage is best suited for
+					development and testing environments.</p>
+			</li><li class="listitem">
+				<p>Provisioned IOPS (PIOPS)</p>
+				<p>This storage type is designed to meet the needs of I/O-intensive workloads,
+					particularly database workloads, that require low I/O latency and consistent I/O
+					throughput. Provisioned IOPS storage is best suited for production
+					environments.</p>
+			</li><li class="listitem">
+				<p>Magnetic</p>
+				<p>Amazon RDS supports magnetic storage for backward compatibility. We recommend
+					that you use General Purpose SSD or Provisioned IOPS SSD for any new storage
+					needs. </p>
+			</li></ul></div>
+		<p>The storage types differ in performance characteristics and price. You can tailor your
+			storage performance and cost to the requirements of your database. </p>
+		<p>Each DB instance has minimum and maximum storage requirements depending on the storage type and
+			the database engine it supports. It's important to have sufficient storage so that
+			your databases have room to grow. Also, sufficient storage makes sure that features for
+			the DB engine have room to write content or log entries. For more information, see <a href="./CHAP_Storage.html">Amazon RDS DB instance storage</a>.</p>
+	 
+	 
+		<h3 id="Welcome.Concepts.DBInstance.VPC">DB instances in an Amazon Virtual Private Cloud (Amazon VPC)</h3>
+		
+		<p>You can run a DB instance on a virtual private cloud (VPC) using the Amazon Virtual Private Cloud (Amazon VPC) service.
+			When you use a VPC, you have control over your virtual networking environment. You can
+			choose your own IP address range, create subnets, and configure routing and access
+			control lists. </p>
+		<p>The basic functionality of Amazon RDS is the same whether it's running in a VPC or
+			not. Amazon RDS manages backups, software patching, automatic failure detection, and
+			recovery. There's no additional cost to run your DB instance in a VPC. For more
+			information on using Amazon VPC with RDS, see <a href="./USER_VPC.html">Amazon VPC and Amazon RDS</a>. </p>
+		
+		<p>Amazon RDS uses Network Time Protocol (NTP) to synchronize the time on DB instances.</p>
+	 
+ 
+	<h2 id="Welcome.Concepts.Regions">AWS Regions and Availability Zones</h2>
+	
+	<p>Amazon cloud computing resources are housed in highly available data center facilities in
+		different areas of the world (for example, North America, Europe, or Asia). Each data center
+		location is called an AWS Region. With Amazon RDS, you can create your DB instances in multiple
+		Regions.</p>
+	<p>The following scenario shows an RDS DB instance in one Region that replicates asynchronously to a
+		standby DB instance in a different Region. If one Region becomes unavailable, the instance in the
+		other Region is still available.</p>
+	<div class="mediaobject">
+		 
+			<img src="/images/AmazonRDS/latest/UserGuide/images/read-replica-cross-region.png" class="aws-docs-img-whiteBg aws-docs-img-padding" alt="Cross-Region read replica configuration" style="max-width:100%" />
+		 
+		 
+	</div>
+	 
+		<h3 id="Welcome.Concepts.Regions.AZ">Availability Zones</h3>
+		<p>Each AWS Region contains multiple distinct locations called Availability Zones, or AZs.
+			Each Availability Zone is engineered to be isolated from failures in other Availability
+			Zones. Each is engineered to provide inexpensive, low-latency network connectivity to
+			other Availability Zones in the same AWS Region. By launching DB instances  in separate
+			Availability Zones, you can protect your applications from the failure of a single
+			location. For more information, see <a href="./Concepts.RegionsAndAvailabilityZones.html">Regions, Availability Zones, and Local Zones</a>.</p>
+	 
+	 
+		<h3 id="Welcome.Concepts.Regions.MAZ">Multi-AZ deployments</h3>
+		<p>You can run your DB instance in several Availability Zones, an option called a Multi-AZ deployment. When you
+			choose this option, Amazon automatically provisions and maintains one or more secondary
+			standby DB instances in a different AZ. Your primary DB instance is replicated across Availability
+			Zones to each secondary DB instance.</p>
+		<p>A Multi-AZ deployment provides the following advantages:</p>
+		<div class="itemizedlist">
+			 
+			 
+			 
+			 
+		<ul class="itemizedlist"><li class="listitem">
+				<p>Providing data redundancy and failover support</p>
+			</li><li class="listitem">
+				<p>Eliminating I/O freezes</p>
+			</li><li class="listitem">
+				<p>Minimizing latency spikes during system backups</p>
+			</li><li class="listitem">
+				<p>Serving read traffic on secondary DB instances (Multi-AZ DB clusters deployment only)</p>
+			</li></ul></div>
+		<p>The following diagram depicts a Multi-AZ DB instance deployment, where Amazon RDS automatically
+			provisions and maintains a synchronous standby replica in a different Availability Zone.
+			The replica database doesn't serve read traffic.</p>
+		<div class="mediaobject">
+			 
+				<img src="/images/AmazonRDS/latest/UserGuide/images/con-multi-AZ.png" class="aws-docs-img-whiteBg aws-docs-img-padding" alt="High availability scenario for a Multi-AZ instance deployment" style="max-width:75%" />
+			 
+			 
+		</div>
+		<p>The following diagram depicts a Multi-AZ DB cluster deployment, which has a writer
+			DB instance and two reader DB instances in three separate Availability Zones in the same
+			AWS Region. All three DB instances can serve read traffic.</p>
+		<div class="mediaobject">
+			 
+				<img src="/images/AmazonRDS/latest/UserGuide/images/multi-az-db-cluster.png" class="aws-docs-img-whiteBg aws-docs-img-padding" alt="High availability scenario for a Multi-AZ cluster deployment" style="max-width:75%" />
+			 
+			 
+		</div>
+		<p>For more information, see <a href="./Concepts.MultiAZ.html">Configuring and managing a Multi-AZ deployment for Amazon RDS</a>.</p>
+	 
+ 
+	<h2 id="Welcome.Concepts.SecurityGroups">Access control with security groups</h2>
+	<p>A <em>security group </em>controls the access to a DB instance by
+		allowing access to IP address ranges or Amazon EC2 instances that you specify. You can apply a
+		security group to one or more DB instances.</p>
+	
+	<p>A common use of a DB instance in a VPC is to share data with an application server in the same VPC.
+		The following example uses VPC security group <code class="code">ec2-rds-<em>x</em></code> to define inbound rules that use the IP addresses of the client
+		application as the source. The application server belongs to this security group. A second
+		security group named <code class="code">rds-ec2-<em>x</em></code> specifies
+				<code class="code">ec2-rds-<em>x</em></code> as the source and attaches
+		to an RDS DB instance. According to the security group rules, client applications can't directly
+		access the DB instance, but the EC2 instance can access the DB instance.</p>
+	
+	<div class="mediaobject">
+		
+		 
+			<img src="/images/AmazonRDS/latest/UserGuide/images/con-VPC-sec-grp.png" class="aws-docs-img-whiteBg aws-docs-img-padding" alt="DB instance and EC2 instance in a VPC" />
+		 
+		
+		
+		 
+	</div>
+	<p>For more information about security groups, see <a href="./UsingWithRDS.html">Security in Amazon RDS </a>.</p>
+	
+ 
+	<h2 id="Welcome.Monitoring">Amazon RDS monitoring</h2>
+	<p>Monitoring is an important part of maintaining the reliability, availability, and
+		performance of <span>Amazon RDS</span> and your other AWS solutions. AWS provides various monitoring
+		tools to watch Amazon RDS, report when something is wrong, and take automatic actions when
+		appropriate.</p>
+	<p>You can track the performance and health of your DB instances using various automated and manual
+		tools:</p>
+	<div class="variablelist">
+		 
+		 
+		 
+		 
+	<dl>
+			<dt><span class="term"><b>Amazon RDS DB instance status and recommendations</b></span></dt>
+			<dd>
+				<p>View details about the current status of your <span>instance</span> by using the Amazon RDS console, AWS CLI, or RDS API. You can
+					also respond to automated recommendations for database resources, such as
+					DB instances, <span>read replicas, </span>and DB parameter groups. For
+					more information, see <a href="./monitoring-recommendations.html">Recommendations from Amazon RDS</a>.</p>
+			</dd>
+		 
+			<dt><span class="term"><b>Amazon CloudWatch metrics for Amazon RDS</b></span></dt>
+			<dd>
+				<p>You can use the Amazon CloudWatch service to monitor the performance and health of a
+					DB instance. CloudWatch performance charts are shown in the Amazon RDS console. Amazon RDS
+					automatically sends metrics to CloudWatch every minute for each active database. You
+					don't get additional charges for Amazon RDS metrics in CloudWatch.</p>
+				<p>Using Amazon CloudWatch alarms, you can watch a single Amazon RDS metric over a specific
+					time period. You can then perform one or more actions based on the value of the
+					metric relative to a threshold that you set. For more information, see <a href="./monitoring-cloudwatch.html">Monitoring Amazon RDS metrics with Amazon CloudWatch</a>.</p>
+			</dd>
+		 
+			<dt><span class="term"><b>Amazon RDS Performance Insights and operating-system monitoring</b></span></dt>
+			<dd>
+				<p>Performance Insights assesses the load on your database, and determine when
+					and where to take action. For more information, see <a href="./USER_PerfInsights.html">Monitoring DB load with Performance Insights on Amazon RDS</a>. Amazon RDS
+					Enhanced Monitoring looks at metrics in real time for the operating system. For
+					more information, see <a href="./USER_Monitoring.OS.html">Monitoring OS metrics with Enhanced Monitoring</a>.</p>
+			</dd>
+		 
+			<dt><span class="term"><b>Integrated AWS services</b></span></dt>
+			<dd>
+				<p>Amazon RDS is integrated with Amazon EventBridge, Amazon CloudWatch Logs, and Amazon DevOps Guru. For more
+					information, see <a href="./CHAP_Monitoring.html">Monitoring metrics in an Amazon RDS instance</a>. </p>
+			</dd>
+		</dl></div>
+ 
+	<h2 id="Welcome.Interfaces">User interfaces to Amazon RDS</h2>
+	
+	<p>You can interact with Amazon RDS in multiple ways.</p>
+	<div class="highlights" id="inline-topiclist"><h6>Topics</h6><ul><li><p><a href="#Welcome.Interfaces.Console">AWS Management Console</a></p></li><li><p><a href="#Welcome.Interfaces.CLI">Command line interface</a></p></li><li><p><a href="#Welcome.Interfaces.API">Amazon RDS APIs</a></p></li></ul></div>
+	
+	
+	 
+		<h3 id="Welcome.Interfaces.Console">AWS Management Console</h3>
+		
+		<p>The AWS Management Console is a simple web-based user interface. You can manage your DB instances from the console 
+			with no programming required. To access the Amazon RDS console, sign in to the AWS Management Console and open the Amazon RDS console at 
+			<a href="https://console.aws.amazon.com/rds/" rel="noopener noreferrer" target="_blank"><span>https://console.aws.amazon.com/rds/</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>.
+		</p>
+		<div class="mediaobject">
+			  
+				<img src="/images/AmazonRDS/latest/UserGuide/images/rds_console.png" class="aws-docs-img-whiteBg aws-docs-img-padding" alt="Home page of the RDS console. The left panel includes links for Dashboard, Databases, and so on. The central panel lists resources such as DB instances." style="max-width:75%" />
+			 
+			 
+		</div>
+	 
+	
+	
+	 
+		<h3 id="Welcome.Interfaces.CLI">Command line interface</h3>
+		
+		<p>You can use the AWS Command Line Interface (AWS CLI) to access the Amazon RDS API interactively.
+			To install the AWS CLI, see 
+			<a href="https://docs.aws.amazon.com/cli/latest/userguide/installing.html">Installing the AWS Command Line Interface</a>.
+			To begin using the AWS CLI for RDS, see			    
+			<a href="https://docs.aws.amazon.com/cli/latest/reference/rds/index.html">AWS Command Line Interface reference for Amazon RDS</a>.
+		</p>
+	 
+	
+	
+	 
+		<h3 id="Welcome.Interfaces.API">Amazon RDS APIs</h3>
+		
+		<p>If you are a developer, you can access the Amazon RDS programmatically using APIs. For more
+			information, see <a href="./ProgrammingGuide.html">Amazon RDS API reference</a>. </p>
+		
+		<p>For application development, we recommend that you use one of the AWS Software
+			Development Kits (SDKs). The AWS SDKs handle low-level details such as
+			authentication, retry logic, and error handling, so that you can focus on your
+			application logic. AWS SDKs are available for a wide variety of languages. For
+			more information, see <a href="https://aws.amazon.com/tools/" rel="noopener noreferrer" target="_blank"><span>Tools for Amazon web
+				services </span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>.
+		</p>
+		
+		<p>AWS also provides libraries, sample code, tutorials, and other resources to help you get
+			started more easily. For more information, see <a href="https://aws.amazon.com/code" rel="noopener noreferrer" target="_blank"><span>Sample code &amp; libraries</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>.
+		</p>
+		
+	 	
+ 
+	<h2 id="Welcome.Costs">How you are charged for Amazon RDS</h2>
+	
+	<p>When you use Amazon RDS, you can choose to use on-demand DB instances or reserved DB instances.
+		For more information, see <a href="./User_DBInstanceBilling.html">DB instance billing for Amazon RDS </a>. </p>
+	
+	<p>For Amazon RDS pricing information, see the <a href="https://aws.amazon.com/rds/pricing" rel="noopener noreferrer" target="_blank"><span>Amazon RDS product page</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>.</p>
+	
+ 
+    <h2 id="free-tier-limitations">AWS Free Tier on <span>Amazon RDS</span></h2>
+    
+
+    
+    <p>You can use AWS Free Tier on <span>Amazon RDS</span> with the following engines and DB instance classes:</p>
+    <div class="itemizedlist">
+         
+         
+    <ul class="itemizedlist"><li class="listitem">
+            <p><b>Engine types</b> – MariaDB, MySQL, PostgreSQL,
+                or SQL Server Express Edition</p>
+        </li><li class="listitem">
+            <p><b>DB instance classes</b>
+            </p>
+            <div class="itemizedlist">
+                 
+                 
+            <ul class="itemizedlist"><li class="listitem">
+                    <p><b>t3.micro</b> – For all engine
+                        types</p>
+                </li><li class="listitem">
+                    <p><b>t4g.micro</b> – For all engine types
+                        except SQL Server Express Edition</p>
+                </li></ul></div>
+        </li></ul></div>
+    <p>You can't use the following features, resources, and actions with AWS Free Tier on
+            <span>Amazon RDS</span>:</p>
+    <div class="itemizedlist">
+         
+         
+         
+         
+         
+         
+    <ul class="itemizedlist"><li class="listitem">
+            <p>Amazon RDS custom engine options</p>
+        </li><li class="listitem">
+            <p>Reserved DB instances</p>
+        </li><li class="listitem">
+            <p>Deployment options other than Single-AZ</p>
+        </li><li class="listitem">
+            <p>Migrating snapshots</p>
+        </li><li class="listitem">
+            <p>Query editor</p>
+        </li><li class="listitem">
+            <p>Creating Aurora read replicas</p>
+        </li></ul></div>
+    <p>These limitations are subject to change as the AWS Free Tier
+        program evolves. For more information about AWS Free Tier, see <a href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/free-tier.html">Explore AWS services with
+            AWS Free Tier</a>. For more information about Amazon RDS Free Tier, see <a href="https://aws.amazon.com/rds/free/" rel="noopener noreferrer" target="_blank"><span>Amazon RDS Free Tier</span><awsui-icon class="awsdocs-link-icon" name="external"></awsui-icon></a>.</p>
+
+    <p>If you were an AWS Free Tier customer before July 17, 2025, you can
+        continue to use Amazon RDS Free Tier until the 12 months of your free usage expires. During this
+        time period, you remain eligible for the following usage:</p>
+    <div class="itemizedlist">
+         
+         
+    <ul class="itemizedlist"><li class="listitem">
+            <p>750 hours each month of Single-AZ db.t3.micro and db.t4g.micro instance classes
+                running MySQL, MariaDB, or PostgreSQL on Amazon RDS</p>
+        </li><li class="listitem">
+            <p>750 hours each month of a db.t3.micro instance class running SQL Server Express
+                Edition on Amazon RDS</p>
+        </li></ul></div>
+    <p>After July 17, 2025, any new AWS Free Tier resources that you
+        create on AWS will use the new AWS Free Tier offering.</p>
+
+ 
+	<h2 id="Welcome.WhatsNext">What's next?</h2>
+	
+	<p>The preceding section introduced you to the basic infrastructure components that RDS offers.
+		What should you do next?
+	</p>
+	
+	
+	 
+		<h3 id="Welcome.WhatsNext.GettingStarted">Getting started</h3>
+		
+		<p>Create a DB instance using instructions in <a href="./CHAP_GettingStarted.html">Getting started with Amazon RDS</a>. </p>
+	 
+	
+	
+	 
+		<h3 id="Welcome.WhatsNext.DBTopics">Topics specific to database engines</h3>
+		
+		<p>You can review information specific to a particular DB engine in the following sections:</p>
+		
+		<div class="itemizedlist">
+		     
+			 
+			 
+			 
+			 
+			 
+		<ul class="itemizedlist"><li class="listitem"><p><a href="./CHAP_Db2.html">Amazon RDS for Db2</a></p></li><li class="listitem"><p><a href="./CHAP_MariaDB.html">Amazon RDS for MariaDB</a></p></li><li class="listitem"><p><a href="./CHAP_SQLServer.html">Amazon RDS for Microsoft SQL Server</a></p></li><li class="listitem"><p><a href="./CHAP_MySQL.html">Amazon RDS for MySQL</a></p></li><li class="listitem"><p><a href="./CHAP_Oracle.html">Amazon RDS for Oracle</a></p></li><li class="listitem"><p><a href="./CHAP_PostgreSQL.html">Amazon RDS for PostgreSQL</a></p></li></ul></div>
+	 
+	
+<awsdocs-copyright class="copyright-print"></awsdocs-copyright><awsdocs-thumb-feedback right-edge="{{$ctrl.thumbFeedbackRightEdge}}"></awsdocs-thumb-feedback></div><noscript><div><div><div><div id="js_error_message"><p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="Warning" /> <strong>Javascript is disabled or is unavailable in your browser.</strong></p><p>To use the Amazon Web Services Documentation, Javascript must be enabled. Please refer to your browser's Help pages for instructions.</p></div></div></div></div></noscript><div id="main-col-footer" class="awsui-util-font-size-0"><div id="doc-conventions"><a target="_top" href="/general/latest/gr/docconventions.html">Document Conventions</a></div><div class="prev-next"><div id="next" class="next-link" accesskey="n" href="./Overview.DBInstance.html">DB instances</div></div></div><awsdocs-page-utilities></awsdocs-page-utilities></div><div id="quick-feedback-yes" style="display: none;"><div class="title">Did this page help you? - Yes</div><div class="content"><p>Thanks for letting us know we're doing a good job!</p><p>If you've got a moment, please tell us what we did right so we can do more of it.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=RDS&amp;topic_url=https://docs.aws.amazon.com/en_us/AmazonRDS/latest/UserGuide/Welcome.html"></awsui-button></p></div></div><div id="quick-feedback-no" style="display: none;"><div class="title">Did this page help you? - No</div><div class="content"><p>Thanks for letting us know this page needs work. We're sorry we let you down.</p><p>If you've got a moment, please tell us how we can make the documentation better.</p><p><awsui-button id="fblink" rel="noopener noreferrer" target="_blank" text="Feedback" click="linkClick($event)" href="https://docs.aws.amazon.com/forms/aws-doc-feedback?hidden_service_name=RDS&amp;topic_url=https://docs.aws.amazon.com/en_us/AmazonRDS/latest/UserGuide/Welcome.html"></awsui-button></p></div></div></div></body></div></awsdocs-view><div class="page-loading-indicator" id="page-loading-indicator"><awsui-spinner size="large"></awsui-spinner></div></div><div id="tools-panel" dom-region="tools"><awsdocs-tools-panel id="awsdocs-tools-panel"></awsdocs-tools-panel></div></awsui-app-layout><awsdocs-cookie-banner class="doc-cookie-banner"></awsdocs-cookie-banner></div></body></html>
