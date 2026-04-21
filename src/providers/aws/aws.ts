@@ -1,5 +1,5 @@
 import type { CheerioAPI, Cheerio } from 'cheerio';
-import type { DocProvider, TocNode } from './types.ts';
+import type { DocProvider, TocNode } from '../types.ts';
 
 export const awsProvider: DocProvider = {
   name: 'aws',
