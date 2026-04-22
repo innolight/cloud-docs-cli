@@ -162,6 +162,38 @@ describe('run — delay behaviour', () => {
   });
 });
 
+// ─── Ancestor directory threading ────────────────────────────────────────────
+
+describe('run — nested leaf gets correct subdirectory path', () => {
+  it('places a leaf page inside its ancestor section directory', async () => {
+    const NESTED_TREE: TocNode[] = [
+      { title: 'Intro', href: 'Intro.html', children: [] },
+      {
+        title: 'Networking',
+        href: null,
+        children: [{ title: 'Concepts', href: 'Concepts.html', children: [] }],
+      },
+    ];
+    vi.mocked(fetchToc).mockResolvedValue(NESTED_TREE);
+
+    const deps = makeDeps({
+      fetchPage: vi.fn().mockImplementation((url: string) => {
+        if (url.includes('Concepts.html')) return Promise.resolve(PAGE_HTML('Concepts'));
+        return Promise.reject(new Error(`Unexpected URL: ${url}`));
+      }),
+    });
+
+    const CONCEPTS_URL = 'https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/Concepts.html';
+    await run({ url: CONCEPTS_URL, outDir: '/virtual', delayMs: 0, deps });
+
+    const mdPaths = [...deps.written.keys()].filter((k) => k.endsWith('.md'));
+    // Must be nested inside 02-Networking directory (Networking is 2nd top-level item)
+    expect(mdPaths.some((p) => p.match(/02-Networking[/\\]01-Concepts\.md$/))).toBe(true);
+    // Must NOT be at the guide root
+    expect(mdPaths.some((p) => p.match(/UserGuide[/\\]01-Concepts\.md$/))).toBe(false);
+  });
+});
+
 // ─── content.yaml shape ───────────────────────────────────────────────────────
 
 describe('run — content.yaml serialisation', () => {

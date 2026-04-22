@@ -6,7 +6,7 @@ import { pickProvider } from './providers/registry.ts';
 import { fetchToc, resolveSubtree } from './toc.ts';
 import { fetchText, fetchWithRetry } from './net.ts';
 import { htmlToMarkdown } from './scrape.ts';
-import { ensureDir as fsEnsureDir, exists as fsExists } from './fs-util.ts';
+import { ensureDir as fsEnsureDir, exists as fsExists, sanitize } from './fs-util.ts';
 import { buildFileTree, fileNodeToSerial } from './naming.ts';
 
 interface Stats {
@@ -51,7 +51,7 @@ export async function run(opts: RunOptions): Promise<Stats> {
   const tree = await fetchToc(provider, url, deps.fetchText);
   const startHref = provider.startHref(url);
   const fallbackTitle = url.pathname.replace(/\/$/, '').split('/').pop() ?? 'guide';
-  const { subtree, prefix } = resolveSubtree(tree, startHref, fallbackTitle);
+  const { subtree, prefix, ancestors } = resolveSubtree(tree, startHref, fallbackTitle);
 
   const pageBaseUrl = new URL(url.href);
   // Drop the filename so we can resolve relative hrefs from the TOC.
@@ -61,7 +61,13 @@ export async function run(opts: RunOptions): Promise<Stats> {
   const guideDir = path.join(opts.outDir, provider.guideDir(url));
   await deps.ensureDir(guideDir);
 
-  const fileTree = buildFileTree(subtree, startHref ? guideDir : path.dirname(guideDir), prefix);
+  let baseDir = startHref ? guideDir : path.dirname(guideDir);
+  for (const { node: aNode, prefix: aPrefix } of ancestors) {
+    baseDir = path.join(baseDir, aPrefix + sanitize(aNode.title, 'untitled'));
+  }
+  await deps.ensureDir(baseDir);
+
+  const fileTree = buildFileTree(subtree, baseDir, prefix);
   await walk(fileTree, pageBaseUrl, provider, opts.delayMs ?? 500, stats, deps);
   return stats;
 }

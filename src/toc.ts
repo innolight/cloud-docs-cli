@@ -23,18 +23,24 @@ export function findSubtree(tree: TocNode[], startHref: string): TocNode | null 
   return null;
 }
 
-function findSubtreeWithPosition(
-  tree: TocNode[],
-  startHref: string
-): { node: TocNode; prefix: string } | null {
+interface SubtreeResult {
+  node: TocNode;
+  prefix: string;
+  ancestors: { node: TocNode; prefix: string }[];
+}
+
+function findSubtreeWithPosition(tree: TocNode[], startHref: string): SubtreeResult | null {
   const pad = Math.max(2, String(tree.length).length);
   for (let i = 0; i < tree.length; i++) {
     const node = tree[i]!;
+    const prefix = String(i + 1).padStart(pad, '0') + '-';
     if (node.href === startHref) {
-      return { node, prefix: String(i + 1).padStart(pad, '0') + '-' };
+      return { node, prefix, ancestors: [] };
     }
     const hit = findSubtreeWithPosition(node.children, startHref);
-    if (hit) return hit;
+    if (hit) {
+      return { ...hit, ancestors: [{ node, prefix }, ...hit.ancestors] };
+    }
   }
   return null;
 }
@@ -43,10 +49,14 @@ export function resolveSubtree(
   tree: TocNode[],
   startHref: string,
   fallbackTitle: string
-): { subtree: TocNode; prefix: string } {
+): { subtree: TocNode; prefix: string; ancestors: { node: TocNode; prefix: string }[] } {
   if (!startHref)
-    return { subtree: { title: fallbackTitle, href: null, children: tree }, prefix: '' };
+    return {
+      subtree: { title: fallbackTitle, href: null, children: tree },
+      prefix: '',
+      ancestors: [],
+    };
   const result = findSubtreeWithPosition(tree, startHref);
   if (!result) throw new Error(`Could not find TOC node for href "${startHref}"`);
-  return { subtree: result.node, prefix: result.prefix };
+  return { subtree: result.node, prefix: result.prefix, ancestors: result.ancestors };
 }

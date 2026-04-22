@@ -79,6 +79,37 @@ describe('resolveSubtree — page URL (startHref provided)', () => {
   });
 });
 
+describe('resolveSubtree — ancestors', () => {
+  it('returns empty ancestors when node is at top level', () => {
+    const flat = [leaf('Welcome', 'Welcome.html')];
+    const { ancestors } = resolveSubtree(flat, 'Welcome.html', 'Guide');
+    expect(ancestors).toEqual([]);
+  });
+
+  it('returns parent ancestor for a directly nested match', () => {
+    const nested = [branch('Section', null, [leaf('Page', 'page.html')])];
+    const { ancestors } = resolveSubtree(nested, 'page.html', 'Guide');
+    expect(ancestors).toHaveLength(1);
+    expect(ancestors[0]!.node.title).toBe('Section');
+    expect(ancestors[0]!.prefix).toBe('01-');
+  });
+
+  it('returns full ancestor chain ordered outer-to-inner for a deeply nested match', () => {
+    // tree = [UserGuide → [Welcome, DB Instances → [Overview/CHAP_DBInstance.html]]]
+    const { ancestors } = resolveSubtree(tree, 'CHAP_DBInstance.html', 'Guide');
+    expect(ancestors).toHaveLength(2);
+    expect(ancestors[0]!.node.title).toBe('UserGuide');
+    expect(ancestors[0]!.prefix).toBe('01-'); // only top-level item
+    expect(ancestors[1]!.node.title).toBe('DB Instances');
+    expect(ancestors[1]!.prefix).toBe('02-'); // second child of UserGuide
+  });
+
+  it('returns empty ancestors for the trailing-slash (empty startHref) case', () => {
+    const { ancestors } = resolveSubtree(tree, '', 'UserGuide');
+    expect(ancestors).toEqual([]);
+  });
+});
+
 describe('resolveSubtree — folder URL (empty startHref)', () => {
   it('returns a synthetic root wrapping the whole tree', () => {
     const { subtree } = resolveSubtree(tree, '', 'UserGuide');
