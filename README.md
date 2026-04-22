@@ -178,5 +178,5 @@ The script exits `0` if the outputs are identical, or `1` with a diff summary sh
 3. [ ] Relative internal-link rewriting
 4. [ ] Image download to `assets/`
 5. [ ] Parallel fetching with a configurable concurrency cap
-6. [ ] Azure
+6. [x] Azure
 7. [ ] GCP

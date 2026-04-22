@@ -1,0 +1,30 @@
+{
+  "items": [
+    {
+      "toc_title": "Overview",
+      "href": "intro",
+      "children": [
+        {
+          "toc_title": "Networking concepts",
+          "href": "concepts-network?pivots=azure-portal",
+          "children": []
+        },
+        {
+          "toc_title": "Storage options",
+          "href": "concepts-storage",
+          "children": []
+        }
+      ]
+    },
+    {
+      "toc_title": "Tutorials",
+      "children": [
+        {
+          "toc_title": "Create cluster",
+          "href": "tutorial-kubernetes-deploy-cluster",
+          "children": []
+        }
+      ]
+    }
+  ]
+}
