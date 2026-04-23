@@ -74,12 +74,6 @@ _Note: On macOS, you may need to run `xattr -d com.apple.quarantine cloud-docs` 
 cloud-docs pull <url> [options]
 ```
 
-**Arguments**
-
-| Argument | Description                                      |
-| -------- | ------------------------------------------------ |
-| `<url>`  | URL of any page in the AWS documentation sidebar |
-
 **Options**
 
 | Flag                | Default  | Description                               |
