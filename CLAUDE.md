@@ -13,7 +13,7 @@ bun install                # install dependencies
 bun run build              # bundle into dist/index.js (zero-dependency)
 bun run cli pull <url>     # run dev CLI (tsx src/cli.ts)
 node dist/index.js --help # run bundled CLI
-bun test                   # run tests (vitest)
+bun run test               # run tests (vitest)
 bun run typecheck          # tsc --noEmit
 ```
 

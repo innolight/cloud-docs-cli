@@ -41,7 +41,7 @@ Run the release command with the version bump type (`patch`, `minor`, or `major`
 bun run release patch
 ```
 
-_This command runs typechecks, verifies both the NPM bundle and the binary build, and creates a local git tag._
+_This command runs tests, typechecks, verifies both the NPM bundle and the binary build, and creates a local git tag._
 
 ### 2. Push to GitHub
 

@@ -47,12 +47,25 @@ jobs:
       - name: Install dependencies
         run: bun install
 
-      # Uses Bun's native compiler to create a standalone executable.
+      # We use esbuild to create a node-compatible bundle first.
+      # This handles the 'react-devtools-core' alias correctly (mapping it to an empty object),
+      # which prevents resolution errors in the final standalone binary.
+      - name: Build Node Bundle
+        run: npm run build:node
+
+      # Uses Bun's native compiler to create a standalone executable from the esbuild bundle.
       # The --target flag ensures we cross-compile for the specific matrix platform.
       - name: Build Binary
         run: |
           mkdir -p release
-          bun build ./src/cli.ts --compile --minify --target=bun-${{ matrix.target }} --outfile release/${{ matrix.binary }}
+          bun build ./dist/index.js --compile --minify --target=bun-${{ matrix.target }} --outfile release/${{ matrix.binary }}
+
+      # macOS (Apple Silicon especially) kills unsigned binaries at launch with
+      # SIGKILL. `bun build --compile` embeds a malformed code signature, so we
+      # strip it and apply a fresh ad-hoc signature.
+      - name: Sign Binary (macOS)
+        if: matrix.os == 'macos-latest'
+        run: ./scripts/sign-bin.sh release/${{ matrix.binary }}
 
       # Linux and macOS binaries are wrapped in .tar.gz to preserve executable permissions
       - name: Compress Binary (Linux/macOS)
