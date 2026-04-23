@@ -125,28 +125,25 @@ The CLI mirrors the documentation hierarchy into a directory tree rooted at the 
 
 ## Features & Roadmap
 
-### Core Capabilities
-
-- **[x] Clean Markdown** — Strips noise (navigation, feedback, legal) for pure, searchable documentation.
-- **[x] Hierarchy Preservation** — Mirrors the sidebar with numbered folders to maintain the vendor's logical reading order.
-- **[x] Interactive Docs Tree Browser** — Explore and select specific subtrees for download via a terminal UI.
-- **[x] Resume Support** — Skips existing files to avoid redundant network calls and save bandwidth.
-- **[x] Tabbed Content Handling** — Rewrites vendor-specific `<awsdocs-tabs>` and Azure tabs into readable headers.
-- **[x] RAG & AI Ready** — Optimized for feeding clean context into LLM pipelines and knowledge bases.
-- **[x] Polite Fetching** — Configurable delays and retries with backoff to respect provider limits.
-
 ### Supported Providers
 
-- **[x] AWS** (Amazon Web Services)
-- **[x] Microsoft Azure**
-- **[ ] Google Cloud Platform (GCP)** (Planned)
+- [x] **AWS** (Amazon Web Services)
+- [x] **Microsoft Azure**
+- [ ] **Google Cloud Platform (GCP)** (Planned)
 
-### Future Roadmap
+### Core Capabilities
 
-- **[ ] Dry Run Mode** — Preview the file tree and download plan without writing any files.
-- **[ ] Relative Link Rewriting** — Turn absolute URLs into local `.md` file links for seamless offline navigation.
-- **[ ] Local Image Downloads** — Capture and store images alongside Markdown files.
-- **[ ] Parallel Fetching** — Speed up large downloads with a configurable concurrency cap.
+- [x] **Clean Markdown** — Strips noise (navigation, feedback, legal) for pure, searchable documentation.
+- [x] **Hierarchy Preservation** — Mirrors the sidebar with numbered folders to maintain the vendor's logical reading order.
+- [x] **Interactive Docs Tree Browser** — Explore and select specific subtrees for download via a terminal UI.
+- [x] **Resume Support** — Skips existing files to avoid redundant network calls and save bandwidth.
+- [x] **Tabbed Content Handling** — Rewrites vendor-specific `<awsdocs-tabs>` and Azure tabs into readable headers.
+- [x] **RAG & AI Ready** — Optimized for feeding clean context into LLM pipelines and knowledge bases.
+- [x] **Polite Fetching** — Configurable delays and retries with backoff to respect provider limits.
+- [ ] **Dry Run Mode** — Preview the file tree and download plan without writing any files.
+- [ ] **Relative Link Rewriting** — Turn absolute URLs into local `.md` file links for seamless offline navigation.
+- [ ] **Local Image Downloads** — Capture and store images alongside Markdown files.
+- [ ] **Parallel Fetching** — Speed up large downloads with a configurable concurrency cap.
 
 ## Development
 
