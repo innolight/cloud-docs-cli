@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Behavioural Guidelines
+
+- **Must use Test Driven Development.** Write a failing test first, confirm it fails, then write the minimum code to make it pass. Do not write implementation code before there is a test that requires it.
+
 ## Commands
 
 ```sh
@@ -20,9 +24,11 @@ bun run typecheck          # tsc --noEmit
 ```
 URL
  → pickProvider(url)          # selects DocProvider by hostname
- → fetchToc(provider, url)    # GETs toc-contents.json, parses to TocNode[]
- → findSubtree(tree, href)    # depth-first search for the input page's node
- → walk(subtree, …)           # depth-first; nodes with children become dirs
+ → fetchToc(provider, url)    # fetches page HTML, detects split TOC via <meta name="tocs">,
+                               # GETs one or more toc-contents.json files, parses to TocNode[]
+ → resolveSubtree(tree, href) # depth-first search; returns node + numeric position prefix
+ → buildFileTree(subtree, …)  # assigns dirPath/filePath to every node
+ → walk(fileTree, …)          # depth-first; writes content.yaml per dir, fetches pages
      → writePage → htmlToMarkdown(html, provider)
 ```
 
@@ -36,6 +42,7 @@ URL
 - `tocUrl(url)` — derives the TOC JSON endpoint from a page URL
 - `startHref(url)` — extracts the filename key used to locate the page in the TOC tree
 - `parseToc(json)` — normalises vendor-specific JSON shape into `TocNode[]`
+- `guideDir(url)` — returns the relative output directory for the guide (e.g. `AmazonRDS/UserGuide`)
 - `contentSelector` — CSS selector for the main content element
 - `junkSelectors` — elements to strip before conversion
 
@@ -52,4 +59,25 @@ Turndown is configured with ATX headings, fenced code blocks, GFM tables, and `-
 
 ### Output layout
 
-Nodes with children become subdirectories named after the sanitised title; leaf nodes become `.md` files. A node that has both children and an `href` writes its own page as `<dir>/<title>.md` alongside its children's directory. Resume works by checking file existence before fetching.
+Nodes with children become subdirectories; leaf nodes become `.md` files. A node that has both children and an `href` writes its own page as `<dir>/00-<title>.md` inside that directory. Each directory also gets a `content.yaml` TOC snapshot. Resume works by checking file existence before fetching.
+
+## Verifying changes
+
+After refactoring or making significant changes, use the output comparison script to confirm the CLI still produces identical results.
+
+### Workflow
+
+1. Pull a known guide into a baseline folder (skip if one already exists):
+   ```sh
+   bun run cli pull -o .outv2 https://docs.aws.amazon.com/AmazonS3/latest/userguide/cost-optimization.html
+   ```
+2. Pull the same URL into a new folder using the updated code:
+   ```sh
+   bun run cli pull -o .outv3 https://docs.aws.amazon.com/AmazonS3/latest/userguide/cost-optimization.html
+   ```
+3. Run the comparison script:
+   ```sh
+   bun scripts/compare-outputs.ts .outv2 .outv3
+   ```
+
+The script exits `0` if all files are identical, or `1` and prints a diff summary if there are missing, extra, or changed files. The `.outv2` / `.outv3` directories are git-ignored.

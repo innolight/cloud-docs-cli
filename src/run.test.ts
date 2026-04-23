@@ -1,7 +1,8 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { parse as yamlParse } from 'yaml';
 import type { TocNode } from './providers/types.ts';
-import type { RunDeps } from './run.ts';
+import type { DocProvider } from './providers/types.ts';
+import type { RunDeps, ResolvedSelection } from './run.ts';
 
 // Mock fetchToc so tests never hit the network.
 // resolveSubtree is kept real so tree-navigation logic is still exercised.
@@ -10,7 +11,7 @@ vi.mock('./toc.ts', async (importOriginal) => {
   return { ...actual, fetchToc: vi.fn() };
 });
 
-import { run } from './run.ts';
+import { run, walkSelections } from './run.ts';
 import { fetchToc } from './toc.ts';
 
 // ─── Fixtures ─────────────────────────────────────────────────────────────────
@@ -220,5 +221,120 @@ describe('run — content.yaml serialisation', () => {
     const obj = yamlParse(dbInstancesYaml![1]);
     expect(obj.title).toBe('DB Instances');
     expect(obj.contents).toHaveLength(2);
+  });
+});
+
+// ─── walkSelections — multiple selections ────────────────────────────────────
+
+const STUB_PROVIDER: DocProvider = {
+  name: 'stub',
+  matches: () => true,
+  startHref: () => '',
+  guideDir: () => 'StubService/UserGuide',
+  contentSelector: '#main-col-body',
+  junkSelectors: [],
+  parseToc: () => [],
+  discoverTocUrls: async () => [],
+};
+
+const PAGE_BASE_URL = new URL('https://docs.example.com/StubService/latest/UserGuide/');
+
+describe('walkSelections — multiple independent selections', () => {
+  const ALPHA: TocNode = { title: 'Alpha', href: 'alpha.html', children: [] };
+  const BETA: TocNode = { title: 'Beta', href: 'beta.html', children: [] };
+
+  it('accumulates stats across all selections', async () => {
+    const deps = makeDeps({
+      fetchPage: vi.fn().mockImplementation((url: string) => {
+        if (url.includes('alpha.html')) return Promise.resolve(PAGE_HTML('Alpha'));
+        if (url.includes('beta.html')) return Promise.resolve(PAGE_HTML('Beta'));
+        return Promise.reject(new Error(`Unexpected: ${url}`));
+      }),
+    });
+
+    const selections: ResolvedSelection[] = [
+      { subtree: ALPHA, prefix: '01-', ancestors: [] },
+      { subtree: BETA, prefix: '02-', ancestors: [] },
+    ];
+
+    const stats = await walkSelections(selections, {
+      provider: STUB_PROVIDER,
+      pageBaseUrl: PAGE_BASE_URL,
+      outDir: '/virtual',
+      delayMs: 0,
+      deps,
+    });
+
+    expect(stats.written).toBe(2);
+    expect(stats.skipped).toBe(0);
+    expect(stats.failed).toBe(0);
+  });
+
+  it('fetches each selection exactly once', async () => {
+    const deps = makeDeps({
+      fetchPage: vi.fn().mockImplementation((url: string) => {
+        if (url.includes('alpha.html')) return Promise.resolve(PAGE_HTML('Alpha'));
+        if (url.includes('beta.html')) return Promise.resolve(PAGE_HTML('Beta'));
+        return Promise.reject(new Error(`Unexpected: ${url}`));
+      }),
+    });
+
+    const selections: ResolvedSelection[] = [
+      { subtree: ALPHA, prefix: '01-', ancestors: [] },
+      { subtree: BETA, prefix: '02-', ancestors: [] },
+    ];
+
+    await walkSelections(selections, {
+      provider: STUB_PROVIDER,
+      pageBaseUrl: PAGE_BASE_URL,
+      outDir: '/virtual',
+      delayMs: 0,
+      deps,
+    });
+
+    expect(deps.fetchPage).toHaveBeenCalledTimes(2);
+  });
+
+  it('returns empty stats when given zero selections', async () => {
+    const deps = makeDeps();
+    const stats = await walkSelections([], {
+      provider: STUB_PROVIDER,
+      pageBaseUrl: PAGE_BASE_URL,
+      outDir: '/virtual',
+      delayMs: 0,
+      deps,
+    });
+    expect(stats).toEqual({ written: 0, skipped: 0, failed: 0 });
+    expect(deps.fetchPage).not.toHaveBeenCalled();
+  });
+
+  it('places each selection under its ancestor directory chain', async () => {
+    const SECTION: TocNode = {
+      title: 'Networking',
+      href: null,
+      children: [ALPHA],
+    };
+    const deps = makeDeps({
+      fetchPage: vi.fn().mockResolvedValue(PAGE_HTML('Alpha')),
+    });
+
+    const selections: ResolvedSelection[] = [
+      {
+        subtree: ALPHA,
+        prefix: '01-',
+        ancestors: [{ node: SECTION, prefix: '03-' }],
+      },
+    ];
+
+    await walkSelections(selections, {
+      provider: STUB_PROVIDER,
+      pageBaseUrl: PAGE_BASE_URL,
+      outDir: '/virtual',
+      delayMs: 0,
+      deps,
+    });
+
+    const mdPaths = [...deps.written.keys()].filter((k) => k.endsWith('.md'));
+    expect(mdPaths.some((p) => p.match(/03-Networking[/\\]01-Alpha\.md$/))).toBe(true);
   });
 });
