@@ -3,7 +3,7 @@
 [![CI](https://github.com/innolight/cloud-docs-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/innolight/cloud-docs-cli/actions/workflows/ci.yml)
 [![Build](https://github.com/innolight/cloud-docs-cli/actions/workflows/build.yml/badge.svg)](https://github.com/innolight/cloud-docs-cli/actions/workflows/build.yml)
 [![npm version](https://img.shields.io/npm/v/cloud-docs-cli)](https://www.npmjs.com/package/cloud-docs-cli)
-[![License: MIT](https://img.shields.io/npm/l/cloud-docs-cli)](LICENSE)
+[![License: MIT](//img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Download cloud provider documentation into local Markdown files — so you can read, search, and embed docs offline without depending on a browser or internet connection.
 
@@ -89,7 +89,7 @@ The CLI mirrors the documentation hierarchy into a directory tree rooted at the 
 ```
 .out/
 └── AmazonS3/userguide/              ← derived from the URL path
-    └── 13-Cost-optimization/
+    └── 13-Cost-optimization/        ← numbered prefixes to preserve reading order
         ├── content.yaml             ← subtree metadata for this directory
         ├── 00-Cost-optimization.md  ← parent page written as 00-<Title>.md
         ├── 01-Billing-and-usage-reporting/
@@ -101,11 +101,6 @@ The CLI mirrors the documentation hierarchy into a directory tree rooted at the 
             ├── content.yaml
             └── ...
 ```
-
-- **URL-derived prefix** — the output path begins with segments taken from the URL (e.g. `AmazonS3/userguide/`), so pulling from multiple guides never collides under the same `--out` root.
-- **Numbered prefixes** — directories and files are prefixed with two-digit numbers (e.g. `01-`, `02-`) to preserve the vendor's intended reading order in any file explorer.
-- **`content.yaml` per directory** — each directory gets its own `content.yaml` with the subtree metadata for that section.
-- **Parent pages as `00-Title.md`** — a node that has both children and its own content is written as `00-<Title>.md` inside its directory, alongside its children.
 
 ## Features & Roadmap
 
