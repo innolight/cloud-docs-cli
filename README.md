@@ -83,22 +83,7 @@ cloud-docs pull <url> [options]
 | `-i, --interactive` | `false`  | Interactively select docs to download     |
 | `--delay <ms>`      | `500`    | Milliseconds to wait between page fetches |
 
-**Output**
-On completion the CLI prints a summary:
-
-```
-toc   .out/AmazonS3/userguide/13-Cost-optimization/content.yaml
-write .out/AmazonS3/userguide/13-Cost-optimization/00-Cost-optimization.md
-toc   .out/AmazonS3/userguide/13-Cost-optimization/01-Billing-and-usage-reporting/content.yaml
-write .out/AmazonS3/userguide/13-Cost-optimization/01-Billing-and-usage-reporting/00-Billing-and-usage-reporting.md
-write .out/AmazonS3/userguide/13-Cost-optimization/01-Billing-and-usage-reporting/01-Using-cost-allocation-tags.md
-...
-Done: 31 written, 0 skipped, 0 failed
-```
-
-(`skip` appears instead of `write` when a file already exists — re-runs do zero network work for completed pages.)
-
-## Output structure
+## Output
 
 The CLI mirrors the documentation hierarchy into a directory tree rooted at the output folder:
 
