@@ -6,14 +6,23 @@ Download cloud provider documentation into local Markdown files — so you can r
 
 Cloud documentation is vast, scattered, and browser-only. This CLI downloads any AWS doc subtree as clean, portable Markdown — so you can:
 
+- **Read and search offline** — grep, or open in your editor, no internet required
+- **Build a local knowledge base** — using LLM to compile your personal knowledge base
 - **Feed an AI / RAG pipeline** — point your embeddings at local `.md` files instead of scraping URLs at query time
-- **Read and search offline** — grep, ripgrep, or open in your editor, no internet required
-- **Build a local knowledge base** — version-control your docs snapshot alongside your code
-- **Stay fast** — one `pull` caches an entire doc section; re-runs skip already-downloaded pages
 
-## Requirements
+## Try it
 
-- **Node.js ≥ 20** or **Bun**
+```sh
+# Pull the complete S3 doc folder
+npx cloud-docs-cli@latest pull --out .cloud-docs https://docs.aws.amazon.com/AmazonS3/latest/userguide/
+
+# Interactively select docs
+npx cloud-docs-cli@latest pull --interactive https://docs.aws.amazon.com/AmazonS3/latest/userguide/
+npx cloud-docs-cli@latest pull --interactive https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction
+
+```
+
+**Requirement**: Node.js ≥ 20 or Bun
 
 ## Installation
 
@@ -23,10 +32,10 @@ You can run it directly without installing via `npx` or `bunx`:
 
 ```sh
 # Using npx (Node.js)
-npx cloud-docs-cli pull <url>
+npx cloud-docs-cli@latest pull <url>
 
 # Using bunx (Bun)
-bunx cloud-docs-cli pull <url>
+bunx cloud-docs-cli@latest pull <url>
 ```
 
 Alternatively, install it globally:
@@ -68,24 +77,13 @@ cloud-docs pull <url> [options]
 
 **Options**
 
-| Flag              | Default  | Description                               |
-| ----------------- | -------- | ----------------------------------------- |
-| `-o, --out <dir>` | `./.out` | Directory to write Markdown files into    |
-| `--delay <ms>`    | `500`    | Milliseconds to wait between page fetches |
+| Flag                | Default  | Description                               |
+| ------------------- | -------- | ----------------------------------------- |
+| `-o, --out <dir>`   | `./.out` | Directory to write Markdown files into    |
+| `-i, --interactive` | `false`  | Interactively select docs to download     |
+| `--delay <ms>`      | `500`    | Milliseconds to wait between page fetches |
 
-**Examples**
-
-```sh
-# Pull the complete S3 doc folder
-npx cloud-docs-cli pull --out cloud-docs https://docs.aws.amazon.com/AmazonS3/latest/userguide/
-
-# Pull just Cost Optimisation section
-npx cloud-docs-cli pull --out cloud-docs https://docs.aws.amazon.com/AmazonS3/latest/userguide/cost-optimization.html
-
-# Pull CloudFormation Reference for S3
-npx cloud-docs-cli https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/aws-resource-s3-bucket.html
-```
-
+**Output**
 On completion the CLI prints a summary:
 
 ```
@@ -125,22 +123,30 @@ The CLI mirrors the documentation hierarchy into a directory tree rooted at the 
 - **`content.yaml` per directory** — each directory gets its own `content.yaml` with the subtree metadata for that section.
 - **Parent pages as `00-Title.md`** — a node that has both children and its own content is written as `00-<Title>.md` inside its directory, alongside its children.
 
-## Features
+## Features & Roadmap
 
-- **TOC-driven traversal** — fetches `toc-contents.json` from the guide root, finds the requested page, and walks the subtree depth-first; no brittle HTML link-following.
-- **Ordered directory structure** — mirrors the sidebar hierarchy using numbered prefixes (e.g., `01-Introduction/`, `02-Getting-Started/`) to preserve the logical reading order in your file explorer.
-- **Clean Markdown output** — strips navigation, feedback widgets, and legal boilerplate; uses Turndown + GFM for pipe tables.
-- **Tabbed code blocks** — rewrites AWS `<awsdocs-tabs>` elements to `#### Label` headings so tab content is preserved in plain Markdown.
-- **Code block normalization** — collapses nested `<pre><code>` structures before Turndown runs, with language hints inferred from AWS class names.
-- **Resume support** — skips pages whose `.md` file already exists; re-running a completed subtree does zero network work.
-- **Polite fetching** — configurable delay between requests (default 500 ms), descriptive `User-Agent`, and a single retry with backoff on transient errors.
+### Core Capabilities
 
-## Known limitations
+- **[x] Clean Markdown** — Strips noise (navigation, feedback, legal) for pure, searchable documentation.
+- **[x] Hierarchy Preservation** — Mirrors the sidebar with numbered folders to maintain the vendor's logical reading order.
+- **[x] Interactive Docs Tree Browser** — Explore and select specific subtrees for download via a terminal UI.
+- **[x] Resume Support** — Skips existing files to avoid redundant network calls and save bandwidth.
+- **[x] Tabbed Content Handling** — Rewrites vendor-specific `<awsdocs-tabs>` and Azure tabs into readable headers.
+- **[x] RAG & AI Ready** — Optimized for feeding clean context into LLM pipelines and knowledge bases.
+- **[x] Polite Fetching** — Configurable delays and retries with backoff to respect provider limits.
 
-- **Internal links stay absolute.** Links between in-scope pages are not yet rewritten to relative `.md` paths.
-- **No image download.** `<img>` src attributes remain absolute URLs.
-- **Sequential fetching.** One request at a time; a 500-page subtree takes ~4 minutes.
-- **AWS only.** GCP and Azure providers are not yet implemented.
+### Supported Providers
+
+- **[x] AWS** (Amazon Web Services)
+- **[x] Microsoft Azure**
+- **[ ] Google Cloud Platform (GCP)** (Planned)
+
+### Future Roadmap
+
+- **[ ] Dry Run Mode** — Preview the file tree and download plan without writing any files.
+- **[ ] Relative Link Rewriting** — Turn absolute URLs into local `.md` file links for seamless offline navigation.
+- **[ ] Local Image Downloads** — Capture and store images alongside Markdown files.
+- **[ ] Parallel Fetching** — Speed up large downloads with a configurable concurrency cap.
 
 ## Development
 
@@ -170,13 +176,3 @@ bun scripts/compare-outputs.ts .outv2 .outv3
 ```
 
 The script exits `0` if the outputs are identical, or `1` with a diff summary showing missing, extra, or changed files. Use any two directory names; the `.out*` pattern is git-ignored.
-
-## Roadmap
-
-1. [x] Distribution: Zero-dependency npm distribution (npx/bunx)
-2. [x] Distribution: Compiled single binary (`bun build --compile`)
-3. [ ] Relative internal-link rewriting
-4. [ ] Image download to `assets/`
-5. [ ] Parallel fetching with a configurable concurrency cap
-6. [x] Azure
-7. [ ] GCP
