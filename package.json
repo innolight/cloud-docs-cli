@@ -11,7 +11,7 @@
   ],
   "scripts": {
     "build": "npm run build:node",
-    "build:node": "esbuild src/cli.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/index.js --banner:js='#!/usr/bin/env node\nimport { createRequire } from \"node:module\";\nconst require = createRequire(import.meta.url);' --alias:react-devtools-core='data:text/javascript,export default {}' --define:process.env.NODE_ENV='\"production\"'",
+    "build:node": "node scripts/build.mjs",
     "build:bin": "npm run build:node && bun build ./dist/index.js --compile --minify --outfile release/cloud-docs && ./scripts/sign-bin.sh release/cloud-docs",
     "cli": "tsx src/cli.ts",
     "typecheck": "tsc --noEmit",
