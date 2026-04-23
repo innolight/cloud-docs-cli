@@ -68,7 +68,7 @@ if [ "$DRY_RUN" = true ]; then
     echo -e "${GREEN}Dry run completed successfully! All checks passed. ✓${NC}"
 else
     echo -e "${CYAN}Step 5: Versioning...${NC}"
-    npm version "$VERSION_ARG"
+    npm version "$VERSION_ARG" -m "chore(release): v%s"
     echo -e "${GREEN}Release prepared successfully! ✨${NC}"
     echo "Don't forget to push your tags: git push --follow-tags"
 fi
