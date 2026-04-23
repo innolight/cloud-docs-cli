@@ -3,7 +3,7 @@
 [![CI](https://github.com/innolight/cloud-docs-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/innolight/cloud-docs-cli/actions/workflows/ci.yml)
 [![Build](https://github.com/innolight/cloud-docs-cli/actions/workflows/build.yml/badge.svg)](https://github.com/innolight/cloud-docs-cli/actions/workflows/build.yml)
 [![npm version](https://img.shields.io/npm/v/cloud-docs-cli)](https://www.npmjs.com/package/cloud-docs-cli)
-[![License: MIT](//img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 Download cloud provider documentation into local Markdown files — so you can read, search, and embed docs offline without depending on a browser or internet connection.
 
@@ -11,7 +11,7 @@ Download cloud provider documentation into local Markdown files — so you can r
 
 Cloud documentation is vast, scattered, and browser-only. This CLI downloads any AWS doc subtree as clean, portable Markdown — so you can:
 
-- **Read and search offline** — grep, or open in your editor, no internet required
+- **Read and research offline** — grep, open in your editor, no internet required
 - **Build a local knowledge base** — using LLM to compile your personal knowledge base
 - **Feed an AI / RAG pipeline** — point your embeddings at local `.md` files instead of scraping URLs at query time
 
@@ -150,5 +150,3 @@ bun run cli pull -o .outv3 https://docs.aws.amazon.com/AmazonS3/latest/userguide
 # 3. Compare
 bun scripts/compare-outputs.ts .outv2 .outv3
 ```
-
-The script exits `0` if the outputs are identical, or `1` with a diff summary showing missing, extra, or changed files. Use any two directory names; the `.out*` pattern is git-ignored.
