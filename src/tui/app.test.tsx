@@ -316,6 +316,24 @@ describe('TocBrowserApp — scrolloff', () => {
   });
 });
 
+// ─── Footer position ─────────────────────────────────────────────────────────
+
+describe('TocBrowserApp — footer position', () => {
+  it('hint line appears at terminal bottom when list is shorter than viewport', async () => {
+    const smallTree = Array.from({ length: 5 }, (_, i) =>
+      leaf(`Item ${i}`, `item-${i}.html`)
+    );
+    const { lastFrame } = render(
+      <TocBrowserApp tree={smallTree} onConfirm={vi.fn()} onQuit={vi.fn()} />
+    );
+    await act(async () => {});
+    const lines = (lastFrame() ?? '').split('\n');
+    // HINT line must sit at or after viewportHeight (rows=24 fallback, RESERVED_LINES=3 → 21)
+    const hintLineIdx = lines.findIndex(l => l.includes('move') && l.includes('quit'));
+    expect(hintLineIdx).toBeGreaterThanOrEqual(21);
+  });
+});
+
 // ─── Viewport height does not overflow terminal ───────────────────────────────
 
 describe('TocBrowserApp — viewport fits terminal height', () => {

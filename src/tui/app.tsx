@@ -266,6 +266,13 @@ export function TocBrowserApp({ tree, initialHref, onConfirm, onQuit }: TocBrows
   const visibleSlice = visible.slice(viewportOffset, viewportOffset + viewportHeight);
   const hiddenAbove = viewportOffset;
   const hiddenBelow = visible.length - viewportOffset - viewportHeight;
+  const padLines = Math.max(
+    0,
+    viewportHeight
+      - (hiddenAbove > 0 ? 1 : 0)
+      - visibleSlice.length
+      - (hiddenBelow > 0 ? 1 : 0)
+  );
 
   const handleInput = useCallback(
     (input: string, key: { upArrow: boolean; downArrow: boolean; leftArrow: boolean; rightArrow: boolean; return: boolean }) => {
@@ -304,6 +311,7 @@ export function TocBrowserApp({ tree, initialHref, onConfirm, onQuit }: TocBrows
           <Text dimColor>{`  ⋯ ${hiddenBelow} more below`}</Text>
         </Box>
       )}
+      <Box height={padLines} />
       <Box marginTop={1} flexDirection="column">
         <Text dimColor>
           {state.roots.reduce((s, n) => s + countSelectedLeaves(n, state.selected), 0)} /{' '}
