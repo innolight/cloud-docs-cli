@@ -4,15 +4,15 @@
   "description": "Download cloud provider documentation (AWS for now) into a local Markdown mirror.",
   "type": "module",
   "bin": {
-    "cloud-docs": "./dist/index.cjs"
+    "cloud-docs": "./dist/index.js"
   },
   "files": [
     "dist"
   ],
   "scripts": {
     "build": "npm run build:node",
-    "build:node": "esbuild src/cli.ts --bundle --platform=node --target=node20 --format=cjs --outfile=dist/index.cjs --banner:js='#!/usr/bin/env node'",
-    "build:bin": "bun build src/cli.ts --compile --minify --outfile release/cloud-docs",
+    "build:node": "esbuild src/cli.ts --bundle --platform=node --target=node20 --format=esm --outfile=dist/index.js --banner:js='#!/usr/bin/env node\nimport { createRequire } from \"node:module\";\nconst require = createRequire(import.meta.url);' --alias:react-devtools-core='data:text/javascript,export default {}'",
+    "build:bin": "bun build src/cli.ts --compile --minify --outfile release/cloud-docs --external react-devtools-core",
     "cli": "tsx src/cli.ts",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",

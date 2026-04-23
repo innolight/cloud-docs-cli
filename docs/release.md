@@ -8,8 +8,8 @@ To ensure maximum reach and performance, we distribute via two primary channels:
 
 1.  **Phase 1: NPM Registry (Dual-Runtime)**
     - Target: Developers with Node.js or Bun installed.
-    - Mechanism: A zero-dependency CommonJS bundle (`dist/index.cjs`).
-    - Benefit: Fast installs and universal compatibility.
+    - Mechanism: A zero-dependency ESM bundle (`dist/index.js`).
+    - Benefit: Fast installs and modern compatibility.
 
 2.  **Phase 2: GitHub Releases (Standalone Binaries)**
     - Target: Users without a JS runtime or for use in CI/CD.
@@ -33,23 +33,28 @@ Before your first release, ensure you have the necessary permissions:
 Follow these steps to publish a new version. The `release` script ensures the code is type-safe and compilable before tagging.
 
 ### 1. Prepare & Tag
+
 Run the release command with the version bump type (`patch`, `minor`, or `major`).
 
 ```bash
 # Example: Bug fix (0.1.0 -> 0.1.1)
 bun run release patch
 ```
-*This command runs typechecks, verifies both the NPM bundle and the binary build, and creates a local git tag.*
+
+_This command runs typechecks, verifies both the NPM bundle and the binary build, and creates a local git tag._
 
 ### 2. Push to GitHub
+
 Push the branch and the new tag to trigger the automated binary builds.
 
 ```bash
 git push origin main --follow-tags
 ```
-*This triggers the `.github/workflows/release.yml` workflow to build and upload binaries.*
+
+_This triggers the `.github/workflows/release.yml` workflow to build and upload binaries._
 
 ### 3. Publish to NPM
+
 Publish the JavaScript package while the binaries are building.
 
 ```bash
@@ -74,13 +79,18 @@ After releasing, verify that all channels are updated:
 ## Technical Architecture
 
 ### NPM Bundling (Phase 1)
-We use `esbuild` to produce a "Zero-Dependency" bundle. 
-- **Format:** CommonJS (`cjs`) is used to ensure compatibility with both Node.js and Bun's transpilers.
+
+We use `esbuild` to produce a "Zero-Dependency" bundle.
+
+- **Format:** ESM (`esm`) is used for modern Node.js compatibility and to support dependencies like `ink`.
+- **Interop:** A `require` shim via `createRequire` is injected in the banner to support legacy CJS dependencies that use `node:*` built-ins.
 - **Shebang:** `#!/usr/bin/env node` is injected to allow direct execution.
 - **Entry:** Defined in `package.json` under the `bin` field.
 
 ### Binary Compilation (Phase 2)
+
 We use `bun build --compile` for standalone executables.
+
 - **Speed:** Bun's compiler is significantly faster than `pkg` or `nexe`.
 - **Matrix:** The GitHub Action builds for `linux-x64`, `linux-arm64`, `darwin-x64`, `darwin-arm64`, and `windows-x64`.
 
@@ -89,7 +99,9 @@ We use `bun build --compile` for standalone executables.
 ## Troubleshooting
 
 ### "Dynamic require of node:events is not supported"
-Ensure the build format in `package.json` is set to `cjs`. Bundling ESM with certain Node.js built-ins can cause runtime errors in older Node versions.
+
+This typically happens when a CJS dependency is bundled into ESM without a `require` shim. We have addressed this by injecting `createRequire` in the `esbuild` banner. If you see this error, check the `build:node` script in `package.json`.
 
 ### Incompatible Binaries
+
 If a compiled binary fails on a specific OS, check the GitHub Action logs. Often, missing library headers on the build runner are the cause.
