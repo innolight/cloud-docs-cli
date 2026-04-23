@@ -1,5 +1,10 @@
 # cloud-docs-cli
 
+[![CI](https://github.com/innolight/cloud-docs-cli/actions/workflows/ci.yml/badge.svg)](https://github.com/innolight/cloud-docs-cli/actions/workflows/ci.yml)
+[![Build](https://github.com/innolight/cloud-docs-cli/actions/workflows/build.yml/badge.svg)](https://github.com/innolight/cloud-docs-cli/actions/workflows/build.yml)
+[![npm version](https://img.shields.io/npm/v/cloud-docs-cli)](https://www.npmjs.com/package/cloud-docs-cli)
+[![License: MIT](https://img.shields.io/npm/l/cloud-docs-cli)](LICENSE)
+
 Download cloud provider documentation into local Markdown files — so you can read, search, and embed docs offline without depending on a browser or internet connection.
 
 ## 🚀 Why Cloud Docs CLI?
