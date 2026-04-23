@@ -1,11 +1,13 @@
-import React, { useReducer, useCallback, useRef } from 'react';
+import React, { memo, useReducer, useCallback, useMemo, useRef } from 'react';
 import { Box, Text, useInput, useStdout } from 'ink';
 import type { TocNode } from '../providers/types.ts';
 import {
   buildBrowserTree,
-  stateOf,
   toggle,
   coalesce,
+  computeLeafCounts,
+  computeSelectedCounts,
+  stateFromCounts,
   type BrowserNode,
   type ResolvedSelection,
 } from './browser.ts';
@@ -167,59 +169,61 @@ const CHECKBOX: Record<'on' | 'off' | 'partial', string> = {
 };
 
 interface RowProps {
-  node: BrowserNode;
-  selected: Set<TocNode>;
+  depth: number;
+  title: string;
+  hasChildren: boolean;
+  expanded: boolean;
+  state: 'on' | 'off' | 'partial';
+  selectedLeafCount: number;
+  leafCount: number;
   isCursor: boolean;
   columns: number;
 }
 
-function Row({ node, selected, isCursor, columns }: RowProps): React.JSX.Element {
-  const depth = node.ancestors.length;
+const Row = memo(function Row({
+  depth,
+  title,
+  hasChildren,
+  expanded,
+  state,
+  selectedLeafCount,
+  leafCount,
+  isCursor,
+  columns,
+}: RowProps): React.JSX.Element {
   const indent = '  '.repeat(depth);
-  const state = stateOf(node, selected);
   const checkbox = CHECKBOX[state];
-  const arrow = node.children.length > 0 ? (node.expanded ? '▾ ' : '▸ ') : '  ';
+  const arrow = hasChildren ? (expanded ? '▾ ' : '▸ ') : '  ';
 
   const rightMeta =
-    node.children.length > 0
-      ? (() => {
-          const leaves = countLeaves(node);
-          const sel = countSelectedLeaves(node, selected);
-          return sel > 0 && sel < leaves ? `  (${sel} / ${leaves} selected)` : '';
-        })()
+    hasChildren && selectedLeafCount > 0 && selectedLeafCount < leafCount
+      ? `  (${selectedLeafCount} / ${leafCount} selected)`
       : '';
 
   const prefixPart = `${indent}${checkbox} ${arrow}`;
   const available = columns - prefixPart.length - rightMeta.length - 1;
-  const title =
-    node.toc.title.length > available
-      ? node.toc.title.slice(0, available - 1) + '…'
-      : node.toc.title;
+  const truncatedTitle =
+    title.length > available ? title.slice(0, available - 1) + '…' : title;
 
   return (
     <Box>
       <Text inverse={isCursor}>
         {prefixPart}
-        {title}
+        {truncatedTitle}
         {rightMeta}
       </Text>
     </Box>
   );
-}
-
-function countLeaves(node: BrowserNode): number {
-  if (node.children.length === 0) return 1;
-  return node.children.reduce((sum, c) => sum + countLeaves(c), 0);
-}
-
-function countSelectedLeaves(node: BrowserNode, selected: Set<TocNode>): number {
-  if (node.children.length === 0) return selected.has(node.toc) ? 1 : 0;
-  return node.children.reduce((sum, c) => sum + countSelectedLeaves(c, selected), 0);
-}
+});
 
 // ─── Main component ───────────────────────────────────────────────────────────
 
-const RESERVED_LINES = 3; // footer: blank line + count + hint (hint must fit in 80 cols)
+// Footer = 1 blank line + 2 text lines = 3 lines. We also keep one line of headroom
+// so total output height is at most `rows - 1`: Ink's render path clears the entire
+// terminal (ansiEscapes.clearTerminal) when outputHeight >= stdout.rows, which causes
+// visible flicker on every keystroke. Staying one line short keeps it on the
+// incremental logUpdate path. See node_modules/ink/build/ink.js onRender.
+const RESERVED_LINES = 4;
 const SCROLLOFF = 4; // rows of context kept above/below cursor (like vim scrolloff)
 const HINT = '↑↓/jk: move  ←→/hl: fold  space: toggle  enter: confirm  q: quit';
 
@@ -243,7 +247,21 @@ export function TocBrowserApp({ tree, initialHref, onConfirm, onQuit }: TocBrows
   const stateRef = useRef(state);
   stateRef.current = state;
 
-  const visible = flattenVisible(state.roots);
+  const visible = useMemo(() => flattenVisible(state.roots), [state.roots]);
+  const leafCounts = useMemo(() => computeLeafCounts(state.roots), [state.roots]);
+  const selectedCounts = useMemo(
+    () => computeSelectedCounts(state.roots, state.selected),
+    [state.roots, state.selected]
+  );
+
+  const totalLeaves = useMemo(
+    () => state.roots.reduce((s, n) => s + (leafCounts.get(n) ?? 0), 0),
+    [state.roots, leafCounts]
+  );
+  const totalSelected = useMemo(
+    () => state.roots.reduce((s, n) => s + (selectedCounts.get(n) ?? 0), 0),
+    [state.roots, selectedCounts]
+  );
 
   const rawViewportHeight = Math.max(1, rows - RESERVED_LINES);
   // Each scroll indicator ("⋯ N more above/below") occupies one line.
@@ -266,12 +284,13 @@ export function TocBrowserApp({ tree, initialHref, onConfirm, onQuit }: TocBrows
   const visibleSlice = visible.slice(viewportOffset, viewportOffset + viewportHeight);
   const hiddenAbove = viewportOffset;
   const hiddenBelow = visible.length - viewportOffset - viewportHeight;
+  // When the list overflows, both scroll-indicator slots are always rendered (blank when empty)
+  // so the line at a given y position never changes role between renders — Ink can diff just
+  // the changed text instead of reflowing the viewport.
+  const overflow = visible.length > rawViewportHeight;
   const padLines = Math.max(
     0,
-    viewportHeight
-      - (hiddenAbove > 0 ? 1 : 0)
-      - visibleSlice.length
-      - (hiddenBelow > 0 ? 1 : 0)
+    viewportHeight - (overflow ? 2 : 0) - visibleSlice.length
   );
 
   const handleInput = useCallback(
@@ -292,30 +311,38 @@ export function TocBrowserApp({ tree, initialHref, onConfirm, onQuit }: TocBrows
 
   return (
     <Box flexDirection="column">
-      {hiddenAbove > 0 && (
+      {overflow && (
         <Box>
-          <Text dimColor>{`  ⋯ ${hiddenAbove} more above`}</Text>
+          <Text dimColor>{hiddenAbove > 0 ? `  ⋯ ${hiddenAbove} more above` : ' '}</Text>
         </Box>
       )}
-      {visibleSlice.map((node, i) => (
-        <Row
-          key={node.prefix + node.toc.title}
-          node={node}
-          selected={state.selected}
-          isCursor={viewportOffset + i === state.cursorIndex}
-          columns={columns}
-        />
-      ))}
-      {hiddenBelow > 0 && (
+      {visibleSlice.map((node, i) => {
+        const leafCount = leafCounts.get(node) ?? 1;
+        const selectedLeafCount = selectedCounts.get(node) ?? 0;
+        return (
+          <Row
+            key={node.prefix + node.toc.title}
+            depth={node.ancestors.length}
+            title={node.toc.title}
+            hasChildren={node.children.length > 0}
+            expanded={node.expanded}
+            state={stateFromCounts(selectedLeafCount, leafCount)}
+            selectedLeafCount={selectedLeafCount}
+            leafCount={leafCount}
+            isCursor={viewportOffset + i === state.cursorIndex}
+            columns={columns}
+          />
+        );
+      })}
+      {overflow && (
         <Box>
-          <Text dimColor>{`  ⋯ ${hiddenBelow} more below`}</Text>
+          <Text dimColor>{hiddenBelow > 0 ? `  ⋯ ${hiddenBelow} more below` : ' '}</Text>
         </Box>
       )}
       <Box height={padLines} />
       <Box marginTop={1} flexDirection="column">
         <Text dimColor>
-          {state.roots.reduce((s, n) => s + countSelectedLeaves(n, state.selected), 0)} /{' '}
-          {state.roots.reduce((s, n) => s + countLeaves(n), 0)} selected
+          {totalSelected} / {totalLeaves} selected
         </Text>
         <Text dimColor>{HINT}</Text>
       </Box>

@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
-import React, { act } from 'react';
+import { act } from 'react';
 import { render } from 'ink-testing-library';
 import type { TocNode } from '../providers/types.ts';
 import { TocBrowserApp } from './app.tsx';
@@ -337,12 +337,12 @@ describe('TocBrowserApp — footer position', () => {
 // ─── Viewport height does not overflow terminal ───────────────────────────────
 
 describe('TocBrowserApp — viewport fits terminal height', () => {
-  it('rendered line count does not exceed terminal rows when scrolled to middle of long list', async () => {
+  it('rendered line count stays at least one line under terminal rows when scrolled mid-list', async () => {
     const bigTree: TocNode[] = Array.from({ length: 30 }, (_, i) =>
       leaf(`Item ${i}`, `item-${i}.html`)
     );
     // item-8 puts the cursor in the middle: both "more above" and "more below"
-    // indicators appear and must not push total lines past the terminal height.
+    // indicators appear and must not push total lines to the terminal height.
     const { lastFrame } = render(
       <TocBrowserApp
         tree={bigTree}
@@ -355,9 +355,23 @@ describe('TocBrowserApp — viewport fits terminal height', () => {
 
     const frame = lastFrame() ?? '';
     const lineCount = frame.split('\n').length;
-    // App defaults rows=24 when stdout.rows is undefined (test env).
-    // Total lines must not exceed 24 or the terminal grows a scroll bar.
-    expect(lineCount).toBeLessThanOrEqual(24);
+    // App defaults rows=24 when stdout.rows is undefined. Ink's render path
+    // falls back to ansiEscapes.clearTerminal (whole-screen flicker on every
+    // keystroke) as soon as outputHeight >= stdout.rows, so we must stay at
+    // least one line under the terminal height.
+    expect(lineCount).toBeLessThanOrEqual(23);
+  });
+
+  it('short list also stays under terminal rows', async () => {
+    const smallTree = Array.from({ length: 5 }, (_, i) =>
+      leaf(`Item ${i}`, `item-${i}.html`)
+    );
+    const { lastFrame } = render(
+      <TocBrowserApp tree={smallTree} onConfirm={vi.fn()} onQuit={vi.fn()} />
+    );
+    await act(async () => {});
+    const lineCount = (lastFrame() ?? '').split('\n').length;
+    expect(lineCount).toBeLessThanOrEqual(23);
   });
 });
 

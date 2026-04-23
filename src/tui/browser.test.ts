@@ -1,5 +1,13 @@
 import { describe, it, expect } from 'vitest';
-import { buildBrowserTree, stateOf, toggle, coalesce } from './browser.ts';
+import {
+  buildBrowserTree,
+  stateOf,
+  toggle,
+  coalesce,
+  computeLeafCounts,
+  computeSelectedCounts,
+  stateFromCounts,
+} from './browser.ts';
 import type { TocNode } from '../providers/types.ts';
 
 const leaf = (title: string, href: string): TocNode => ({ title, href, children: [] });
@@ -196,5 +204,109 @@ describe('coalesce', () => {
     expect(results).toHaveLength(2);
     expect(results[0]!.subtree).toBe(TREE[0]);
     expect(results[1]!.subtree).toBe(TREE[1]);
+  });
+});
+
+// ─── computeLeafCounts ──────────────────────────────────────────────────────
+
+describe('computeLeafCounts', () => {
+  it('assigns 1 to every leaf', () => {
+    const nodes = buildBrowserTree(TREE);
+    const counts = computeLeafCounts(nodes);
+    expect(counts.get(nodes[0]!)).toBe(1);
+    expect(counts.get(nodes[1]!.children[0]!)).toBe(1);
+    expect(counts.get(nodes[1]!.children[1]!)).toBe(1);
+  });
+
+  it('sums descendant leaves for branches', () => {
+    const nodes = buildBrowserTree(TREE);
+    const counts = computeLeafCounts(nodes);
+    expect(counts.get(nodes[1]!)).toBe(2);
+  });
+
+  it('includes every node in the tree', () => {
+    const nodes = buildBrowserTree(TREE);
+    const counts = computeLeafCounts(nodes);
+    expect(counts.size).toBe(4); // Welcome, Networking, Concepts, Planning
+  });
+
+  it('handles deeply nested trees', () => {
+    const deep: TocNode[] = [
+      branch('A', [branch('B', [branch('C', [leaf('D1', 'd1'), leaf('D2', 'd2')])])]),
+    ];
+    const nodes = buildBrowserTree(deep);
+    const counts = computeLeafCounts(nodes);
+    expect(counts.get(nodes[0]!)).toBe(2);
+  });
+});
+
+// ─── computeSelectedCounts ──────────────────────────────────────────────────
+
+describe('computeSelectedCounts', () => {
+  it('returns 0 for all nodes when nothing is selected', () => {
+    const nodes = buildBrowserTree(TREE);
+    const counts = computeSelectedCounts(nodes, new Set());
+    expect(counts.get(nodes[0]!)).toBe(0);
+    expect(counts.get(nodes[1]!)).toBe(0);
+    expect(counts.get(nodes[1]!.children[0]!)).toBe(0);
+  });
+
+  it('returns 1 for a selected leaf', () => {
+    const nodes = buildBrowserTree(TREE);
+    const counts = computeSelectedCounts(nodes, new Set([TREE[0]!]));
+    expect(counts.get(nodes[0]!)).toBe(1);
+  });
+
+  it('bubbles selected leaf counts up to ancestors', () => {
+    const nodes = buildBrowserTree(TREE);
+    const counts = computeSelectedCounts(nodes, new Set([TREE[1]!.children[0]!]));
+    expect(counts.get(nodes[1]!.children[0]!)).toBe(1);
+    expect(counts.get(nodes[1]!.children[1]!)).toBe(0);
+    expect(counts.get(nodes[1]!)).toBe(1);
+  });
+
+  it('counts all descendants when every leaf is selected', () => {
+    const nodes = buildBrowserTree(TREE);
+    const counts = computeSelectedCounts(
+      nodes,
+      new Set([TREE[1]!.children[0]!, TREE[1]!.children[1]!])
+    );
+    expect(counts.get(nodes[1]!)).toBe(2);
+  });
+});
+
+// ─── stateFromCounts ────────────────────────────────────────────────────────
+
+describe('stateFromCounts', () => {
+  it('off when selected count is 0', () => {
+    expect(stateFromCounts(0, 3)).toBe('off');
+  });
+
+  it('on when selected count equals total leaves', () => {
+    expect(stateFromCounts(3, 3)).toBe('on');
+  });
+
+  it('partial when some but not all leaves are selected', () => {
+    expect(stateFromCounts(1, 3)).toBe('partial');
+    expect(stateFromCounts(2, 3)).toBe('partial');
+  });
+
+  it('agrees with stateOf across tree and selection variants', () => {
+    const nodes = buildBrowserTree(TREE);
+    const leafCounts = computeLeafCounts(nodes);
+    const variants: Set<TocNode>[] = [
+      new Set(),
+      new Set([TREE[0]!]),
+      new Set([TREE[1]!.children[0]!]),
+      new Set([TREE[1]!.children[0]!, TREE[1]!.children[1]!]),
+      new Set([TREE[0]!, TREE[1]!.children[0]!, TREE[1]!.children[1]!]),
+    ];
+    for (const sel of variants) {
+      const selCounts = computeSelectedCounts(nodes, sel);
+      for (const root of nodes) {
+        const fast = stateFromCounts(selCounts.get(root)!, leafCounts.get(root)!);
+        expect(fast).toBe(stateOf(root, sel));
+      }
+    }
   });
 });

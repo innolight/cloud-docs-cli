@@ -54,6 +54,51 @@ function applyToLeaves(node: BrowserNode, set: Set<TocNode>, add: boolean): void
   }
 }
 
+export function computeLeafCounts(roots: BrowserNode[]): Map<BrowserNode, number> {
+  const counts = new Map<BrowserNode, number>();
+  const visit = (node: BrowserNode): number => {
+    if (node.children.length === 0) {
+      counts.set(node, 1);
+      return 1;
+    }
+    let sum = 0;
+    for (const child of node.children) sum += visit(child);
+    counts.set(node, sum);
+    return sum;
+  };
+  for (const root of roots) visit(root);
+  return counts;
+}
+
+export function computeSelectedCounts(
+  roots: BrowserNode[],
+  selected: Set<TocNode>
+): Map<BrowserNode, number> {
+  const counts = new Map<BrowserNode, number>();
+  const visit = (node: BrowserNode): number => {
+    if (node.children.length === 0) {
+      const n = selected.has(node.toc) ? 1 : 0;
+      counts.set(node, n);
+      return n;
+    }
+    let sum = 0;
+    for (const child of node.children) sum += visit(child);
+    counts.set(node, sum);
+    return sum;
+  };
+  for (const root of roots) visit(root);
+  return counts;
+}
+
+export function stateFromCounts(
+  selectedCount: number,
+  leafCount: number
+): 'on' | 'off' | 'partial' {
+  if (selectedCount === 0) return 'off';
+  if (selectedCount === leafCount) return 'on';
+  return 'partial';
+}
+
 export function coalesce(nodes: BrowserNode[], selected: Set<TocNode>): ResolvedSelection[] {
   const results: ResolvedSelection[] = [];
   for (const node of nodes) {
