@@ -1,6 +1,6 @@
 {
   "name": "cloud-docs-cli",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "Download cloud provider documentation (AWS for now) into a local Markdown mirror.",
   "type": "module",
   "bin": {
