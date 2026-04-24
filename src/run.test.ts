@@ -224,6 +224,58 @@ describe('run — content.yaml serialisation', () => {
   });
 });
 
+// ─── Dry-run mode ────────────────────────────────────────────────────────────
+
+describe('run — dry-run mode', () => {
+  it('does not call fetchPage', async () => {
+    const deps = makeDeps();
+    await run({ url: RDS_URL, outDir: '/virtual', delayMs: 0, deps, dryRun: true });
+    expect(deps.fetchPage).not.toHaveBeenCalled();
+  });
+
+  it('does not call writeFile', async () => {
+    const deps = makeDeps();
+    await run({ url: RDS_URL, outDir: '/virtual', delayMs: 0, deps, dryRun: true });
+    expect(deps.writeFile).not.toHaveBeenCalled();
+  });
+
+  it('does not call ensureDir', async () => {
+    const deps = makeDeps();
+    await run({ url: RDS_URL, outDir: '/virtual', delayMs: 0, deps, dryRun: true });
+    expect(deps.ensureDir).not.toHaveBeenCalled();
+  });
+
+  it('stats.written equals the number of fetchable pages', async () => {
+    const deps = makeDeps();
+    const stats = await run({ url: RDS_URL, outDir: '/virtual', delayMs: 0, deps, dryRun: true });
+    expect(stats.written).toBe(3);
+    expect(stats.skipped).toBe(0);
+    expect(stats.failed).toBe(0);
+  });
+
+  it('logs "plan  <path>" for each .md file', async () => {
+    const deps = makeDeps();
+    await run({ url: RDS_URL, outDir: '/virtual', delayMs: 0, deps, dryRun: true });
+    const logs: string[] = (deps.log as ReturnType<typeof vi.fn>).mock.calls.map(
+      (args: string[]) => args[0] ?? ''
+    );
+    const planLogs = logs.filter((m) => m.startsWith('plan  '));
+    expect(planLogs).toHaveLength(3);
+    expect(planLogs.every((m) => m.endsWith('.md'))).toBe(true);
+  });
+
+  it('logs "toc   <path>" for each content.yaml', async () => {
+    const deps = makeDeps();
+    await run({ url: RDS_URL, outDir: '/virtual', delayMs: 0, deps, dryRun: true });
+    const logs: string[] = (deps.log as ReturnType<typeof vi.fn>).mock.calls.map(
+      (args: string[]) => args[0] ?? ''
+    );
+    const tocLogs = logs.filter((m) => m.startsWith('toc   '));
+    expect(tocLogs.length).toBeGreaterThanOrEqual(1);
+    expect(tocLogs.every((m) => m.endsWith('content.yaml'))).toBe(true);
+  });
+});
+
 // ─── walkSelections — multiple selections ────────────────────────────────────
 
 const STUB_PROVIDER: DocProvider = {

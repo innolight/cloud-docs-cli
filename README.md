@@ -76,13 +76,14 @@ cloud-docs pull <url> [options]
 
 **Options**
 
-| Flag                | Default  | Description                               |
-| ------------------- | -------- | ----------------------------------------- |
-| `-o, --out <dir>`   | `./.out` | Directory to write Markdown files into    |
-| `-i, --interactive` | `false`  | Interactively select docs to download     |
-| `--delay <ms>`      | `500`    | Milliseconds to wait between page fetches |
+| Flag                | Default  | Description                                                       |
+| ------------------- | -------- | ----------------------------------------------------------------- |
+| `-o, --out <dir>`   | `./.out` | Directory to write Markdown files into                            |
+| `-i, --interactive` | `false`  | Interactively select docs to download                             |
+| `--delay <ms>`      | `500`    | Milliseconds to wait between page fetches                         |
+| `--dry-run`         | `false`  | Preview the file tree and download plan without writing any files |
 
-## Output
+**Output**
 
 The CLI mirrors the documentation hierarchy into a directory tree rooted at the output folder:
 
@@ -119,10 +120,9 @@ The CLI mirrors the documentation hierarchy into a directory tree rooted at the 
 - [x] **Tabbed Content Handling** — Rewrites vendor-specific `<awsdocs-tabs>` and Azure tabs into readable headers.
 - [x] **RAG & AI Ready** — Optimized for feeding clean context into LLM pipelines and knowledge bases.
 - [x] **Polite Fetching** — Configurable delays and retries with backoff to respect provider limits.
-- [ ] **Dry Run Mode** — Preview the file tree and download plan without writing any files.
+- [x] **Dry Run Mode** — Preview the file tree and download plan without writing any files.
 - [ ] **Relative Link Rewriting** — Turn absolute URLs into local `.md` file links for seamless offline navigation.
 - [ ] **Local Image Downloads** — Capture and store images alongside Markdown files.
-- [ ] **Parallel Fetching** — Speed up large downloads with a configurable concurrency cap.
 
 ## Development
 

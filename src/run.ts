@@ -45,6 +45,7 @@ export interface RunOptions {
   outDir: string;
   delayMs?: number;
   deps?: Partial<RunDeps>;
+  dryRun?: boolean;
 }
 
 export async function fetchGuideToc(
@@ -73,15 +74,16 @@ export interface WalkSelectionsOpts {
   outDir: string;
   delayMs: number;
   deps: RunDeps;
+  dryRun?: boolean;
 }
 
 export async function walkSelections(
   selections: ResolvedSelection[],
   opts: WalkSelectionsOpts
 ): Promise<Stats> {
-  const { provider, pageBaseUrl, outDir, delayMs, deps } = opts;
+  const { provider, pageBaseUrl, outDir, delayMs, deps, dryRun } = opts;
   const guideDir = path.join(outDir, provider.guideDir(pageBaseUrl));
-  await deps.ensureDir(guideDir);
+  if (!dryRun) await deps.ensureDir(guideDir);
 
   const stats: Stats = { written: 0, skipped: 0, failed: 0 };
 
@@ -90,10 +92,14 @@ export async function walkSelections(
     for (const { node: aNode, prefix: aPrefix } of ancestors) {
       baseDir = path.join(baseDir, aPrefix + sanitize(aNode.title, 'untitled'));
     }
-    await deps.ensureDir(baseDir);
+    if (!dryRun) await deps.ensureDir(baseDir);
 
     const fileTree = buildFileTree(subtree, baseDir, prefix);
-    await walk(fileTree, pageBaseUrl, provider, delayMs, stats, deps);
+    if (dryRun) {
+      dryWalk(fileTree, stats, deps.log);
+    } else {
+      await walk(fileTree, pageBaseUrl, provider, delayMs, stats, deps);
+    }
   }
 
   return stats;
@@ -112,6 +118,7 @@ export async function run(opts: RunOptions): Promise<Stats> {
     outDir: opts.outDir,
     delayMs: opts.delayMs ?? 500,
     deps,
+    dryRun: opts.dryRun,
   });
 }
 
@@ -135,6 +142,22 @@ async function walk(
   if (node.kind === 'branch') {
     for (const child of node.children) {
       await walk(child, baseUrl, provider, delayMs, stats, deps);
+    }
+  }
+}
+
+function dryWalk(node: TocNodeFile, stats: Stats, log: (msg: string) => void): void {
+  if (node.kind === 'branch') {
+    const tocPath = path.join(node.dirPath, 'content.yaml');
+    log(`toc   ${rel(tocPath)}`);
+  }
+  if (node.filePath && node.href) {
+    log(`plan  ${rel(node.filePath)}`);
+    stats.written++;
+  }
+  if (node.kind === 'branch') {
+    for (const child of node.children) {
+      dryWalk(child, stats, log);
     }
   }
 }

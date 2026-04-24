@@ -31,47 +31,62 @@ program
   .option('-o, --out <dir>', 'Output directory', './out')
   .option('--delay <ms>', 'Delay between requests in ms', '500')
   .option('-i, --interactive', 'Open interactive TOC browser to select subtrees')
-  .action(async (url: string, opts: { out: string; delay: string; interactive?: boolean }) => {
-    const delayMs = Number.parseInt(opts.delay, 10);
-    if (Number.isNaN(delayMs) || delayMs < 0) {
-      throw new Error(`--delay must be a non-negative integer, got: ${opts.delay}`);
-    }
-
-    if (opts.interactive) {
-      if (!process.stdout.isTTY) {
-        throw new Error('--interactive requires a TTY. Remove the flag or run in a terminal.');
+  .option('--dry-run', 'Preview file tree and download plan without writing files')
+  .action(
+    async (
+      url: string,
+      opts: { out: string; delay: string; interactive?: boolean; dryRun?: boolean }
+    ) => {
+      const delayMs = Number.parseInt(opts.delay, 10);
+      if (Number.isNaN(delayMs) || delayMs < 0) {
+        throw new Error(`--delay must be a non-negative integer, got: ${opts.delay}`);
       }
 
-      const parsedUrl = new URL(url);
-      const { provider, tree, pageBaseUrl } = await fetchGuideToc(parsedUrl, defaultDeps);
-      const startHref = provider.startHref(parsedUrl);
-      const selections = await openTocBrowser(tree, { initialHref: startHref });
+      if (opts.interactive) {
+        if (!process.stdout.isTTY) {
+          throw new Error('--interactive requires a TTY. Remove the flag or run in a terminal.');
+        }
 
-      if (selections.length === 0) {
-        console.log('No selections made. Exiting.');
-        return;
+        const parsedUrl = new URL(url);
+        const { provider, tree, pageBaseUrl } = await fetchGuideToc(parsedUrl, defaultDeps);
+        const startHref = provider.startHref(parsedUrl);
+        const selections = await openTocBrowser(tree, { initialHref: startHref });
+
+        if (selections.length === 0) {
+          console.log('No selections made. Exiting.');
+          return;
+        }
+
+        const stats = await walkSelections(selections, {
+          provider,
+          pageBaseUrl,
+          outDir: opts.out,
+          delayMs,
+          deps: defaultDeps,
+          dryRun: opts.dryRun,
+        });
+
+        if (opts.dryRun) {
+          console.log(`\nDry-run: ${stats.written} files to download`);
+        } else {
+          console.log(
+            `\nDone: ${stats.written} written, ${stats.skipped} skipped, ${stats.failed} failed`
+          );
+          if (stats.failed > 0) process.exit(1);
+        }
+      } else {
+        const stats = await run({ url, outDir: opts.out, delayMs, dryRun: opts.dryRun });
+        if (opts.dryRun) {
+          console.log(`\nDry-run: ${stats.written} files to download`);
+        } else {
+          console.log(
+            `\nDone: ${stats.written} written, ${stats.skipped} skipped, ${stats.failed} failed`
+          );
+          if (stats.failed > 0) process.exit(1);
+        }
       }
-
-      const stats = await walkSelections(selections, {
-        provider,
-        pageBaseUrl,
-        outDir: opts.out,
-        delayMs,
-        deps: defaultDeps,
-      });
-
-      console.log(
-        `\nDone: ${stats.written} written, ${stats.skipped} skipped, ${stats.failed} failed`
-      );
-      if (stats.failed > 0) process.exit(1);
-    } else {
-      const stats = await run({ url, outDir: opts.out, delayMs });
-      console.log(
-        `\nDone: ${stats.written} written, ${stats.skipped} skipped, ${stats.failed} failed`
-      );
-      if (stats.failed > 0) process.exit(1);
     }
-  });
+  );
 
 program.parseAsync(process.argv).catch((err) => {
   console.error(err instanceof Error ? err.message : err);
