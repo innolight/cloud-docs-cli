@@ -113,7 +113,7 @@ The CLI mirrors the documentation hierarchy into a directory tree rooted at the 
 ### Core Capabilities
 
 - [x] **Clean Markdown** — Strips noise (navigation, feedback, legal) for pure, searchable documentation.
-- [x] **Hierarchy Preservation** — Mirrors the sidebar with numbered folders to maintain the vendor's logical reading order.
+- [x] **Hierarchy Preservation** — Mirrors the sidebar with numbered folders to maintain the reading order.
 - [x] **Interactive Docs Tree Browser** — Explore and select specific subtrees for download via a terminal UI.
 - [x] **Resume Support** — Skips existing files to avoid redundant network calls and save bandwidth.
 - [x] **Tabbed Content Handling** — Rewrites vendor-specific `<awsdocs-tabs>` and Azure tabs into readable headers.
