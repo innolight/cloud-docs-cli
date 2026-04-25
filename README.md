@@ -19,11 +19,14 @@ Cloud documentation is vast, scattered, and browser-only. This CLI downloads any
 
 ```sh
 # Pull the complete S3 doc folder
-npx cloud-docs-cli@latest pull --out .cloud-docs https://docs.aws.amazon.com/AmazonS3/latest/userguide/
+npx cloud-docs-cli@latest pull https://docs.aws.amazon.com/AmazonS3/latest/userguide/uploading-downloading-objects.html
+npx cloud-docs-cli@latest pull https://docs.cloud.google.com/storage/docs/listing-buckets
+npx cloud-docs-cli@latest pull https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction
 
-# Interactively select docs
+# Interactively select docs subtrees
 npx cloud-docs-cli@latest pull --interactive https://docs.aws.amazon.com/AmazonS3/latest/userguide/
 npx cloud-docs-cli@latest pull --interactive https://learn.microsoft.com/en-us/azure/storage/blobs/storage-blobs-introduction
+npx cloud-docs-cli@latest pull --interactive https://docs.cloud.google.com/storage/docs/listing-buckets
 
 ```
 
