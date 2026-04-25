@@ -1,8 +1,9 @@
 import type { DocProvider } from './types.ts';
 import { awsProvider } from './aws/aws.ts';
 import { azureProvider } from './azure/azure.ts';
+import { gcpProvider } from './gcp/gcp.ts';
 
-export const providers: DocProvider[] = [awsProvider, azureProvider];
+export const providers: DocProvider[] = [awsProvider, azureProvider, gcpProvider];
 
 export function pickProvider(url: URL): DocProvider {
   const p = providers.find((x) => x.matches(url));

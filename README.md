@@ -76,12 +76,12 @@ cloud-docs pull <url> [options]
 
 **Options**
 
-| Flag                | Default  | Description                                                       |
-| ------------------- | -------- | ----------------------------------------------------------------- |
-| `-o, --out <dir>`   | `./.out` | Directory to write Markdown files into                            |
-| `-i, --interactive` | `false`  | Interactively select docs to download                             |
-| `--delay <ms>`      | `500`    | Milliseconds to wait between page fetches                         |
-| `--dry-run`         | `false`  | Preview the file tree and download plan without writing any files |
+| Flag                | Default | Description                                                       |
+| ------------------- | ------- | ----------------------------------------------------------------- |
+| `-o, --out <dir>`   | `./out` | Directory to write Markdown files into                            |
+| `-i, --interactive` | `false` | Interactively select docs to download                             |
+| `--delay <ms>`      | `500`   | Milliseconds to wait between page fetches                         |
+| `--dry-run`         | `false` | Preview the file tree and download plan without writing any files |
 
 **Output**
 
@@ -109,7 +109,7 @@ The CLI mirrors the documentation hierarchy into a directory tree rooted at the 
 
 - [x] **AWS** (Amazon Web Services)
 - [x] **Microsoft Azure**
-- [ ] **Google Cloud Platform (GCP)** (Planned)
+- [x] **Google Cloud Platform (GCP)**
 
 ### Core Capabilities
 

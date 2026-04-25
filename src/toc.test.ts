@@ -147,7 +147,7 @@ function makeProvider(tocUrls: string[], tree: TocNode[]): DocProvider {
     async discoverTocUrls(_url, _fetchText) {
       return tocUrls;
     },
-    parseToc(_json) {
+    parseToc(_raw: string) {
       return tree;
     },
   };
@@ -156,7 +156,7 @@ function makeProvider(tocUrls: string[], tree: TocNode[]): DocProvider {
 describe('fetchToc', () => {
   const url = new URL('https://docs.aws.amazon.com/stub/latest/Guide/page.html');
 
-  it('calls discoverTocUrls then fetchJsonFn for each URL and flattens results', async () => {
+  it('calls discoverTocUrls then fetchTextFn for each TOC URL and flattens results', async () => {
     const treeA: TocNode[] = [{ title: 'A', href: 'a.html', children: [] }];
     const treeB: TocNode[] = [{ title: 'B', href: 'b.html', children: [] }];
 
@@ -168,14 +168,12 @@ describe('fetchToc', () => {
       parseToc: vi.fn().mockReturnValueOnce(treeA).mockReturnValueOnce(treeB),
     };
 
-    const fetchTextFn = vi.fn().mockResolvedValue('');
-    const fetchJsonFn = vi.fn().mockResolvedValue({});
+    const fetchTextFn = vi.fn().mockResolvedValue('{}');
 
-    const result = await fetchToc(provider, url, fetchTextFn, fetchJsonFn);
+    const result = await fetchToc(provider, url, fetchTextFn);
 
-    expect(fetchJsonFn).toHaveBeenCalledTimes(2);
-    expect(fetchJsonFn).toHaveBeenCalledWith('https://example.com/a.json');
-    expect(fetchJsonFn).toHaveBeenCalledWith('https://example.com/b.json');
+    expect(fetchTextFn).toHaveBeenCalledWith('https://example.com/a.json');
+    expect(fetchTextFn).toHaveBeenCalledWith('https://example.com/b.json');
     expect(result).toHaveLength(2);
     expect(result[0]!.title).toBe('A');
     expect(result[1]!.title).toBe('B');
@@ -187,16 +185,15 @@ describe('fetchToc', () => {
       discoverTocUrls: vi.fn().mockResolvedValue([]),
     };
     const fetchTextFn = vi.fn().mockResolvedValue('');
-    const fetchJsonFn = vi.fn();
 
-    await fetchToc(provider, url, fetchTextFn, fetchJsonFn);
+    await fetchToc(provider, url, fetchTextFn);
 
     expect(provider.discoverTocUrls).toHaveBeenCalledWith(url, fetchTextFn);
   });
 
   it('returns empty array when provider discovers no TOC URLs', async () => {
     const provider = makeProvider([], []);
-    const result = await fetchToc(provider, url, vi.fn(), vi.fn());
+    const result = await fetchToc(provider, url, vi.fn());
     expect(result).toEqual([]);
   });
 
@@ -210,9 +207,8 @@ describe('fetchToc', () => {
       },
     ];
     const provider = makeProvider(['https://example.com/toc.json'], tree);
-    const fetchTextFn = vi.fn().mockResolvedValue('');
-    const fetchJsonFn = vi.fn().mockResolvedValue({});
-    const result = await fetchToc(provider, url, fetchTextFn, fetchJsonFn);
+    const fetchTextFn = vi.fn().mockResolvedValue('{}');
+    const result = await fetchToc(provider, url, fetchTextFn);
     expect(result).toEqual(tree);
   });
 });

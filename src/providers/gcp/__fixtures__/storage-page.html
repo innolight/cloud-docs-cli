@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head><title>Listing buckets | Cloud Storage</title></head>
+<body>
+
+<!-- Book navigation (the TOC we parse) -->
+<devsite-book-nav>
+  <nav class="devsite-book-nav devsite-nav nocontent" data-nosnippet aria-label="Side menu">
+    <div class="devsite-book-nav-wrapper">
+      <div class="devsite-mobile-nav-top">
+        <ul class="devsite-nav-list">
+          <li class="devsite-nav-item"><a href="/docs" class="devsite-nav-title gc-analytics-event"><span class="devsite-nav-text" tooltip>Technology areas</span></a></li>
+        </ul>
+      </div>
+      <div class="devsite-mobile-nav-bottom">
+        <ul class="devsite-nav-list" menu="_book">
+
+          <!-- Section heading (no href, devsite-nav-heading) -->
+          <li class="devsite-nav-item devsite-nav-heading"><div class="devsite-nav-title devsite-nav-title-no-path">
+            <span class="devsite-nav-text" tooltip>Discover</span>
+          </div></li>
+
+          <!-- Leaf node -->
+          <li class="devsite-nav-item"><a href="/storage/docs/introduction" class="devsite-nav-title"><span class="devsite-nav-text" tooltip>Product overview</span></a></li>
+
+          <!-- Section heading -->
+          <li class="devsite-nav-item devsite-nav-heading"><div class="devsite-nav-title devsite-nav-title-no-path">
+            <span class="devsite-nav-text" tooltip>Get started</span>
+          </div></li>
+
+          <!-- Expandable group (no own href) -->
+          <li class="devsite-nav-item devsite-nav-expandable"><div class="devsite-expandable-nav">
+            <a class="devsite-nav-toggle" aria-hidden="true"></a>
+            <div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+              <span class="devsite-nav-text" tooltip>Quickstarts</span>
+            </div>
+            <ul class="devsite-nav-section">
+              <li class="devsite-nav-item"><a href="/storage/docs/discover-object-storage-console" class="devsite-nav-title"><span class="devsite-nav-text" tooltip>Use the Console</span></a></li>
+              <li class="devsite-nav-item"><a href="/storage/docs/discover-object-storage-gcloud" class="devsite-nav-title"><span class="devsite-nav-text" tooltip>Use the gcloud CLI</span></a></li>
+            </ul>
+          </div></li>
+
+          <!-- Leaf node (the page we're on) -->
+          <li class="devsite-nav-item"><a href="/storage/docs/listing-buckets" class="devsite-nav-title devsite-nav-active"><span class="devsite-nav-text" tooltip>Listing buckets</span></a></li>
+
+          <!-- Expandable group WITH its own href (linked parent page) -->
+          <li class="devsite-nav-item devsite-nav-expandable"><div class="devsite-expandable-nav">
+            <a class="devsite-nav-toggle" aria-hidden="true"></a>
+            <a class="devsite-nav-title" href="/storage/docs/access-control/overview">
+              <span class="devsite-nav-text" tooltip>Access control</span>
+            </a>
+            <ul class="devsite-nav-section">
+              <li class="devsite-nav-item"><a href="/storage/docs/access-control/iam" class="devsite-nav-title"><span class="devsite-nav-text" tooltip>IAM</span></a></li>
+            </ul>
+          </div></li>
+
+          <!-- Two-level nesting -->
+          <li class="devsite-nav-item devsite-nav-expandable"><div class="devsite-expandable-nav">
+            <a class="devsite-nav-toggle" aria-hidden="true"></a>
+            <div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+              <span class="devsite-nav-text" tooltip>Manage data</span>
+            </div>
+            <ul class="devsite-nav-section">
+              <li class="devsite-nav-item devsite-nav-expandable"><div class="devsite-expandable-nav">
+                <a class="devsite-nav-toggle" aria-hidden="true"></a>
+                <div class="devsite-nav-title devsite-nav-title-no-path" tabindex="0" role="button">
+                  <span class="devsite-nav-text" tooltip>Objects</span>
+                </div>
+                <ul class="devsite-nav-section">
+                  <li class="devsite-nav-item"><a href="/storage/docs/uploading-objects" class="devsite-nav-title"><span class="devsite-nav-text" tooltip>Uploading objects</span></a></li>
+                </ul>
+              </div></li>
+            </ul>
+          </div></li>
+
+        </ul>
+      </div>
+    </div>
+  </nav>
+</devsite-book-nav>
+
+<!-- Main article content -->
+<article class="devsite-article">
+  <div class="devsite-article-body">
+
+    <devsite-actions></devsite-actions>
+    <devsite-toc></devsite-toc>
+
+    <h1 class="devsite-page-title">Listing buckets</h1>
+
+    <p>This page describes how to list the buckets in your project.</p>
+
+    <!-- Code sample tabs (ds-selector-tabs) — should be unwrapped -->
+    <div class="ds-selector-tabs" data-ds-scope="code-sample">
+      <section>
+        <h3 data-text="Console" id="console-list-buckets">Console</h3>
+        <ol><li>Go to the Cloud Storage Buckets page.</li></ol>
+      </section>
+      <section>
+        <h3 data-text="Command line" id="cli-list-buckets">Command line</h3>
+        <devsite-code>
+          <pre syntax="shell">gcloud storage ls</pre>
+        </devsite-code>
+      </section>
+    </div>
+
+    <!-- devsite-code with language attribute -->
+    <devsite-code syntax="python">
+      <pre syntax="python">buckets = storage_client.list_buckets()
+for bucket in buckets:
+    print(bucket.name)</pre>
+    </devsite-code>
+
+    <!-- devsite-code with nested devsite-syntax spans -->
+    <devsite-code>
+      <pre language="json"><span class="devsite-syntax-p">{</span><span class="devsite-syntax-nl">"name"</span><span class="devsite-syntax-p">:</span> <span class="devsite-syntax-s2">"my-bucket"</span><span class="devsite-syntax-p">}</span></pre>
+    </devsite-code>
+
+    <!-- Note aside -->
+    <aside class="note">
+      <strong>Note:</strong>
+      <span>You need the <code>storage.buckets.list</code> permission.</span>
+    </aside>
+
+    <!-- Caution aside -->
+    <aside class="caution">
+      <strong>Caution:</strong>
+      <span>Listing buckets counts against your quota.</span>
+    </aside>
+
+    <!-- Warning aside -->
+    <aside class="warning">
+      <strong>Warning:</strong>
+      <span>Do not expose the bucket list publicly.</span>
+    </aside>
+
+    <!-- Key point aside -->
+    <aside class="key-point">
+      <strong>Key Point:</strong>
+      <span>Bucket names are globally unique.</span>
+    </aside>
+
+    <!-- var translate="no" placeholder -->
+    <p>Replace <var translate="no">BUCKET_NAME</var> with your bucket name.</p>
+
+    <!-- pre inside table cell -->
+    <table><tbody><tr>
+      <td><pre><code>gsutil ls gs://my-bucket</code></pre></td>
+    </tr></tbody></table>
+
+  </div>
+</article>
+
+</body>
+</html>

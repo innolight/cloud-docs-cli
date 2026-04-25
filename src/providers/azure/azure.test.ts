@@ -99,7 +99,7 @@ describe('azureProvider.discoverTocUrls', () => {
 
 describe('azureProvider.parseToc', () => {
   it('parses items with toc_title and children', () => {
-    const json = {
+    const raw = JSON.stringify({
       items: [
         {
           toc_title: 'Overview',
@@ -107,8 +107,8 @@ describe('azureProvider.parseToc', () => {
           children: [{ toc_title: 'Networking', href: 'concepts-network', children: [] }],
         },
       ],
-    };
-    const nodes = azureProvider.parseToc(json);
+    });
+    const nodes = azureProvider.parseToc(raw);
     expect(nodes).toHaveLength(1);
     expect(nodes[0]).toEqual({
       title: 'Overview',
@@ -118,53 +118,51 @@ describe('azureProvider.parseToc', () => {
   });
 
   it('strips query parameters from hrefs', () => {
-    const json = {
+    const raw = JSON.stringify({
       items: [
         { toc_title: 'Concepts', href: 'concepts-network?pivots=azure-portal', children: [] },
       ],
-    };
-    const nodes = azureProvider.parseToc(json);
+    });
+    const nodes = azureProvider.parseToc(raw);
     expect(nodes[0]!.href).toBe('concepts-network');
   });
 
   it('uses null href when entry has no href field', () => {
-    const json = { items: [{ toc_title: 'Section', children: [] }] };
-    const nodes = azureProvider.parseToc(json);
+    const raw = JSON.stringify({ items: [{ toc_title: 'Section', children: [] }] });
+    const nodes = azureProvider.parseToc(raw);
     expect(nodes[0]!.href).toBeNull();
   });
 
   it('skips entries without toc_title and writes to stderr', () => {
     const stderrSpy = vi.spyOn(process.stderr, 'write').mockImplementation(() => true);
-    const json = {
+    const raw = JSON.stringify({
       items: [{ href: 'orphan' }, { toc_title: 'Valid', href: 'valid', children: [] }],
-    };
-    const nodes = azureProvider.parseToc(json);
+    });
+    const nodes = azureProvider.parseToc(raw);
     expect(nodes).toHaveLength(1);
     expect(nodes[0]!.title).toBe('Valid');
     expect(stderrSpy).toHaveBeenCalledWith(expect.stringContaining('[azure] skipping malformed'));
     stderrSpy.mockRestore();
   });
 
-  it('returns empty array for non-object root', () => {
-    expect(azureProvider.parseToc(null)).toEqual([]);
-    expect(azureProvider.parseToc('string')).toEqual([]);
-    expect(azureProvider.parseToc(42)).toEqual([]);
+  it('returns empty array for invalid JSON string', () => {
+    expect(azureProvider.parseToc('not-json')).toEqual([]);
+    expect(azureProvider.parseToc('')).toEqual([]);
   });
 
   it('returns empty array when items is not an array', () => {
-    expect(azureProvider.parseToc({ items: null })).toEqual([]);
-    expect(azureProvider.parseToc({})).toEqual([]);
+    expect(azureProvider.parseToc(JSON.stringify({ items: null }))).toEqual([]);
+    expect(azureProvider.parseToc(JSON.stringify({}))).toEqual([]);
   });
 
   it('handles entry with children: null as empty children', () => {
-    const json = { items: [{ toc_title: 'Leaf', href: 'leaf', children: null }] };
-    const nodes = azureProvider.parseToc(json);
+    const raw = JSON.stringify({ items: [{ toc_title: 'Leaf', href: 'leaf', children: null }] });
+    const nodes = azureProvider.parseToc(raw);
     expect(nodes[0]!.children).toEqual([]);
   });
 
   it('parses the real aks-toc fixture correctly', () => {
-    const json = JSON.parse(fixture('aks-toc.json'));
-    const nodes = azureProvider.parseToc(json);
+    const nodes = azureProvider.parseToc(fixture('aks-toc.json'));
     expect(nodes).toHaveLength(2);
     expect(nodes[0]!.title).toBe('Overview');
     expect(nodes[0]!.children).toHaveLength(2);

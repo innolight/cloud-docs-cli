@@ -13,8 +13,15 @@ describe('pickProvider', () => {
     expect(() => pickProvider(url)).toThrow('No provider registered for example.com');
   });
 
-  it('throws for cloud.google.com', () => {
+  it('returns gcpProvider for cloud.google.com', () => {
     const url = new URL('https://cloud.google.com/compute/docs');
-    expect(() => pickProvider(url)).toThrow('No provider registered for cloud.google.com');
+    const p = pickProvider(url);
+    expect(p.name).toBe('gcp');
+  });
+
+  it('returns gcpProvider for docs.cloud.google.com', () => {
+    const url = new URL('https://docs.cloud.google.com/storage/docs/listing-buckets');
+    const p = pickProvider(url);
+    expect(p.name).toBe('gcp');
   });
 });

@@ -1,15 +1,14 @@
 import type { DocProvider, TocNode } from './providers/types.ts';
-import { fetchText as defaultFetchText, fetchJson as defaultFetchJson } from './net.ts';
+import { fetchText as defaultFetchText } from './net.ts';
 
 export async function fetchToc(
   provider: DocProvider,
   url: URL,
-  fetchTextFn: (url: string) => Promise<string> = defaultFetchText,
-  fetchJsonFn: (url: string) => Promise<unknown> = defaultFetchJson
+  fetchTextFn: (url: string) => Promise<string> = defaultFetchText
 ): Promise<TocNode[]> {
   const tocUrls = await provider.discoverTocUrls(url, fetchTextFn);
   const trees = await Promise.all(
-    tocUrls.map(async (tocUrl) => provider.parseToc(await fetchJsonFn(tocUrl)))
+    tocUrls.map(async (tocUrl) => provider.parseToc(await fetchTextFn(tocUrl)))
   );
   return trees.flat();
 }

@@ -33,7 +33,13 @@ export const awsProvider: DocProvider = {
     return `${service}/${guide}`;
   },
 
-  parseToc(json) {
+  parseToc(raw) {
+    let json: unknown;
+    try {
+      json = JSON.parse(raw);
+    } catch {
+      return [];
+    }
     if (!json || typeof json !== 'object') return [];
     const contents = (json as { contents?: RawTocEntry[] }).contents;
     if (!Array.isArray(contents)) return [];

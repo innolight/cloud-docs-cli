@@ -1,4 +1,4 @@
-import type { CheerioAPI, Cheerio } from "cheerio";
+import type { CheerioAPI, Cheerio } from 'cheerio';
 
 export interface TocNode {
   title: string;
@@ -7,15 +7,22 @@ export interface TocNode {
 }
 
 export type TocNodeFile =
-  | { kind: "branch"; title: string; href: string | null; dirPath: string; filePath: string | null; children: TocNodeFile[] }
-  | { kind: "leaf";   title: string; href: string | null; filePath: string | null };
+  | {
+      kind: 'branch';
+      title: string;
+      href: string | null;
+      dirPath: string;
+      filePath: string | null;
+      children: TocNodeFile[];
+    }
+  | { kind: 'leaf'; title: string; href: string | null; filePath: string | null };
 
 export interface DocProvider {
   name: string;
   matches(url: URL): boolean;
   /** Extract the filename key used to locate the entry page in the TOC tree. */
   startHref(url: URL): string;
-  parseToc(json: unknown): TocNode[];
+  parseToc(raw: string): TocNode[];
   /** Relative output directory for the guide, e.g. `AmazonRDS/UserGuide`. */
   guideDir(url: URL): string;
   contentSelector: string;

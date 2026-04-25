@@ -133,7 +133,7 @@ describe('awsProvider.matches', () => {
 
 describe('awsProvider.parseToc', () => {
   it('parses well-formed TOC JSON', () => {
-    const json = {
+    const raw = JSON.stringify({
       contents: [
         { title: 'Welcome', href: 'Welcome.html' },
         {
@@ -142,8 +142,8 @@ describe('awsProvider.parseToc', () => {
           contents: [{ title: 'Step 1', href: 'step1.html' }],
         },
       ],
-    };
-    const nodes = awsProvider.parseToc(json);
+    });
+    const nodes = awsProvider.parseToc(raw);
     expect(nodes).toHaveLength(2);
     expect(nodes[0]).toEqual({ title: 'Welcome', href: 'Welcome.html', children: [] });
     expect(nodes[1]!.title).toBe('Getting Started');
@@ -152,29 +152,28 @@ describe('awsProvider.parseToc', () => {
   });
 
   it('uses null href when entry has no href field', () => {
-    const json = { contents: [{ title: 'Section' }] };
-    const nodes = awsProvider.parseToc(json);
+    const raw = JSON.stringify({ contents: [{ title: 'Section' }] });
+    const nodes = awsProvider.parseToc(raw);
     expect(nodes[0]!.href).toBeNull();
   });
 
-  it('returns empty array for non-object root', () => {
-    expect(awsProvider.parseToc(null)).toEqual([]);
-    expect(awsProvider.parseToc('string')).toEqual([]);
-    expect(awsProvider.parseToc(42)).toEqual([]);
+  it('returns empty array for invalid JSON string', () => {
+    expect(awsProvider.parseToc('not-json')).toEqual([]);
+    expect(awsProvider.parseToc('')).toEqual([]);
   });
 
   it('returns empty array when contents is not an array', () => {
-    expect(awsProvider.parseToc({ contents: null })).toEqual([]);
-    expect(awsProvider.parseToc({ contents: 'bad' })).toEqual([]);
-    expect(awsProvider.parseToc({})).toEqual([]);
+    expect(awsProvider.parseToc(JSON.stringify({ contents: null }))).toEqual([]);
+    expect(awsProvider.parseToc(JSON.stringify({ contents: 'bad' }))).toEqual([]);
+    expect(awsProvider.parseToc(JSON.stringify({}))).toEqual([]);
   });
 
   it('skips entries without a title and writes to stderr', () => {
     const stderrSpy = vi.spyOn(process.stderr, 'write').mockImplementation(() => true);
-    const json = {
+    const raw = JSON.stringify({
       contents: [{ href: 'orphan.html' }, { title: 'Valid', href: 'valid.html' }],
-    };
-    const nodes = awsProvider.parseToc(json);
+    });
+    const nodes = awsProvider.parseToc(raw);
     expect(nodes).toHaveLength(1);
     expect(nodes[0]!.title).toBe('Valid');
     expect(stderrSpy).toHaveBeenCalledWith(expect.stringContaining('[aws] skipping malformed'));
@@ -182,14 +181,15 @@ describe('awsProvider.parseToc', () => {
   });
 
   it('handles entry with contents: null gracefully (leaf with empty children)', () => {
-    const json = { contents: [{ title: 'Leaf', href: 'leaf.html', contents: null }] };
-    const nodes = awsProvider.parseToc(json);
+    const raw = JSON.stringify({
+      contents: [{ title: 'Leaf', href: 'leaf.html', contents: null }],
+    });
+    const nodes = awsProvider.parseToc(raw);
     expect(nodes[0]!.children).toEqual([]);
   });
 
   it('parses the real RDS TOC fixture without error', () => {
-    const json = JSON.parse(fixture('rds-toc-contents.json'));
-    const nodes = awsProvider.parseToc(json);
+    const nodes = awsProvider.parseToc(fixture('rds-toc-contents.json'));
     expect(nodes.length).toBeGreaterThan(0);
     expect(nodes[0]!.title).toBeTruthy();
   });

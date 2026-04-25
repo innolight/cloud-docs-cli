@@ -17,45 +17,72 @@ bun run test               # run tests (vitest)
 bun run typecheck          # tsc --noEmit
 ```
 
+### `pull` flags
+
+| Flag                | Default | Description                                            |
+| ------------------- | ------- | ------------------------------------------------------ |
+| `-o, --out <dir>`   | `./out` | Output directory                                       |
+| `--delay <ms>`      | `500`   | Delay between requests                                 |
+| `-i, --interactive` | off     | Open TUI TOC browser to select subtrees (requires TTY) |
+| `--dry-run`         | off     | Print planned file tree without writing anything       |
+
 ## Architecture
 
 ### Data flow
 
 ```
 URL
- → pickProvider(url)          # selects DocProvider by hostname
- → fetchToc(provider, url)    # fetches page HTML, detects split TOC via <meta name="tocs">,
-                               # GETs one or more toc-contents.json files, parses to TocNode[]
- → resolveSubtree(tree, href) # depth-first search; returns node + numeric position prefix
- → buildFileTree(subtree, …)  # assigns dirPath/filePath to every node
- → walk(fileTree, …)          # depth-first; writes content.yaml per dir, fetches pages
+ → pickProvider(url)              # selects DocProvider by hostname (registry.ts)
+ → fetchToc(provider, url)        # calls provider.discoverTocUrls() to find TOC JSON URL(s),
+                                   # GETs each, calls provider.parseToc() → TocNode[]
+ → resolveSubtree(tree, href)     # depth-first search; returns node + numeric position prefix
+ → buildFileTree(subtree, …)      # assigns dirPath/filePath to every node
+ → walk(fileTree, …)              # depth-first; writes content.yaml per dir, fetches pages
      → writePage → htmlToMarkdown(html, provider)
 ```
 
-`run.ts` owns the orchestration loop. Each page is fetched sequentially with a configurable delay.
+`run.ts` owns the orchestration loop. Each page is fetched sequentially with a configurable delay. In `--dry-run` mode, `dryWalk` logs the planned file tree and counts pages without fetching or writing.
 
 ### Provider pattern
 
 `DocProvider` (`src/providers/types.ts`) is the only abstraction that varies between cloud vendors:
 
 - `matches(url)` — decides which provider owns a URL
-- `tocUrl(url)` — derives the TOC JSON endpoint from a page URL
+- `discoverTocUrls(url, fetchText)` — fetches the entry page and returns one or more TOC source URLs (e.g. reads `<meta name="tocs">` for AWS split-TOC guides, `<meta name="toc_rel">` for Azure; GCP returns the page URL itself since the TOC is embedded in the HTML)
 - `startHref(url)` — extracts the filename key used to locate the page in the TOC tree
-- `parseToc(json)` — normalises vendor-specific JSON shape into `TocNode[]`
+- `parseToc(raw: string)` — parses the raw response (JSON text for AWS/Azure, HTML for GCP) into `TocNode[]`
 - `guideDir(url)` — returns the relative output directory for the guide (e.g. `AmazonRDS/UserGuide`)
 - `contentSelector` — CSS selector for the main content element
 - `junkSelectors` — elements to strip before conversion
+- `preprocessHtml?($, $main)` — optional vendor-specific HTML cleanup called after junk removal, before Turndown runs (e.g. tab flattening, `<pre>` normalisation, alert block transformation)
 
-`aws.ts` is the only implementation. `pickProvider` in `aws.ts` is a linear scan of `providers[]`; adding a new vendor means appending to that array.
+`providers/registry.ts` holds `providers[]` and exports `pickProvider` (linear scan). Current implementations:
+
+- `aws.ts` — `docs.aws.amazon.com`
+- `azure.ts` — `learn.microsoft.com`
+- `gcp.ts` — `cloud.google.com`, `docs.cloud.google.com`
+
+Adding a new vendor means implementing `DocProvider` and appending to `providers[]` in `registry.ts`.
 
 ### HTML → Markdown pipeline (`scrape.ts`)
 
-Before Turndown runs, two normalisation passes happen:
+`htmlToMarkdown` does the following in order:
 
-1. **Tab flattening** (`flattenTabs` in `tabs.ts`) — rewrites AWS `<awsdocs-tabs>` / `<dl>` tab containers to `<h4>label</h4>{panel}` so Turndown emits readable headings instead of raw custom elements.
-2. **`<pre>` normalisation** — AWS nests `<code class="replaceable">` and `<span>` inside `<pre><code>`, which confuses Turndown into emitting inline backticks inside fenced blocks. Each `<pre>` is collapsed to `<pre><code>{plain text}</code></pre>` with a language hint inferred from CSS class names before Turndown processes it.
+1. Loads HTML with Cheerio, selects `provider.contentSelector`, strips `provider.junkSelectors`.
+2. Calls `provider.preprocessHtml?.($, $main)` for vendor-specific cleanup. AWS's implementation:
+   - Removes the first `<h1>` (duplicates the TOC title prepended at write time).
+   - **Tab flattening** (`flattenTabs` in `aws.ts`) — rewrites `<awsdocs-tabs>/<dl>`, `[role="tablist"]`, and legacy `div.awsdocs-tab-container` patterns to `<h4>label</h4>{panel}`.
+   - **`<pre>` normalisation** — collapses nested `<code>`/`<span>` inside `<pre>` to plain text with a language hint inferred from CSS class names. `<pre>` inside table cells become inline `<code>` spans joined with `<br>` (fenced blocks break GFM pipe rows).
+     Azure's implementation flattens role-based tabs and rewrites `div.NOTE/TIP/IMPORTANT/…` alert blocks to `<blockquote>`.
+3. Runs Turndown with ATX headings, fenced code blocks, GFM tables, and `-` bullets. A custom `tableCell` rule collapses newlines inside cells to spaces so multi-paragraph cells don't break pipe-table rows.
 
-Turndown is configured with ATX headings, fenced code blocks, GFM tables, and `-` bullets.
+### Interactive TUI (`tui/`)
+
+When `--interactive` is passed, `openTocBrowser` (Ink/React) renders a terminal TOC browser. The user can navigate the tree and confirm one or more subtree selections. The resolved selections are passed to `walkSelections` exactly as the non-interactive path would produce from `resolveSelections`. Key modules:
+
+- `tui/app.tsx` — React component tree for the browser
+- `tui/browser.ts` — selection resolution logic; exports `ResolvedSelection`
+- `tui/index.ts` — entry point; wraps Ink's `render` in a Promise
 
 ### Output layout
 

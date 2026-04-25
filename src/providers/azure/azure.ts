@@ -30,7 +30,13 @@ export const azureProvider: DocProvider = {
     return url.pathname.split('/').slice(1, 4).join('/');
   },
 
-  parseToc(json) {
+  parseToc(raw) {
+    let json: unknown;
+    try {
+      json = JSON.parse(raw);
+    } catch {
+      return [];
+    }
     if (!json || typeof json !== 'object') return [];
     const items = (json as { items?: RawAzureTocEntry[] }).items;
     if (!Array.isArray(items)) return [];
